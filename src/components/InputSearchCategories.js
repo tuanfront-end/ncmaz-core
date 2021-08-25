@@ -31,7 +31,8 @@ const InputSearchCategories = ({ onChange, defaultValue = [] }) => {
 				(obj, item) => ({
 					...obj,
 					[item.slug]: {
-						value: item.slug,
+						...item,
+						value: item.id,
 						label: item.name,
 					},
 				}),

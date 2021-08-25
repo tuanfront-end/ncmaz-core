@@ -15,8 +15,8 @@ const SelectOrder = ({ onChange, defaultValue = "desc" }) => {
 				label="Order"
 				value={order}
 				options={[
-					{ label: "desc", value: "desc" },
-					{ label: "asc", value: "asc" },
+					{ label: "DESC", value: "DESC" },
+					{ label: "ASC", value: "ASC" },
 				]}
 				onChange={setOrder}
 			/>

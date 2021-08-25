@@ -13,6 +13,12 @@ export default function save(props) {
 		order,
 		postNumber,
 		authors = [],
+		showFilterTab,
+		viewMoreHref,
+		heading,
+		subHeading,
+		hasBackground,
+		sectionName,
 	} = attributes;
 	//
 	const uniqueId = "nc-block__" + sectionId;
@@ -36,6 +42,16 @@ export default function save(props) {
 	const ncGutenbergSectionsData = {
 		endpoint: "/wp/v2/posts",
 		params,
+		option,
+		settings: {
+			sectionName,
+			heading,
+			subHeading,
+			viewMoreHref,
+			showFilterTab,
+			hasBackground,
+			categoriesFilter: categories,
+		},
 	};
 
 	return (
@@ -45,7 +61,7 @@ export default function save(props) {
 			data-nc-gutenberg-section-id={uniqueId}
 			data-nc-gutenberg-section-api={JSON.stringify(ncGutenbergSectionsData)}
 		>
-			{__("Ncmaz Core – hello from the saved content!", "ncmaz-core")}
+			<span className="py-3 bg-indigo-500 block"></span>
 		</div>
 	);
 }

@@ -13,6 +13,8 @@ import {
 	RadioControl,
 	__experimentalRadio as Radio,
 	__experimentalRadioGroup as RadioGroup,
+	FormToggle,
+	SelectControl,
 } from "@wordpress/components";
 import {
 	InspectorControls,
@@ -39,6 +41,12 @@ export default function Edit(props) {
 		order,
 		postNumber,
 		authors,
+		showFilterTab,
+		viewMoreHref,
+		heading,
+		subHeading,
+		hasBackground,
+		sectionName,
 	} = attributes;
 
 	// SAVE ID SECTION
@@ -58,7 +66,7 @@ export default function Edit(props) {
 		}
 
 		return (
-			<div className="w-full space-y-2">
+			<div className="w-full space-y-2.5">
 				{/* ------- */}
 				<InputSearchCategories
 					defaultValue={categories}
@@ -104,13 +112,72 @@ export default function Edit(props) {
 		);
 	};
 
+	const renderGeneralSetting = () => {
+		return (
+			<div className="space-y-2.5">
+				<SelectControl
+					label={__("Choose type of section", "ncmaz-core")}
+					value={sectionName}
+					options={[
+						{ label: "Magazine 1", value: "magazine-1" },
+						{ label: "Magazine 2", value: "magazine-2" },
+						{ label: "Magazine 3", value: "magazine-3" },
+					]}
+					onChange={(sectionName) => setAttributes({ sectionName })}
+				/>
+
+				<TextControl
+					label={__("Heading", "ncmaz-core")}
+					value={heading}
+					type="text"
+					onChange={(heading) => setAttributes({ heading })}
+				/>
+
+				<TextControl
+					label={__("Sub heading", "ncmaz-core")}
+					value={subHeading}
+					type="text"
+					onChange={(subHeading) => setAttributes({ subHeading })}
+				/>
+
+				<div className="w-full space-x-3 flex ">
+					<FormToggle
+						checked={showFilterTab}
+						onChange={() => setAttributes({ showFilterTab: !showFilterTab })}
+						label={__("Show filter tab", "ncmaz-core")}
+					/>
+					<legend>{__("Show filter tab", "ncmaz-core")}</legend>
+				</div>
+
+				<TextControl
+					label={__("View more href", "ncmaz-core")}
+					value={viewMoreHref}
+					type="url"
+					onChange={(viewMoreHref) => setAttributes({ viewMoreHref })}
+				/>
+
+				<div className="w-full space-x-3 flex ">
+					<FormToggle
+						checked={hasBackground}
+						onChange={() => setAttributes({ hasBackground: !hasBackground })}
+						label={__("Enable Background", "ncmaz-core")}
+					/>
+					<legend>{__("Enable Background", "ncmaz-core")}</legend>
+				</div>
+			</div>
+		);
+	};
+
 	//
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls key="setting">
 				<div id="gutenpride-controls">
-					<Panel header="General settings">
-						<PanelBody title="Filter data settings">
+					<Panel header="Section settings">
+						<PanelBody title="General Settings">
+							<PanelRow>{renderGeneralSetting()}</PanelRow>
+						</PanelBody>
+						<PanelBody initialOpen={false} title="Filter data settings">
 							<PanelRow>
 								<RadioControl
 									label="Posts of the section"
@@ -127,11 +194,6 @@ export default function Edit(props) {
 							</PanelRow>
 							<div className="border-b border-gray-600 mt-2 mb-4"></div>
 							<PanelRow>{renderFilterPostsContent()}</PanelRow>
-						</PanelBody>
-						<PanelBody title="Second Settings" initialOpen={false}>
-							<PanelRow>
-								<Placeholder height={400} />
-							</PanelRow>
 						</PanelBody>
 					</Panel>
 				</div>

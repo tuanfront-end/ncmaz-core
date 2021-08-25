@@ -31,7 +31,7 @@ const InputSearchTags = ({ onChange, defaultValue = [] }) => {
 				(obj, item) => ({
 					...obj,
 					[item.slug]: {
-						value: item.slug,
+						value: item.id,
 						label: item.name,
 					},
 				}),

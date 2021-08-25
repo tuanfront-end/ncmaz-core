@@ -15,15 +15,16 @@ const SelectOrderBy = ({ onChange, defaultValue = "date" }) => {
 				label="Order By"
 				value={orderBy}
 				options={[
-					{ label: "author", value: "author" },
-					{ label: "date", value: "date" },
-					{ label: "id", value: "id" },
-					{ label: "parent", value: "parent" },
-					{ label: "relevance", value: "relevance" },
-					{ label: "slug", value: "slug" },
-					{ label: "include_slugs", value: "include_slugs" },
-					{ label: "title", value: "title" },
-					{ label: "modified", value: "modified" },
+					{ label: "author", value: "AUTHOR" },
+					{ label: "COMMENT_COUNT", value: "COMMENT_COUNT" },
+					{ label: "IN", value: "IN" },
+					{ label: "DATE", value: "DATE" },
+					{ label: "MENU_ORDER", value: "MENU_ORDER" },
+					{ label: "MODIFIED", value: "MODIFIED" },
+					{ label: "NAME_IN", value: "NAME_IN" },
+					{ label: "PARENT", value: "PARENT" },
+					{ label: "SLUG", value: "SLUG" },
+					{ label: "TITLE", value: "TITLE" },
 				]}
 				onChange={setOrderBy}
 			/>

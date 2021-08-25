@@ -11200,8 +11200,8 @@ const InputSearchCategories = ({
       });
       setIsState("done");
       const converted = response.data.reduce((obj, item) => ({ ...obj,
-        [item.slug]: {
-          value: item.slug,
+        [item.slug]: { ...item,
+          value: item.id,
           label: item.name
         }
       }), {});
@@ -11395,7 +11395,7 @@ const InputSearchTags = ({
       setIsState("done");
       const converted = response.data.reduce((obj, item) => ({ ...obj,
         [item.slug]: {
-          value: item.slug,
+          value: item.id,
           label: item.name
         }
       }), {});
@@ -11461,11 +11461,11 @@ const SelectOrder = ({
     label: "Order",
     value: order,
     options: [{
-      label: "desc",
-      value: "desc"
+      label: "DESC",
+      value: "DESC"
     }, {
-      label: "asc",
-      value: "asc"
+      label: "ASC",
+      value: "ASC"
     }],
     onChange: setOrder
   }));
@@ -11508,31 +11508,34 @@ const SelectOrderBy = ({
     value: orderBy,
     options: [{
       label: "author",
-      value: "author"
+      value: "AUTHOR"
     }, {
-      label: "date",
-      value: "date"
+      label: "COMMENT_COUNT",
+      value: "COMMENT_COUNT"
     }, {
-      label: "id",
-      value: "id"
+      label: "IN",
+      value: "IN"
     }, {
-      label: "parent",
-      value: "parent"
+      label: "DATE",
+      value: "DATE"
     }, {
-      label: "relevance",
-      value: "relevance"
+      label: "MENU_ORDER",
+      value: "MENU_ORDER"
     }, {
-      label: "slug",
-      value: "slug"
+      label: "MODIFIED",
+      value: "MODIFIED"
     }, {
-      label: "include_slugs",
-      value: "include_slugs"
+      label: "NAME_IN",
+      value: "NAME_IN"
     }, {
-      label: "title",
-      value: "title"
+      label: "PARENT",
+      value: "PARENT"
     }, {
-      label: "modified",
-      value: "modified"
+      label: "SLUG",
+      value: "SLUG"
+    }, {
+      label: "TITLE",
+      value: "TITLE"
     }],
     onChange: setOrderBy
   }));
@@ -11652,7 +11655,13 @@ function Edit(props) {
     orderBy,
     order,
     postNumber,
-    authors
+    authors,
+    showFilterTab,
+    viewMoreHref,
+    heading,
+    subHeading,
+    hasBackground,
+    sectionName
   } = attributes; // SAVE ID SECTION
 
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
@@ -11672,7 +11681,7 @@ function Edit(props) {
     }
 
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "w-full space-y-2"
+      className: "w-full space-y-2.5"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_InputSearchCategories__WEBPACK_IMPORTED_MODULE_4__["default"], {
       defaultValue: categories,
       onChange: categories => setAttributes({
@@ -11704,6 +11713,65 @@ function Edit(props) {
         postNumber
       })
     }));
+  };
+
+  const renderGeneralSetting = () => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "space-y-2.5"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["SelectControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Choose type of section", "ncmaz-core"),
+      value: sectionName,
+      options: [{
+        label: "Magazine 1",
+        value: "magazine-1"
+      }, {
+        label: "Magazine 2",
+        value: "magazine-2"
+      }, {
+        label: "Magazine 3",
+        value: "magazine-3"
+      }],
+      onChange: sectionName => setAttributes({
+        sectionName
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Heading", "ncmaz-core"),
+      value: heading,
+      type: "text",
+      onChange: heading => setAttributes({
+        heading
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Sub heading", "ncmaz-core"),
+      value: subHeading,
+      type: "text",
+      onChange: subHeading => setAttributes({
+        subHeading
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "w-full space-x-3 flex "
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["FormToggle"], {
+      checked: showFilterTab,
+      onChange: () => setAttributes({
+        showFilterTab: !showFilterTab
+      }),
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Show filter tab", "ncmaz-core")
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Show filter tab", "ncmaz-core"))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("View more href", "ncmaz-core"),
+      value: viewMoreHref,
+      type: "url",
+      onChange: viewMoreHref => setAttributes({
+        viewMoreHref
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "w-full space-x-3 flex "
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["FormToggle"], {
+      checked: hasBackground,
+      onChange: () => setAttributes({
+        hasBackground: !hasBackground
+      }),
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core")
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core"))));
   }; //
 
 
@@ -11712,8 +11780,11 @@ function Edit(props) {
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     id: "gutenpride-controls"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Panel"], {
-    header: "General settings"
+    header: "Section settings"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+    title: "General Settings"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderGeneralSetting())), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+    initialOpen: false,
     title: "Filter data settings"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
     label: "Posts of the section",
@@ -11730,12 +11801,7 @@ function Edit(props) {
     })
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "border-b border-gray-600 mt-2 mb-4"
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent())), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
-    title: "Second Settings",
-    initialOpen: false
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Placeholder"], {
-    height: 400
-  })))))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent()))))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "p-6 bg-indigo-200 text-3xl border border-black"
   }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Preview is comming soon!", "ncmaz-core")));
 }
@@ -11765,40 +11831,72 @@ __webpack_require__.r(__webpack_exports__);
 
 
 axios__WEBPACK_IMPORTED_MODULE_4___default.a.defaults.baseURL = "http://localhost/wordpress-1/"; //
+// sectionName: magazine-1 .... magazine-6
+// sectionName: grid-1 .... grid-6
 
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])("create-block/ncmaz-core", {
   edit: _edit__WEBPACK_IMPORTED_MODULE_1__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_2__["default"],
   attributes: {
+    sectionName: {
+      type: "string",
+      default: "magazine-1"
+    },
     sectionId: {
       type: "string",
       default: "gutenberg_section_id"
     },
     option: {
       type: "string",
-      default: "by_post_specific"
+      default: "by_filter"
     },
     posts: {
-      type: "array"
+      type: "array",
+      default: []
     },
     categories: {
-      type: "array"
+      type: "array",
+      default: []
     },
     authors: {
-      type: "array"
+      type: "array",
+      default: []
     },
     tags: {
-      type: "array"
+      type: "array",
+      default: []
     },
     orderBy: {
-      type: "string"
+      type: "string",
+      default: "AUTHOR"
     },
     order: {
-      type: "string"
+      type: "string",
+      default: "DESC"
+    },
+    viewMoreHref: {
+      type: "string",
+      default: "#"
+    },
+    heading: {
+      type: "string",
+      default: "Heading of section"
+    },
+    subHeading: {
+      type: "string",
+      default: "This is sub heading of section..."
     },
     postNumber: {
       type: "number",
       default: 6
+    },
+    showFilterTab: {
+      type: "boolean",
+      default: false
+    },
+    hasBackground: {
+      type: "boolean",
+      default: false
     }
   }
 });
@@ -11840,7 +11938,13 @@ function save(props) {
     orderBy,
     order,
     postNumber,
-    authors = []
+    authors = [],
+    showFilterTab,
+    viewMoreHref,
+    heading,
+    subHeading,
+    hasBackground,
+    sectionName
   } = attributes; //
 
   const uniqueId = "nc-block__" + sectionId; //
@@ -11866,13 +11970,25 @@ function save(props) {
 
   const ncGutenbergSectionsData = {
     endpoint: "/wp/v2/posts",
-    params
+    params,
+    option,
+    settings: {
+      sectionName,
+      heading,
+      subHeading,
+      viewMoreHref,
+      showFilterTab,
+      hasBackground,
+      categoriesFilter: categories
+    }
   };
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"].save(), {
     "data-nc-gutenberg-section": true,
     "data-nc-gutenberg-section-id": uniqueId,
     "data-nc-gutenberg-section-api": JSON.stringify(ncGutenbergSectionsData)
-  }), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Ncmaz Core – hello from the saved content!", "ncmaz-core"));
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("span", {
+    className: "py-3 bg-indigo-500 block"
+  }));
 }
 
 /***/ }),
