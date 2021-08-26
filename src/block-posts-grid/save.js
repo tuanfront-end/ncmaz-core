@@ -20,10 +20,10 @@ export default function save(props) {
 		hasBackground,
 		postCardName,
 		blockLayoutType,
-		itemPerView,
+		gridClass,
 	} = attributes;
 	//
-	const uniqueId = "nc-block-posts-slider__" + sectionId;
+	const uniqueId = "nc-block-posts-grid__" + sectionId;
 	//
 	let params = {};
 	//
@@ -48,7 +48,7 @@ export default function save(props) {
 		option,
 		settings: {
 			blockLayoutType,
-			itemPerView,
+			gridClass,
 			postCardName,
 			heading,
 			subHeading,
@@ -63,7 +63,7 @@ export default function save(props) {
 		<div
 			{...useBlockProps.save()}
 			data-nc-gutenberg-section
-			data-nc-gutenberg-section-type="block-posts-slider"
+			data-nc-gutenberg-section-type="block-posts-grid"
 			data-nc-gutenberg-section-id={uniqueId}
 			data-nc-gutenberg-section-api={JSON.stringify(ncGutenbergSectionsData)}
 		></div>

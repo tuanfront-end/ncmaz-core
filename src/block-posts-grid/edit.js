@@ -35,7 +35,7 @@ export default function Edit(props) {
 	const {
 		postCardName,
 		blockLayoutType,
-		itemPerView,
+		gridClass,
 		sectionId,
 		option,
 		posts,
@@ -127,31 +127,40 @@ export default function Edit(props) {
 					]}
 					onChange={(blockLayoutType) => setAttributes({ blockLayoutType })}
 				/>
+
 				<SelectControl
 					label={__("Choose type of post card", "ncmaz-core")}
 					value={postCardName}
 					options={[
+						{ label: "Post card 3", value: "card3" },
 						{ label: "Post card 4", value: "card4" },
 						{ label: "Post card 7", value: "card7" },
 						{ label: "Post card 9", value: "card9" },
+						{ label: "Post card 10", value: "card10" },
 						{ label: "Post card 10V2", value: "card10V2" },
 						{ label: "Post card 11", value: "card11" },
 						{ label: "Post card 14", value: "card14" },
+						{ label: "Post card 15-Podcast", value: "card15Podcast" },
 					]}
 					onChange={(postCardName) => setAttributes({ postCardName })}
 				/>
 
-				<div className="w-full space-y-1">
-					<legend>{__("Item per view", "ncmaz-core")}</legend>
-					<NumberControl
-						isShiftStepEnabled={true}
-						onChange={(itemPerView) => {
-							setAttributes({ itemPerView });
-						}}
-						shiftStep={10}
-						value={itemPerView}
-					/>
-				</div>
+				<SelectControl
+					label={__("Choose items per row", "ncmaz-core")}
+					value={gridClass}
+					options={[
+						{
+							label: "1 - sm:2 - lg:3 - xl:4",
+							value:
+								"grid-cols-1 sm:grid-cols-2 lg:md:grid-cols-3 xl:grid-cols-4",
+						},
+						{
+							label: "1 - sm:2 - lg:3",
+							value: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+						},
+					]}
+					onChange={(gridClass) => setAttributes({ gridClass })}
+				/>
 
 				<TextControl
 					label={__("Heading", "ncmaz-core")}
@@ -178,14 +187,12 @@ export default function Edit(props) {
 					</div>
 				)}
 
-				{option !== "by_post_specific" && (
-					<TextControl
-						label={__("View more href", "ncmaz-core")}
-						value={viewMoreHref}
-						type="url"
-						onChange={(viewMoreHref) => setAttributes({ viewMoreHref })}
-					/>
-				)}
+				<TextControl
+					label={__("View more href", "ncmaz-core")}
+					value={viewMoreHref}
+					type="url"
+					onChange={(viewMoreHref) => setAttributes({ viewMoreHref })}
+				/>
 
 				<div className="w-full space-x-3 flex ">
 					<FormToggle
@@ -230,8 +237,8 @@ export default function Edit(props) {
 				</div>
 			</InspectorControls>
 
-			<div className="p-6 bg-green-300 text-3xl border border-black">
-				{__("BLOCK POSTS SLIDER", "ncmaz-core")}
+			<div className="p-6 bg-yellow-500 text-3xl border border-black">
+				{__("BLOCK POSTS GRID", "ncmaz-core")}
 			</div>
 		</div>
 	);

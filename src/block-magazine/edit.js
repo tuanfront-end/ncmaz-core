@@ -147,21 +147,25 @@ export default function Edit(props) {
 					onChange={(subHeading) => setAttributes({ subHeading })}
 				/>
 
-				<div className="w-full space-x-3 flex ">
-					<FormToggle
-						checked={showFilterTab}
-						onChange={() => setAttributes({ showFilterTab: !showFilterTab })}
-						label={__("Show filter tab", "ncmaz-core")}
-					/>
-					<legend>{__("Show filter tab", "ncmaz-core")}</legend>
-				</div>
+				{option !== "by_post_specific" && (
+					<div className="w-full space-x-3 flex ">
+						<FormToggle
+							checked={showFilterTab}
+							onChange={() => setAttributes({ showFilterTab: !showFilterTab })}
+							label={__("Show filter tab", "ncmaz-core")}
+						/>
+						<legend>{__("Show filter tab", "ncmaz-core")}</legend>
+					</div>
+				)}
 
-				<TextControl
-					label={__("View more href", "ncmaz-core")}
-					value={viewMoreHref}
-					type="url"
-					onChange={(viewMoreHref) => setAttributes({ viewMoreHref })}
-				/>
+				{option !== "by_post_specific" && (
+					<TextControl
+						label={__("View more href", "ncmaz-core")}
+						value={viewMoreHref}
+						type="url"
+						onChange={(viewMoreHref) => setAttributes({ viewMoreHref })}
+					/>
+				)}
 
 				<div className="w-full space-x-3 flex ">
 					<FormToggle

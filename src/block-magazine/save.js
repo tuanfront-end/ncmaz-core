@@ -62,8 +62,6 @@ export default function save(props) {
 			data-nc-gutenberg-section-type="block-magazine"
 			data-nc-gutenberg-section-id={uniqueId}
 			data-nc-gutenberg-section-api={JSON.stringify(ncGutenbergSectionsData)}
-		>
-			<span className="py-3 bg-indigo-500 block"></span>
-		</div>
+		></div>
 	);
 }
