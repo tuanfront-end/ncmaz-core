@@ -11730,6 +11730,27 @@ function Edit(props) {
       }, {
         label: "Magazine 3",
         value: "magazine-3"
+      }, {
+        label: "Magazine 4",
+        value: "magazine-4"
+      }, {
+        label: "Magazine 5",
+        value: "magazine-5"
+      }, {
+        label: "Magazine 6",
+        value: "magazine-6"
+      }, {
+        label: "Magazine 7",
+        value: "magazine-7"
+      }, {
+        label: "Magazine 8",
+        value: "magazine-8"
+      }, {
+        label: "Magazine 9",
+        value: "magazine-9"
+      }, {
+        label: "Large slider",
+        value: "large-slider"
       }],
       onChange: sectionName => setAttributes({
         sectionName
@@ -11831,7 +11852,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 axios__WEBPACK_IMPORTED_MODULE_4___default.a.defaults.baseURL = "http://localhost/wordpress-1/"; //
-// sectionName: magazine-1 .... magazine-6
+// sectionName: magazine-1 .... magazine-9
 // sectionName: grid-1 .... grid-6
 
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])("create-block/ncmaz-core", {

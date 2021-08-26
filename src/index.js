@@ -8,7 +8,7 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost/wordpress-1/";
 //
 
-// sectionName: magazine-1 .... magazine-6
+// sectionName: magazine-1 .... magazine-9
 // sectionName: grid-1 .... grid-6
 
 registerBlockType("create-block/ncmaz-core", {

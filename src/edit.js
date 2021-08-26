@@ -122,6 +122,13 @@ export default function Edit(props) {
 						{ label: "Magazine 1", value: "magazine-1" },
 						{ label: "Magazine 2", value: "magazine-2" },
 						{ label: "Magazine 3", value: "magazine-3" },
+						{ label: "Magazine 4", value: "magazine-4" },
+						{ label: "Magazine 5", value: "magazine-5" },
+						{ label: "Magazine 6", value: "magazine-6" },
+						{ label: "Magazine 7", value: "magazine-7" },
+						{ label: "Magazine 8", value: "magazine-8" },
+						{ label: "Magazine 9", value: "magazine-9" },
+						{ label: "Large slider", value: "large-slider" },
 					]}
 					onChange={(sectionName) => setAttributes({ sectionName })}
 				/>
