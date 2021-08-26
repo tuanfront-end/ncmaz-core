@@ -21,7 +21,7 @@ export default function save(props) {
 		sectionName,
 	} = attributes;
 	//
-	const uniqueId = "nc-block__" + sectionId;
+	const uniqueId = "nc-block-magazine__" + sectionId;
 	//
 	let params = {};
 	//
@@ -40,6 +40,7 @@ export default function save(props) {
 	}
 
 	const ncGutenbergSectionsData = {
+		blockName: "nc-block-magazine",
 		endpoint: "/wp/v2/posts",
 		params,
 		option,
@@ -58,6 +59,7 @@ export default function save(props) {
 		<div
 			{...useBlockProps.save()}
 			data-nc-gutenberg-section
+			data-nc-gutenberg-section-type="block-magazine"
 			data-nc-gutenberg-section-id={uniqueId}
 			data-nc-gutenberg-section-api={JSON.stringify(ncGutenbergSectionsData)}
 		>

@@ -1,8 +1,8 @@
 import React from "react";
 import { __ } from "@wordpress/i18n";
-import InputSearchPosts from "./components/InputSearchPosts";
-import InputSearchCategories from "./components/InputSearchCategories";
-import InputSearchTags from "./components/InputSearchTags";
+import InputSearchPosts from "../components/InputSearchPosts";
+import InputSearchCategories from "../components/InputSearchCategories";
+import InputSearchTags from "../components/InputSearchTags";
 import { useEffect } from "@wordpress/element";
 import {
 	TextControl,
@@ -21,11 +21,11 @@ import {
 	RichText,
 	useBlockProps,
 } from "@wordpress/block-editor";
-import SelectOrderBy from "./components/SelectOrderBy";
-import SelectOrder from "./components/SelectOrder";
-import InputNumberPerPage from "./components/InputNumberPerPage";
-import InputSearchAuthors from "./components/InputSearchAuthors";
-import SelectPostFormat from "./components/SelectPostFormat";
+import SelectOrderBy from "../components/SelectOrderBy";
+import SelectOrder from "../components/SelectOrder";
+import InputNumberPerPage from "../components/InputNumberPerPage";
+import InputSearchAuthors from "../components/InputSearchAuthors";
+import SelectPostFormat from "../components/SelectPostFormat";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -207,7 +207,7 @@ export default function Edit(props) {
 			</InspectorControls>
 
 			<div className="p-6 bg-indigo-200 text-3xl border border-black">
-				{__("Preview is comming soon!", "ncmaz-core")}
+				{__("BLOCK MAGAZINE!", "ncmaz-core")}
 			</div>
 		</div>
 	);
