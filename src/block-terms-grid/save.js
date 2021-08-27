@@ -7,7 +7,6 @@ export default function save(props) {
 		typeOfTerm,
 		termCardName,
 		termsNumber,
-		itemPerView,
 		sectionId,
 		option,
 		categories,
@@ -17,10 +16,13 @@ export default function save(props) {
 		heading,
 		subHeading,
 		hasBackground,
+		blockLayoutType,
+		gridClass,
+		gridClassCustom,
 	} = attributes;
 
 	//
-	const uniqueId = "nc-block-posts-slider__" + sectionId;
+	const uniqueId = "nc-block-terms-grid__" + sectionId;
 	//
 	let params = {};
 	//
@@ -43,11 +45,13 @@ export default function save(props) {
 		option,
 		typeOfTerm,
 		settings: {
-			itemPerView,
 			termCardName,
 			heading,
 			subHeading,
 			hasBackground,
+			blockLayoutType,
+			gridClass,
+			gridClassCustom,
 		},
 	};
 
@@ -55,7 +59,7 @@ export default function save(props) {
 		<div
 			{...useBlockProps.save()}
 			data-nc-gutenberg-section
-			data-nc-gutenberg-section-type="block-terms-slider"
+			data-nc-gutenberg-section-type="block-terms-grid"
 			data-nc-gutenberg-section-api={JSON.stringify(ncGutenbergSectionsData)}
 		></div>
 	);

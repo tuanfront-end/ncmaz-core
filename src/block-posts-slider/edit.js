@@ -205,7 +205,7 @@ export default function Edit(props) {
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls key="setting">
-				<div>
+				<div data-type="ncmaz-core/sidebar-settings">
 					<Panel header="Section settings">
 						<PanelBody title="General Settings">
 							<PanelRow>{renderGeneralSetting()}</PanelRow>
