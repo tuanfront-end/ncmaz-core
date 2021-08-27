@@ -146,8 +146,10 @@ export default function Edit(props) {
 					<NumberControl
 						isShiftStepEnabled={true}
 						onChange={(itemPerView) => {
-							setAttributes({ itemPerView });
+							setAttributes({ itemPerView: Number(itemPerView) });
 						}}
+						min={3}
+						max={6}
 						shiftStep={10}
 						value={itemPerView}
 					/>
@@ -203,7 +205,7 @@ export default function Edit(props) {
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls key="setting">
-				<div id="gutenpride-controls">
+				<div>
 					<Panel header="Section settings">
 						<PanelBody title="General Settings">
 							<PanelRow>{renderGeneralSetting()}</PanelRow>

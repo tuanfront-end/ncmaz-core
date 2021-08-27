@@ -183,7 +183,7 @@ export default function Edit(props) {
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls key="setting">
-				<div id="gutenpride-controls">
+				<div>
 					<Panel header="Section settings">
 						<PanelBody title="General Settings">
 							<PanelRow>{renderGeneralSetting()}</PanelRow>
