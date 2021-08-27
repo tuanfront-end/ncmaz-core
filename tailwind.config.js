@@ -1,6 +1,44 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 
+const safelist = [
+	"grid-cols-4",
+	"grid-cols-5",
+	"grid-cols-6",
+	"grid-cols-7",
+	"grid-cols-8",
+	//
+	"sm:grid-cols-4",
+	"sm:grid-cols-5",
+	"sm:grid-cols-6",
+	"sm:grid-cols-7",
+	"sm:grid-cols-8",
+	//
+	"md:grid-cols-4",
+	"md:grid-cols-5",
+	"md:grid-cols-6",
+	"md:grid-cols-7",
+	"md:grid-cols-8",
+	//
+	"lg:grid-cols-4",
+	"lg:grid-cols-5",
+	"lg:grid-cols-6",
+	"lg:grid-cols-7",
+	"lg:grid-cols-8",
+	//
+	"xl:grid-cols-4",
+	"xl:grid-cols-5",
+	"xl:grid-cols-6",
+	"xl:grid-cols-7",
+	"xl:grid-cols-8",
+	//
+	"2xl:grid-cols-4",
+	"2xl:grid-cols-5",
+	"2xl:grid-cols-6",
+	"2xl:grid-cols-7",
+	"2xl:grid-cols-8",
+];
+
 // Custom color with css variable color in __theme_color.scss
 function customColors(cssVar) {
 	return ({ opacityVariable, opacityValue }) => {
@@ -17,8 +55,11 @@ function customColors(cssVar) {
 module.exports = {
 	important: "[data-type^=ncmaz-core]",
 	mode: "jit",
-	purge: ["./src/**/*.{js,jsx,ts,tsx}", "./index.html"],
-	darkMode: "class", // or 'media' or 'class',
+	purge: {
+		content: ["./src/**/*.{js,jsx,ts,tsx}", "./index.html"],
+		safelist,
+	},
+	darkMode: false, // or 'media' or 'class',
 	theme: {
 		container: {
 			center: true,

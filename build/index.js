@@ -45955,6 +45955,440 @@ function save(props) {
 
 /***/ }),
 
+/***/ "./src/block-terms-grid/edit.js":
+/*!**************************************!*\
+  !*** ./src/block-terms-grid/edit.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Edit; });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_InputSearchPosts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/InputSearchPosts */ "./src/components/InputSearchPosts.js");
+/* harmony import */ var _components_InputSearchCategories__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/InputSearchCategories */ "./src/components/InputSearchCategories.js");
+/* harmony import */ var _components_InputSearchTags__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/InputSearchTags */ "./src/components/InputSearchTags.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _components_SelectOrderBy__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/SelectOrderBy */ "./src/components/SelectOrderBy.js");
+/* harmony import */ var _components_SelectOrder__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/SelectOrder */ "./src/components/SelectOrder.js");
+/* harmony import */ var _components_InputNumberPerPage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/InputNumberPerPage */ "./src/components/InputNumberPerPage.js");
+/* harmony import */ var _components_InputSearchAuthors__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../components/InputSearchAuthors */ "./src/components/InputSearchAuthors.js");
+/* harmony import */ var _components_SelectPostFormat__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../components/SelectPostFormat */ "./src/components/SelectPostFormat.js");
+/* harmony import */ var _graphql_termQuery__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../graphql/termQuery */ "./src/graphql/termQuery.js");
+/* harmony import */ var _apollo_client__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @apollo/client */ "./node_modules/@apollo/client/index.js");
+/* harmony import */ var _frontend_components_SectionSliderNewCategories_SectionSliderNewCategories__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../frontend-components/SectionSliderNewCategories/SectionSliderNewCategories */ "./src/frontend-components/SectionSliderNewCategories/SectionSliderNewCategories.js");
+/* harmony import */ var _frontend_components_BackgroundSection_BackgroundSection__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../frontend-components/BackgroundSection/BackgroundSection */ "./src/frontend-components/BackgroundSection/BackgroundSection.js");
+/* harmony import */ var _frontend_components_SectionGridCategoryBox_SectionGridCategoryBox__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../frontend-components/SectionGridCategoryBox/SectionGridCategoryBox */ "./src/frontend-components/SectionGridCategoryBox/SectionGridCategoryBox.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function Edit(props) {
+  var _data$tags, _data$categories;
+
+  const {
+    attributes,
+    setAttributes,
+    clientId
+  } = props; //
+
+  const {
+    blockLayoutType,
+    gridClass,
+    gridClassCustom,
+    typeOfTerm,
+    termCardName,
+    termsNumber,
+    sectionId,
+    option,
+    categories,
+    tags,
+    orderBy,
+    order,
+    heading,
+    subHeading,
+    hasBackground
+  } = attributes; // SAVE ID SECTION
+
+  Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    setAttributes({
+      sectionId: clientId
+    });
+  }, []);
+  let TERMSQUERY;
+  let variables = {}; // CATEGORIES
+
+  if (typeOfTerm === "category") {
+    if (option === "by_filter") {
+      variables = {
+        order,
+        orderby: orderBy,
+        first: Number(termsNumber)
+      };
+      TERMSQUERY = _graphql_termQuery__WEBPACK_IMPORTED_MODULE_13__["TERMSQUERY_FILTER"];
+    } else {
+      variables = {
+        termTaxonomId: (categories || []).map(item => item.value)
+      };
+      TERMSQUERY = _graphql_termQuery__WEBPACK_IMPORTED_MODULE_13__["TERMSQUERY_SPECIFIC"];
+    }
+  } // TAGS;
+
+
+  if (typeOfTerm === "tag") {
+    if (option === "by_filter") {
+      variables = {
+        order,
+        orderby: orderBy,
+        first: Number(termsNumber)
+      };
+      TERMSQUERY = _graphql_termQuery__WEBPACK_IMPORTED_MODULE_13__["TERMSQUERY_FILTER_TAGS"];
+    } else {
+      variables = {
+        termTaxonomId: (tags || []).map(item => item.value)
+      };
+      TERMSQUERY = _graphql_termQuery__WEBPACK_IMPORTED_MODULE_13__["TERMSQUERY_SPECIFIC_TAGS"];
+    }
+  }
+
+  const {
+    loading,
+    error,
+    data
+  } = TERMSQUERY ? Object(_apollo_client__WEBPACK_IMPORTED_MODULE_14__["useQuery"])(TERMSQUERY, {
+    variables
+  }) : {};
+  const termsLists = (data === null || data === void 0 ? void 0 : (_data$tags = data.tags) === null || _data$tags === void 0 ? void 0 : _data$tags.edges) || (data === null || data === void 0 ? void 0 : (_data$categories = data.categories) === null || _data$categories === void 0 ? void 0 : _data$categories.edges) || [];
+
+  const renderFilterPostsContent = () => {
+    if (option === "by_term_specific") {
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+        className: "w-full space-y-2.5"
+      }, typeOfTerm === "category" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_InputSearchCategories__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        defaultValue: categories,
+        onChange: categories => setAttributes({
+          categories
+        })
+      }), typeOfTerm === "tag" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_InputSearchTags__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        defaultValue: tags,
+        onChange: tags => setAttributes({
+          tags
+        })
+      }));
+    }
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "w-full space-y-2.5"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["SelectControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("OrderBy", "ncmaz-core"),
+      value: orderBy,
+      options: [{
+        label: "COUNT",
+        value: "COUNT"
+      }, {
+        label: "NAME",
+        value: "NAME"
+      }, {
+        label: "TERM_GROUP",
+        value: "TERM_GROUP"
+      }, {
+        label: "TERM_ID",
+        value: "TERM_ID"
+      }, {
+        label: "TERM_ORDER",
+        value: "TERM_ORDER"
+      }],
+      onChange: orderBy => setAttributes({
+        orderBy
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_SelectOrder__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      defaultValue: order,
+      onChange: order => setAttributes({
+        order
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "w-full space-y-1"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Number per page", "ncmaz-core")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["__experimentalNumberControl"], {
+      isShiftStepEnabled: true,
+      onChange: termsNumber => {
+        setAttributes({
+          termsNumber: Number(termsNumber)
+        });
+      },
+      min: 1,
+      max: 30,
+      shiftStep: 10,
+      value: termsNumber
+    })));
+  };
+
+  const renderGeneralSetting = () => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "space-y-2.5"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["SelectControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Choose type of block", "ncmaz-core"),
+      value: blockLayoutType,
+      options: [{
+        label: "Layout type 1",
+        value: "type-1"
+      }, {
+        label: "Layout type 2",
+        value: "type-2"
+      }],
+      onChange: blockLayoutType => setAttributes({
+        blockLayoutType
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["SelectControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Choose type of term card", "ncmaz-core"),
+      value: termCardName,
+      options: [{
+        label: "Term card 2",
+        value: "card2"
+      }, {
+        label: "Term card 3",
+        value: "card3"
+      }, {
+        label: "Term card 4",
+        value: "card4"
+      }, {
+        label: "Term card 5",
+        value: "card5"
+      }],
+      onChange: termCardName => setAttributes({
+        termCardName
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["SelectControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Choose items per row", "ncmaz-core"),
+      value: gridClass,
+      options: [{
+        label: "1 - sm:2 - md:3 - lg:4 - xl:5",
+        value: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+      }, {
+        label: "1 - sm:2 - md:2 - lg:3 - xl:4",
+        value: "grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      }],
+      onChange: gridClass => setAttributes({
+        gridClass
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Items per row custom (advance)", "ncmaz-core"),
+      value: gridClassCustom,
+      type: "text",
+      onChange: gridClassCustom => setAttributes({
+        gridClassCustom
+      }),
+      help: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])(`If you enter this field will overwrite the field 'Choose items per row' above`, "ncmaz-core")
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Heading", "ncmaz-core"),
+      value: heading,
+      type: "text",
+      onChange: heading => setAttributes({
+        heading
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Sub heading", "ncmaz-core"),
+      value: subHeading,
+      type: "text",
+      onChange: subHeading => setAttributes({
+        subHeading
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "w-full space-x-3 flex "
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["FormToggle"], {
+      checked: hasBackground,
+      onChange: () => setAttributes({
+        hasBackground: !hasBackground
+      }),
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core")
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core"))));
+  };
+
+  const renderSidebarSettings = () => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["InspectorControls"], {
+      key: "setting"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Panel"], {
+      header: "Section settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+      title: "General Settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderGeneralSetting())), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+      initialOpen: false,
+      title: "Filter data settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
+      label: "Type of term",
+      selected: typeOfTerm,
+      options: [{
+        label: "Category",
+        value: "category"
+      }, {
+        label: "Tag",
+        value: "tag"
+      }],
+      onChange: typeOfTerm => setAttributes({
+        typeOfTerm
+      })
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "border-b border-gray-600 my-2"
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
+      label: "Term query by",
+      selected: option,
+      options: [{
+        label: "Select term by term specific",
+        value: "by_term_specific"
+      }, {
+        label: "Select term by filter",
+        value: "by_filter"
+      }],
+      onChange: option => setAttributes({
+        option
+      })
+    }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "border-b border-gray-600 mt-3 mb-4"
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent())))));
+  };
+
+  const renderPreviewContent = () => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: hasBackground ? "py-16" : ""
+    }, hasBackground && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_frontend_components_BackgroundSection_BackgroundSection__WEBPACK_IMPORTED_MODULE_16__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_frontend_components_SectionGridCategoryBox_SectionGridCategoryBox__WEBPACK_IMPORTED_MODULE_17__["default"], {
+      heading: heading,
+      subHeading: subHeading,
+      categoryCardType: termCardName,
+      categories: termsLists,
+      gridClass: !!gridClassCustom ? gridClassCustom : gridClass,
+      headingCenter: blockLayoutType === "type-2"
+    }));
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "grid grid-cols-3 gap-5"
+    }, termsLists.map(({
+      node
+    }) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      key: node.id,
+      className: "flex items-center space-x-2"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+      className: "w-5 h-5",
+      style: {
+        backgroundColor: node.ncTaxonomyMeta.color
+      }
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, node.name))));
+  }; //
+
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["useBlockProps"])(), renderSidebarSettings(), renderPreviewContent(), loading && "LOADING .....", error && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("pre", {
+    className: "text-xs text-red-500"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("code", null, JSON.stringify(error))));
+}
+
+/***/ }),
+
+/***/ "./src/block-terms-grid/save.js":
+/*!**************************************!*\
+  !*** ./src/block-terms-grid/save.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return save; });
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+function save(props) {
+  const {
+    attributes
+  } = props;
+  const {
+    typeOfTerm,
+    termCardName,
+    termsNumber,
+    itemPerView,
+    sectionId,
+    option,
+    categories,
+    tags,
+    orderBy,
+    order,
+    heading,
+    subHeading,
+    hasBackground
+  } = attributes; //
+
+  const uniqueId = "nc-block-posts-slider__" + sectionId; //
+
+  let params = {}; //
+
+  const items = typeOfTerm === "tag" ? tags : categories;
+
+  if (option === "by_term_specific" && !!items && !!items.length) {
+    params = {
+      termIds: items.map(item => item.value)
+    };
+  }
+
+  if (option === "by_filter") {
+    params = {
+      orderby: orderBy,
+      order,
+      per_page: termsNumber
+    };
+  }
+
+  const ncGutenbergSectionsData = {
+    blockName: "nc-block-terms-slider",
+    endpoint: "/wp/v2/posts",
+    params,
+    option,
+    typeOfTerm,
+    settings: {
+      itemPerView,
+      termCardName,
+      heading,
+      subHeading,
+      hasBackground
+    }
+  };
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"].save(), {
+    "data-nc-gutenberg-section": true,
+    "data-nc-gutenberg-section-type": "block-terms-slider",
+    "data-nc-gutenberg-section-api": JSON.stringify(ncGutenbergSectionsData)
+  }));
+}
+
+/***/ }),
+
 /***/ "./src/block-terms-slider/edit.js":
 /*!****************************************!*\
   !*** ./src/block-terms-slider/edit.js ***!
@@ -47486,6 +47920,93 @@ const NextPrev = ({
 
 /***/ }),
 
+/***/ "./src/frontend-components/SectionGridCategoryBox/SectionGridCategoryBox.js":
+/*!**********************************************************************************!*\
+  !*** ./src/frontend-components/SectionGridCategoryBox/SectionGridCategoryBox.js ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _CardCategory1_CardCategory1__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../CardCategory1/CardCategory1 */ "./src/frontend-components/CardCategory1/CardCategory1.js");
+/* harmony import */ var _CardCategory2_CardCategory2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../CardCategory2/CardCategory2 */ "./src/frontend-components/CardCategory2/CardCategory2.js");
+/* harmony import */ var _CardCategory3_CardCategory3__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../CardCategory3/CardCategory3 */ "./src/frontend-components/CardCategory3/CardCategory3.js");
+/* harmony import */ var _CardCategory4_CardCategory4__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../CardCategory4/CardCategory4 */ "./src/frontend-components/CardCategory4/CardCategory4.js");
+/* harmony import */ var _CardCategory5_CardCategory5__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../CardCategory5/CardCategory5 */ "./src/frontend-components/CardCategory5/CardCategory5.js");
+/* harmony import */ var _Heading_Heading__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Heading/Heading */ "./src/frontend-components/Heading/Heading.js");
+
+
+
+
+
+
+
+ // export interface SectionGridCategoryBoxProps {
+//   categories?: TaxonomyType[];
+//   headingCenter?: boolean;
+//   categoryCardType?: "card1" | "card2" | "card3" | "card4" | "card5";
+//   className?: string;
+// }
+
+const SectionGridCategoryBox = ({
+  categories,
+  categoryCardType = "card2",
+  headingCenter = true,
+  className = "",
+  gridClass = "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+  heading = "",
+  subHeading = ""
+}) => {
+  let CardComponentName = _CardCategory2_CardCategory2__WEBPACK_IMPORTED_MODULE_3__["default"];
+
+  switch (categoryCardType) {
+    case "card1":
+      CardComponentName = _CardCategory1_CardCategory1__WEBPACK_IMPORTED_MODULE_2__["default"];
+      break;
+
+    case "card2":
+      CardComponentName = _CardCategory2_CardCategory2__WEBPACK_IMPORTED_MODULE_3__["default"];
+      break;
+
+    case "card3":
+      CardComponentName = _CardCategory3_CardCategory3__WEBPACK_IMPORTED_MODULE_4__["default"];
+      break;
+
+    case "card4":
+      CardComponentName = _CardCategory4_CardCategory4__WEBPACK_IMPORTED_MODULE_5__["default"];
+      break;
+
+    case "card5":
+      CardComponentName = _CardCategory5_CardCategory5__WEBPACK_IMPORTED_MODULE_6__["default"];
+      break;
+
+    default:
+      CardComponentName = _CardCategory2_CardCategory2__WEBPACK_IMPORTED_MODULE_3__["default"];
+  }
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: `nc-SectionGridCategoryBox relative ${className}`
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Heading_Heading__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    desc: subHeading,
+    isCenter: headingCenter
+  }, heading), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: `grid gap-6 md:gap-8 ${gridClass}`
+  }, categories.map((item, i) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(CardComponentName, {
+    index: i < 3 ? `#${i + 1}` : undefined,
+    key: i,
+    taxonomyNode: item.node
+  }))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SectionGridCategoryBox);
+
+/***/ }),
+
 /***/ "./src/frontend-components/SectionSliderNewCategories/SectionSliderNewCategories.js":
 /*!******************************************************************************************!*\
   !*** ./src/frontend-components/SectionSliderNewCategories/SectionSliderNewCategories.js ***!
@@ -47746,8 +48267,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _block_posts_grid_save__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./block-posts-grid/save */ "./src/block-posts-grid/save.js");
 /* harmony import */ var _block_terms_slider_edit__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./block-terms-slider/edit */ "./src/block-terms-slider/edit.js");
 /* harmony import */ var _block_terms_slider_save__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./block-terms-slider/save */ "./src/block-terms-slider/save.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _block_terms_grid_edit__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./block-terms-grid/edit */ "./src/block-terms-grid/edit.js");
+/* harmony import */ var _block_terms_grid_save__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./block-terms-grid/save */ "./src/block-terms-grid/save.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_16__);
 
 
 
@@ -47761,6 +48284,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
  //
+
+
+ //
+//
 
 
  //
@@ -47776,7 +48303,7 @@ const client = new _apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloClient"]({
 }); //
 
 
-axios__WEBPACK_IMPORTED_MODULE_14___default.a.defaults.baseURL = "http://localhost/wordpress-1/"; //
+axios__WEBPACK_IMPORTED_MODULE_16___default.a.defaults.baseURL = "http://localhost/wordpress-1/"; //
 // sectionName: magazine-1 .... magazine-9
 
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncmaz-core/block-magazine", {
@@ -48060,6 +48587,77 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     termsNumber: {
       type: "number",
       default: 6
+    },
+    hasBackground: {
+      type: "boolean",
+      default: false
+    }
+  }
+}); //
+//
+
+Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncmaz-core/block-terms-grid", {
+  title: "Ncmaz Block Terms Grid",
+  edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
+    client: client
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_terms_grid_edit__WEBPACK_IMPORTED_MODULE_14__["default"], props)),
+  save: _block_terms_grid_save__WEBPACK_IMPORTED_MODULE_15__["default"],
+  attributes: {
+    blockLayoutType: {
+      type: "string",
+      default: "type-1"
+    },
+    gridClass: {
+      type: "string",
+      default: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+    },
+    gridClassCustom: {
+      type: "string",
+      default: ""
+    },
+    typeOfTerm: {
+      type: "string",
+      default: "category"
+    },
+    option: {
+      type: "string",
+      default: "by_filter"
+    },
+    termCardName: {
+      type: "string",
+      default: "card2"
+    },
+    sectionId: {
+      type: "string",
+      default: "gutenberg_section_term_grid"
+    },
+    categories: {
+      type: "array",
+      default: []
+    },
+    tags: {
+      type: "array",
+      default: []
+    },
+    orderBy: {
+      type: "string",
+      default: "NAME"
+    },
+    order: {
+      type: "string",
+      default: "DESC"
+    },
+    heading: {
+      type: "string",
+      default: "Heading of section slider"
+    },
+    subHeading: {
+      type: "string",
+      default: "This is sub heading of section..."
+    },
+    termsNumber: {
+      type: "number",
+      default: 10
     },
     hasBackground: {
       type: "boolean",

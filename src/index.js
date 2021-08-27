@@ -25,6 +25,10 @@ import BlockPostsGridSave from "./block-posts-grid/save";
 import BlockTermSliderEdit from "./block-terms-slider/edit";
 import BlockTermSliderSave from "./block-terms-slider/save";
 //
+//
+import BlockTermsGridEdit from "./block-terms-grid/edit";
+import BlockTermsGridSave from "./block-terms-grid/save";
+//
 
 //
 const client = new ApolloClient({
@@ -163,6 +167,42 @@ registerBlockType("ncmaz-core/block-terms-slider", {
 			default: "This is sub heading of section...",
 		},
 		termsNumber: { type: "number", default: 6 },
+		hasBackground: { type: "boolean", default: false },
+	},
+});
+
+//
+//
+registerBlockType("ncmaz-core/block-terms-grid", {
+	title: "Ncmaz Block Terms Grid",
+	edit: (props) => (
+		<ApolloProvider client={client}>
+			<BlockTermsGridEdit {...props} />
+		</ApolloProvider>
+	),
+	save: BlockTermsGridSave,
+	attributes: {
+		blockLayoutType: { type: "string", default: "type-1" },
+		gridClass: {
+			type: "string",
+			default:
+				"grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+		},
+		gridClassCustom: { type: "string", default: "" },
+		typeOfTerm: { type: "string", default: "category" },
+		option: { type: "string", default: "by_filter" },
+		termCardName: { type: "string", default: "card2" },
+		sectionId: { type: "string", default: "gutenberg_section_term_grid" },
+		categories: { type: "array", default: [] },
+		tags: { type: "array", default: [] },
+		orderBy: { type: "string", default: "NAME" },
+		order: { type: "string", default: "DESC" },
+		heading: { type: "string", default: "Heading of section slider" },
+		subHeading: {
+			type: "string",
+			default: "This is sub heading of section...",
+		},
+		termsNumber: { type: "number", default: 10 },
 		hasBackground: { type: "boolean", default: false },
 	},
 });
