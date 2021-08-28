@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "@wordpress/element";
 import { SelectControl } from "@wordpress/components";
 
-const SelectOrder = ({ onChange, defaultValue = "desc" }) => {
+const SelectOrder = ({ onChange, defaultValue = "DESC" }) => {
 	const [order, setOrder] = useState(defaultValue);
 
 	useEffect(() => {

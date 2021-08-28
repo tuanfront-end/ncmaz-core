@@ -8,9 +8,6 @@ import {
 	gql,
 } from "@apollo/client";
 import "./style.scss";
-import "./styles/index.scss";
-import "./fonts/line-awesome-1.3.0/css/line-awesome.css";
-//
 //
 import BlockMagazineEdit from "./block-magazine/edit";
 import BlockMagazineSave from "./block-magazine/save";
@@ -28,6 +25,10 @@ import BlockTermSliderSave from "./block-terms-slider/save";
 //
 import BlockTermsGridEdit from "./block-terms-grid/edit";
 import BlockTermsGridSave from "./block-terms-grid/save";
+//
+//
+import BlockUsersSliderEdit from "./block-users-slider/edit";
+import BlockUsersSliderSave from "./block-users-slider/save";
 //
 
 //
@@ -206,3 +207,38 @@ registerBlockType("ncmaz-core/block-terms-grid", {
 		hasBackground: { type: "boolean", default: false },
 	},
 });
+
+//
+//
+registerBlockType("ncmaz-core/block-users-slider", {
+	title: "Ncmaz Block Users Slider",
+	edit: (props) => (
+		<ApolloProvider client={client}>
+			<BlockUsersSliderEdit {...props} />
+		</ApolloProvider>
+	),
+	save: BlockUsersSliderSave,
+	attributes: {
+		filterDataBy: { type: "string", default: "by_filter" },
+		numberPerPage: { type: "number", default: 10 },
+		orderBy: { type: "string", default: "REGISTERED" },
+		order: { type: "string", default: "DESC" },
+		userIds: { type: "array", default: [] },
+		roleIn: { type: "array", default: [] },
+		//
+		blockLayoutStyle: { type: "string", default: "layout-1" },
+		userCardName: { type: "string", default: "card2" },
+		itemPerView: { type: "number", default: 4 },
+		heading: { type: "string", default: "Heading of section slider" },
+		subHeading: {
+			type: "string",
+			default: "This is sub heading of section...",
+		},
+		hasBackground: { type: "boolean", default: false },
+		//
+		graphQLvariables: { type: "object", default: {} },
+	},
+});
+
+//
+//

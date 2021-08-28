@@ -6,13 +6,6 @@ import CardCategory4 from "../CardCategory4/CardCategory4";
 import CardCategory5 from "../CardCategory5/CardCategory5";
 import Heading from "../Heading/Heading";
 
-// export interface SectionGridCategoryBoxProps {
-//   categories?: TaxonomyType[];
-//   headingCenter?: boolean;
-//   categoryCardType?: "card1" | "card2" | "card3" | "card4" | "card5";
-//   className?: string;
-// }
-
 const SectionGridCategoryBox = ({
 	categories,
 	categoryCardType = "card2",

@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { __ } from "@wordpress/i18n";
 import InputSearchPosts from "../components/InputSearchPosts";
 import InputSearchCategories from "../components/InputSearchCategories";
 import InputSearchTags from "../components/InputSearchTags";
-import { useEffect } from "@wordpress/element";
 import {
 	TextControl,
 	Panel,
@@ -27,115 +26,111 @@ import SelectOrder from "../components/SelectOrder";
 import InputNumberPerPage from "../components/InputNumberPerPage";
 import InputSearchAuthors from "../components/InputSearchAuthors";
 import SelectPostFormat from "../components/SelectPostFormat";
-import {
-	TERMSQUERY_FILTER,
-	TERMSQUERY_SPECIFIC,
-	TERMSQUERY_SPECIFIC_TAGS,
-	TERMSQUERY_FILTER_TAGS,
-} from "../graphql/termQuery";
 import { useQuery, gql } from "@apollo/client";
 import SectionSliderNewCategories from "../frontend-components/SectionSliderNewCategories/SectionSliderNewCategories";
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
+import Select from "react-select";
+import SectionSliderNewAuthors from "../frontend-components/SectionSliderNewAthors/SectionSliderNewAuthors";
+import {
+	USERS_QUERY_FILTER__string,
+	USERS_QUERY_SPECIFIC__string,
+} from "./queryGraphql";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
-
 	//
 	const {
-		typeOfTerm,
-		termCardName,
-		termsNumber,
-		itemPerView,
-		sectionId,
-		option,
-		categories,
-		tags,
-		orderBy,
+		filterDataBy,
+		numberPerPage,
 		order,
+		orderBy,
+		userIds,
+		roleIn,
+		//
+		blockLayoutStyle,
+		userCardName,
+		itemPerView,
 		heading,
 		subHeading,
 		hasBackground,
+		//
+		graphQLvariables,
 	} = attributes;
 
-	// SAVE ID SECTION
-	useEffect(() => {
-		setAttributes({ sectionId: clientId });
-	}, []);
-
-	let TERMSQUERY;
+	//
+	let GQL_QUERY__string = USERS_QUERY_FILTER__string;
 	let variables = {};
+	//
 
-	// CATEGORIES
-	if (typeOfTerm === "category") {
-		if (option === "by_filter") {
-			variables = {
-				order,
-				orderby: orderBy,
-				first: Number(termsNumber),
-			};
-			TERMSQUERY = TERMSQUERY_FILTER;
-		} else {
-			variables = {
-				termTaxonomId: (categories || []).map((item) => item.value),
-			};
-			TERMSQUERY = TERMSQUERY_SPECIFIC;
-		}
+	if (filterDataBy === "by_specific") {
+		variables = { include: userIds.map((item) => item.value) };
+		GQL_QUERY__string = USERS_QUERY_SPECIFIC__string;
+	} else {
+		GQL_QUERY__string = USERS_QUERY_FILTER__string;
+		variables = {
+			first: numberPerPage,
+			field: orderBy,
+			order: order,
+			roleIn: roleIn.map((item) => item.value),
+		};
 	}
 
-	// TAGS;
-	if (typeOfTerm === "tag") {
-		if (option === "by_filter") {
-			variables = {
-				order,
-				orderby: orderBy,
-				first: Number(termsNumber),
-			};
-			TERMSQUERY = TERMSQUERY_FILTER_TAGS;
-		} else {
-			variables = { termTaxonomId: (tags || []).map((item) => item.value) };
-			TERMSQUERY = TERMSQUERY_SPECIFIC_TAGS;
-		}
-	}
+	// =================== QUERY GRAPHQL ===================
+	const gqlQuery = gql`
+		${GQL_QUERY__string}
+	`;
+	const { loading, error, data } = useQuery(gqlQuery, { variables });
 
-	const { loading, error, data } = TERMSQUERY
-		? useQuery(TERMSQUERY, { variables })
-		: {};
+	const usersList = data?.users?.edges || [];
 
-	const termsLists = data?.tags?.edges || data?.categories?.edges || [];
+	// ---- SAVE graphQLvariables ----
+	useEffect(() => {
+		if (!data) return;
+		setAttributes({
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string,
+			},
+		});
+	}, [data]);
 
 	const renderFilterPostsContent = () => {
-		if (option === "by_term_specific") {
+		if (filterDataBy === "by_specific") {
 			return (
-				<div className="w-full space-y-2.5">
-					{typeOfTerm === "category" && (
-						<InputSearchCategories
-							defaultValue={categories}
-							onChange={(categories) => setAttributes({ categories })}
-						/>
-					)}
-
-					{/* ------- */}
-					{typeOfTerm === "tag" && (
-						<InputSearchTags
-							defaultValue={tags}
-							onChange={(tags) => setAttributes({ tags })}
-						/>
-					)}
-				</div>
+				<InputSearchAuthors
+					defaultValue={userIds}
+					onChange={(userIds) => setAttributes({ userIds })}
+				/>
 			);
 		}
 
 		return (
 			<div className="w-full space-y-2.5">
+				<div className="w-full space-y-1">
+					<legend>{__("Choose user role-in", "ncmaz-core")}</legend>
+					<Select
+						placeholder="Select authors..."
+						isMulti
+						value={roleIn}
+						options={[
+							{ label: "ADMINISTRATOR", value: "ADMINISTRATOR" },
+							{ label: "AUTHOR", value: "AUTHOR" },
+							{ label: "CONTRIBUTOR", value: "CONTRIBUTOR" },
+							{ label: "EDITOR", value: "EDITOR" },
+							{ label: "SUBSCRIBER", value: "SUBSCRIBER" },
+						]}
+						onChange={(roleIn) => setAttributes({ roleIn })}
+					/>
+				</div>
+
 				<SelectControl
 					label={__("OrderBy", "ncmaz-core")}
 					value={orderBy}
 					options={[
-						{ label: "COUNT", value: "COUNT" },
-						{ label: "NAME", value: "NAME" },
-						{ label: "TERM_GROUP", value: "TERM_GROUP" },
-						{ label: "TERM_ID", value: "TERM_ID" },
-						{ label: "TERM_ORDER", value: "TERM_ORDER" },
+						{ label: "DISPLAY_NAME", value: "DISPLAY_NAME" },
+						{ label: "EMAIL", value: "EMAIL" },
+						{ label: "NICE_NAME", value: "NICE_NAME" },
+						{ label: "REGISTERED", value: "REGISTERED" },
 					]}
 					onChange={(orderBy) => setAttributes({ orderBy })}
 				/>
@@ -151,13 +146,13 @@ export default function Edit(props) {
 					<legend>{__("Number per page", "ncmaz-core")}</legend>
 					<NumberControl
 						isShiftStepEnabled={true}
-						onChange={(termsNumber) => {
-							setAttributes({ termsNumber: Number(termsNumber) });
-						}}
-						min={1}
+						onChange={(numberPerPage) =>
+							setAttributes({ numberPerPage: Number(numberPerPage) })
+						}
+						min={4}
 						max={30}
 						shiftStep={10}
-						value={termsNumber}
+						value={numberPerPage}
 					/>
 				</div>
 			</div>
@@ -168,15 +163,26 @@ export default function Edit(props) {
 		return (
 			<div className="space-y-2.5">
 				<SelectControl
-					label={__("Choose type of term card", "ncmaz-core")}
-					value={termCardName}
+					label={__("Choose block layout", "ncmaz-core")}
+					value={blockLayoutStyle}
 					options={[
-						{ label: "Term card 2", value: "card2" },
-						{ label: "Term card 3", value: "card3" },
-						{ label: "Term card 4", value: "card4" },
-						{ label: "Term card 5", value: "card5" },
+						{ label: "layout 1", value: "layout-1" },
+						{ label: "layout 2", value: "layout-2" },
 					]}
-					onChange={(termCardName) => setAttributes({ termCardName })}
+					onChange={(blockLayoutStyle) => {
+						setAttributes({ blockLayoutStyle });
+					}}
+				/>
+				<SelectControl
+					label={__("Choose type of user card", "ncmaz-core")}
+					value={userCardName}
+					options={[
+						{ label: "User card 1", value: "card1" },
+						{ label: "User card 2", value: "card2" },
+					]}
+					onChange={(userCardName) => {
+						setAttributes({ userCardName });
+					}}
 				/>
 
 				<div className="w-full space-y-1">
@@ -186,8 +192,8 @@ export default function Edit(props) {
 						onChange={(itemPerView) => {
 							setAttributes({ itemPerView: Number(itemPerView) });
 						}}
-						min={3}
-						max={6}
+						min={4}
+						max={7}
 						shiftStep={10}
 						value={itemPerView}
 					/>
@@ -229,30 +235,15 @@ export default function Edit(props) {
 						</PanelBody>
 						<PanelBody initialOpen={false} title="Filter data settings">
 							<PanelRow>
-								<div>
-									<RadioControl
-										label="Type of term"
-										selected={typeOfTerm}
-										options={[
-											{ label: "Category", value: "category" },
-											{ label: "Tag", value: "tag" },
-										]}
-										onChange={(typeOfTerm) => setAttributes({ typeOfTerm })}
-									/>
-									<div className="border-b border-gray-600 my-2"></div>
-									<RadioControl
-										label="Term query by"
-										selected={option}
-										options={[
-											{
-												label: "Select term by term specific",
-												value: "by_term_specific",
-											},
-											{ label: "Select term by filter", value: "by_filter" },
-										]}
-										onChange={(option) => setAttributes({ option })}
-									/>
-								</div>
+								<RadioControl
+									label="Users query by"
+									selected={filterDataBy}
+									options={[
+										{ label: "Select users specific", value: "by_specific" },
+										{ label: "Select users by filter", value: "by_filter" },
+									]}
+									onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+								/>
 							</PanelRow>
 							<div className="border-b border-gray-600 mt-3 mb-4"></div>
 							<PanelRow>{renderFilterPostsContent()}</PanelRow>
@@ -267,29 +258,16 @@ export default function Edit(props) {
 		return (
 			<div className={hasBackground ? "py-16" : ""}>
 				{hasBackground && <BackgroundSection />}
-				<SectionSliderNewCategories
-					uniqueClass={sectionId}
+
+				<SectionSliderNewAuthors
+					blockLayoutStyle={blockLayoutStyle}
+					userCardName={userCardName}
+					uniqueClass={clientId}
 					heading={heading}
 					subHeading={subHeading}
-					className=""
-					categoryCardType={termCardName}
-					itemClassName=""
-					categories={termsLists}
-					itemPerRow={itemPerView}
+					authors={usersList}
+					perView={itemPerView}
 				/>
-			</div>
-		);
-		return (
-			<div className="grid grid-cols-3 gap-5">
-				{termsLists.map(({ node }) => (
-					<div key={node.id} className="flex items-center space-x-2">
-						<span
-							className={"w-5 h-5"}
-							style={{ backgroundColor: node.ncTaxonomyMeta.color }}
-						></span>
-						<span>{node.name}</span>
-					</div>
-				))}
 			</div>
 		);
 	};
