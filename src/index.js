@@ -30,6 +30,9 @@ import BlockTermsGridSave from "./block-terms-grid/save";
 import BlockUsersSliderEdit from "./block-users-slider/edit";
 import BlockUsersSliderSave from "./block-users-slider/save";
 //
+import BlockUsersGridrEdit from "./block-users-grid/edit";
+import BlockUsersGridrSave from "./block-users-grid/save";
+//
 
 //
 const client = new ApolloClient({
@@ -154,7 +157,7 @@ registerBlockType("ncmaz-core/block-terms-slider", {
 	save: BlockTermSliderSave,
 	attributes: {
 		typeOfTerm: { type: "string", default: "category" },
-		option: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		termCardName: { type: "string", default: "card2" },
 		sectionId: { type: "string", default: "gutenberg_section_term_slider" },
 		itemPerView: { type: "number", default: 4 },
@@ -167,8 +170,10 @@ registerBlockType("ncmaz-core/block-terms-slider", {
 			type: "string",
 			default: "This is sub heading of section...",
 		},
-		termsNumber: { type: "number", default: 6 },
+		numberPerPage: { type: "number", default: 10 },
 		hasBackground: { type: "boolean", default: false },
+		//
+		graphQLvariables: { type: "object", default: {} },
 	},
 });
 
@@ -183,7 +188,7 @@ registerBlockType("ncmaz-core/block-terms-grid", {
 	),
 	save: BlockTermsGridSave,
 	attributes: {
-		blockLayoutType: { type: "string", default: "type-1" },
+		blockLayoutStyle: { type: "string", default: "layout-1" },
 		gridClass: {
 			type: "string",
 			default:
@@ -191,7 +196,7 @@ registerBlockType("ncmaz-core/block-terms-grid", {
 		},
 		gridClassCustom: { type: "string", default: "" },
 		typeOfTerm: { type: "string", default: "category" },
-		option: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		termCardName: { type: "string", default: "card2" },
 		sectionId: { type: "string", default: "gutenberg_section_term_grid" },
 		categories: { type: "array", default: [] },
@@ -203,8 +208,9 @@ registerBlockType("ncmaz-core/block-terms-grid", {
 			type: "string",
 			default: "This is sub heading of section...",
 		},
-		termsNumber: { type: "number", default: 10 },
+		numberPerPage: { type: "number", default: 10 },
 		hasBackground: { type: "boolean", default: false },
+		graphQLvariables: { type: "object", default: {} },
 	},
 });
 
@@ -239,6 +245,39 @@ registerBlockType("ncmaz-core/block-users-slider", {
 		graphQLvariables: { type: "object", default: {} },
 	},
 });
-
 //
 //
+registerBlockType("ncmaz-core/block-users-grid", {
+	title: "Ncmaz Block Users Grid",
+	edit: (props) => (
+		<ApolloProvider client={client}>
+			<BlockUsersGridrEdit {...props} />
+		</ApolloProvider>
+	),
+	save: BlockUsersGridrSave,
+	attributes: {
+		filterDataBy: { type: "string", default: "by_filter" },
+		numberPerPage: { type: "number", default: 10 },
+		orderBy: { type: "string", default: "REGISTERED" },
+		order: { type: "string", default: "DESC" },
+		userIds: { type: "array", default: [] },
+		roleIn: { type: "array", default: [] },
+		//
+		blockLayoutStyle: { type: "string", default: "layout-1" },
+		userCardName: { type: "string", default: "card2" },
+		gridClass: {
+			type: "string",
+			default:
+				"grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+		},
+		gridClassCustom: { type: "string", default: "" },
+		heading: { type: "string", default: "Heading of section slider" },
+		subHeading: {
+			type: "string",
+			default: "This is sub heading of section...",
+		},
+		hasBackground: { type: "boolean", default: false },
+		//
+		graphQLvariables: { type: "object", default: {} },
+	},
+});

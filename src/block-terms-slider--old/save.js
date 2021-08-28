@@ -4,34 +4,50 @@ import { useBlockProps } from "@wordpress/block-editor";
 export default function save(props) {
 	const { attributes } = props;
 	const {
-		filterDataBy,
-		numberPerPage,
-		order,
-		orderBy,
 		typeOfTerm,
+		termCardName,
+		termsNumber,
+		itemPerView,
+		sectionId,
+		option,
 		categories,
 		tags,
-		//
-		blockLayoutStyle,
-		termCardName,
+		orderBy,
+		order,
 		heading,
 		subHeading,
 		hasBackground,
-		itemPerView,
-		//
-		graphQLvariables,
 	} = attributes;
 
+	//
+	const uniqueId = "nc-block-posts-slider__" + sectionId;
+	//
+	let params = {};
+	//
+	const items = typeOfTerm === "tag" ? tags : categories;
+	if (option === "by_term_specific" && !!items && !!items.length) {
+		params = { termIds: items.map((item) => item.value) };
+	}
+	if (option === "by_filter") {
+		params = {
+			orderby: orderBy,
+			order,
+			per_page: termsNumber,
+		};
+	}
+
 	const ncGutenbergSectionsData = {
-		blockName: "nc-block-terms-grid",
-		graphQLvariables,
+		blockName: "nc-block-terms-slider",
+		endpoint: "/wp/v2/posts",
+		params,
+		option,
+		typeOfTerm,
 		settings: {
-			blockLayoutStyle,
+			itemPerView,
 			termCardName,
 			heading,
 			subHeading,
 			hasBackground,
-			itemPerView,
 		},
 	};
 

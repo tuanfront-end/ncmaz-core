@@ -4,34 +4,34 @@ import { useBlockProps } from "@wordpress/block-editor";
 export default function save(props) {
 	const { attributes } = props;
 	const {
-		filterDataBy,
-		numberPerPage,
-		order,
+		roleIn,
+		userIds,
 		orderBy,
-		typeOfTerm,
-		categories,
-		tags,
+		order,
+		numberPerPage,
 		//
 		blockLayoutStyle,
-		termCardName,
+		userCardName,
+		gridClass,
+		gridClassCustom,
 		heading,
 		subHeading,
 		hasBackground,
-		itemPerView,
 		//
 		graphQLvariables,
 	} = attributes;
 
 	const ncGutenbergSectionsData = {
-		blockName: "nc-block-terms-grid",
+		blockName: "nc-block-user-grid",
 		graphQLvariables,
 		settings: {
-			blockLayoutStyle,
-			termCardName,
+			userCardName,
+			gridClass,
+			gridClassCustom,
 			heading,
 			subHeading,
 			hasBackground,
-			itemPerView,
+			blockLayoutStyle,
 		},
 	};
 
@@ -39,7 +39,7 @@ export default function save(props) {
 		<div
 			{...useBlockProps.save()}
 			data-nc-gutenberg-section
-			data-nc-gutenberg-section-type="block-terms-slider"
+			data-nc-gutenberg-section-type="block-users-grid"
 			data-nc-gutenberg-section-api={JSON.stringify(ncGutenbergSectionsData)}
 		></div>
 	);

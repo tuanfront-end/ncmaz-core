@@ -31,14 +31,11 @@ import SectionSliderNewCategories from "../frontend-components/SectionSliderNewC
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
 import Select from "react-select";
 import SectionSliderNewAuthors from "../frontend-components/SectionSliderNewAthors/SectionSliderNewAuthors";
-import SectionGridAuthorBox from "../frontend-components/SectionGridAuthorBox/SectionGridAuthorBox";
 import {
-	TERMS_QUERY_FILTER_TAGS__string,
-	TERMS_QUERY_FILTER__string,
-	TERMS_QUERY_SPECIFIC_TAGS__string,
-	TERMS_QUERY_SPECIFIC__string,
+	USERS_QUERY_FILTER__string,
+	USERS_QUERY_SPECIFIC__string,
 } from "./queryGraphql";
-import SectionGridCategoryBox from "../frontend-components/SectionGridCategoryBox/SectionGridCategoryBox";
+import SectionGridAuthorBox from "../frontend-components/SectionGridAuthorBox/SectionGridAuthorBox";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -48,55 +45,36 @@ export default function Edit(props) {
 		numberPerPage,
 		order,
 		orderBy,
-		typeOfTerm,
-		categories,
-		tags,
+		userIds,
+		roleIn,
 		//
 		blockLayoutStyle,
-		termCardName,
+		userCardName,
 		heading,
 		subHeading,
 		hasBackground,
-		itemPerView,
+		gridClass,
+		gridClassCustom,
 		//
 		graphQLvariables,
 	} = attributes;
 
 	//
-	let GQL_QUERY__string = TERMS_QUERY_FILTER__string;
+	let GQL_QUERY__string = USERS_QUERY_FILTER__string;
 	let variables = {};
 	//
 
-	// CATEGORIES
-	if (typeOfTerm === "category") {
-		if (filterDataBy === "by_filter") {
-			variables = {
-				order,
-				orderby: orderBy,
-				first: Number(numberPerPage),
-			};
-			GQL_QUERY__string = TERMS_QUERY_FILTER__string;
-		} else {
-			variables = {
-				termTaxonomId: (categories || []).map((item) => item.value),
-			};
-			GQL_QUERY__string = TERMS_QUERY_SPECIFIC__string;
-		}
-	}
-
-	// TAGS;
-	if (typeOfTerm === "tag") {
-		if (filterDataBy === "by_filter") {
-			variables = {
-				order,
-				orderby: orderBy,
-				first: Number(numberPerPage),
-			};
-			GQL_QUERY__string = TERMS_QUERY_FILTER_TAGS__string;
-		} else {
-			variables = { termTaxonomId: (tags || []).map((item) => item.value) };
-			GQL_QUERY__string = TERMS_QUERY_SPECIFIC_TAGS__string;
-		}
+	if (filterDataBy === "by_specific") {
+		variables = { include: userIds.map((item) => item.value) };
+		GQL_QUERY__string = USERS_QUERY_SPECIFIC__string;
+	} else {
+		GQL_QUERY__string = USERS_QUERY_FILTER__string;
+		variables = {
+			first: numberPerPage,
+			field: orderBy,
+			order: order,
+			roleIn: roleIn.map((item) => item.value),
+		};
 	}
 
 	// =================== QUERY GRAPHQL ===================
@@ -105,7 +83,7 @@ export default function Edit(props) {
 	`;
 	const { loading, error, data } = useQuery(gqlQuery, { variables });
 
-	const dataLists = data?.tags?.edges || data?.categories?.edges || [];
+	const usersList = data?.users?.edges || [];
 
 	// ---- SAVE graphQLvariables ----
 	useEffect(() => {
@@ -121,36 +99,40 @@ export default function Edit(props) {
 	const renderFilterPostsContent = () => {
 		if (filterDataBy === "by_specific") {
 			return (
-				<div className="w-full space-y-2.5">
-					{typeOfTerm === "category" && (
-						<InputSearchCategories
-							defaultValue={categories}
-							onChange={(categories) => setAttributes({ categories })}
-						/>
-					)}
-
-					{/* ------- */}
-					{typeOfTerm === "tag" && (
-						<InputSearchTags
-							defaultValue={tags}
-							onChange={(tags) => setAttributes({ tags })}
-						/>
-					)}
-				</div>
+				<InputSearchAuthors
+					defaultValue={userIds}
+					onChange={(userIds) => setAttributes({ userIds })}
+				/>
 			);
 		}
 
 		return (
 			<div className="w-full space-y-2.5">
+				<div className="w-full space-y-1">
+					<legend>{__("Choose user role-in", "ncmaz-core")}</legend>
+					<Select
+						placeholder="Select authors..."
+						isMulti
+						value={roleIn}
+						options={[
+							{ label: "ADMINISTRATOR", value: "ADMINISTRATOR" },
+							{ label: "AUTHOR", value: "AUTHOR" },
+							{ label: "CONTRIBUTOR", value: "CONTRIBUTOR" },
+							{ label: "EDITOR", value: "EDITOR" },
+							{ label: "SUBSCRIBER", value: "SUBSCRIBER" },
+						]}
+						onChange={(roleIn) => setAttributes({ roleIn })}
+					/>
+				</div>
+
 				<SelectControl
 					label={__("OrderBy", "ncmaz-core")}
 					value={orderBy}
 					options={[
-						{ label: "COUNT", value: "COUNT" },
-						{ label: "NAME", value: "NAME" },
-						{ label: "TERM_GROUP", value: "TERM_GROUP" },
-						{ label: "TERM_ID", value: "TERM_ID" },
-						{ label: "TERM_ORDER", value: "TERM_ORDER" },
+						{ label: "DISPLAY_NAME", value: "DISPLAY_NAME" },
+						{ label: "EMAIL", value: "EMAIL" },
+						{ label: "NICE_NAME", value: "NICE_NAME" },
+						{ label: "REGISTERED", value: "REGISTERED" },
 					]}
 					onChange={(orderBy) => setAttributes({ orderBy })}
 				/>
@@ -194,30 +176,45 @@ export default function Edit(props) {
 					}}
 				/>
 				<SelectControl
-					label={__("Choose type of card", "ncmaz-core")}
-					value={termCardName}
+					label={__("Choose type of user card", "ncmaz-core")}
+					value={userCardName}
 					options={[
-						{ label: "Term card 2", value: "card2" },
-						{ label: "Term card 3", value: "card3" },
-						{ label: "Term card 4", value: "card4" },
-						{ label: "Term card 5", value: "card5" },
+						{ label: "User card 1", value: "card1" },
+						{ label: "User card 2", value: "card2" },
 					]}
-					onChange={(termCardName) => {
-						setAttributes({ termCardName });
+					onChange={(userCardName) => {
+						setAttributes({ userCardName });
 					}}
 				/>
 
-				<div className="w-full space-y-1">
-					<legend>{__("Slide items per view", "ncmaz-core")}</legend>
-					<NumberControl
-						isShiftStepEnabled={true}
-						onChange={(itemPerView) => {
-							setAttributes({ itemPerView: Number(itemPerView) });
-						}}
-						min={4}
-						max={7}
-						shiftStep={10}
-						value={itemPerView}
+				<SelectControl
+					label={__("Choose items per row", "ncmaz-core")}
+					value={gridClass}
+					options={[
+						{
+							label: "1 - sm:2 - md:3 - lg:4 - xl:5",
+							value:
+								"grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+						},
+						{
+							label: "1 - sm:2 - md:2 - lg:3 - xl:4",
+							value:
+								"grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+						},
+					]}
+					onChange={(gridClass) => setAttributes({ gridClass })}
+				/>
+
+				<div>
+					<TextControl
+						label={__("Items per row custom (advance)", "ncmaz-core")}
+						value={gridClassCustom}
+						type="text"
+						onChange={(gridClassCustom) => setAttributes({ gridClassCustom })}
+						help={__(
+							`If you enter this field will overwrite the field 'Choose items per row' above`,
+							"ncmaz-core"
+						)}
 					/>
 				</div>
 
@@ -257,27 +254,15 @@ export default function Edit(props) {
 						</PanelBody>
 						<PanelBody initialOpen={false} title="Filter data settings">
 							<PanelRow>
-								<div>
-									<RadioControl
-										label="Type of term"
-										selected={typeOfTerm}
-										options={[
-											{ label: "Category", value: "category" },
-											{ label: "Tag", value: "tag" },
-										]}
-										onChange={(typeOfTerm) => setAttributes({ typeOfTerm })}
-									/>
-									<div className="border-b border-gray-600 my-2"></div>
-									<RadioControl
-										label="Users query by"
-										selected={filterDataBy}
-										options={[
-											{ label: "Select users specific", value: "by_specific" },
-											{ label: "Select users by filter", value: "by_filter" },
-										]}
-										onChange={(filterDataBy) => setAttributes({ filterDataBy })}
-									/>
-								</div>
+								<RadioControl
+									label="Users query by"
+									selected={filterDataBy}
+									options={[
+										{ label: "Select users specific", value: "by_specific" },
+										{ label: "Select users by filter", value: "by_filter" },
+									]}
+									onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+								/>
 							</PanelRow>
 							<div className="border-b border-gray-600 mt-3 mb-4"></div>
 							<PanelRow>{renderFilterPostsContent()}</PanelRow>
@@ -293,15 +278,14 @@ export default function Edit(props) {
 			<div className={hasBackground ? "py-16" : ""}>
 				{hasBackground && <BackgroundSection />}
 
-				<SectionSliderNewCategories
+				<SectionGridAuthorBox
+					blockLayoutStyle={blockLayoutStyle}
+					userCardName={userCardName}
 					uniqueClass={clientId}
 					heading={heading}
 					subHeading={subHeading}
-					categoryCardType={termCardName}
-					categories={dataLists}
-					itemPerRow={itemPerView}
-					// gridClass={!!gridClassCustom ? gridClassCustom : gridClass}
-					// headingCenter={blockLayoutStyle === "layout-1"}
+					authors={usersList}
+					gridClass={!!gridClassCustom ? gridClassCustom : gridClass}
 				/>
 			</div>
 		);

@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { __ } from "@wordpress/i18n";
 import InputSearchPosts from "../components/InputSearchPosts";
 import InputSearchCategories from "../components/InputSearchCategories";
 import InputSearchTags from "../components/InputSearchTags";
-import { useEffect } from "@wordpress/element";
 import {
 	TextControl,
 	Panel,
@@ -27,87 +26,101 @@ import SelectOrder from "../components/SelectOrder";
 import InputNumberPerPage from "../components/InputNumberPerPage";
 import InputSearchAuthors from "../components/InputSearchAuthors";
 import SelectPostFormat from "../components/SelectPostFormat";
-import {
-	TERMSQUERY_FILTER,
-	TERMSQUERY_SPECIFIC,
-	TERMSQUERY_SPECIFIC_TAGS,
-	TERMSQUERY_FILTER_TAGS,
-} from "../graphql/termQuery";
 import { useQuery, gql } from "@apollo/client";
 import SectionSliderNewCategories from "../frontend-components/SectionSliderNewCategories/SectionSliderNewCategories";
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
+import Select from "react-select";
+import SectionSliderNewAuthors from "../frontend-components/SectionSliderNewAthors/SectionSliderNewAuthors";
+import SectionGridAuthorBox from "../frontend-components/SectionGridAuthorBox/SectionGridAuthorBox";
+import {
+	TERMS_QUERY_FILTER_TAGS__string,
+	TERMS_QUERY_FILTER__string,
+	TERMS_QUERY_SPECIFIC_TAGS__string,
+	TERMS_QUERY_SPECIFIC__string,
+} from "./queryGraphql";
 import SectionGridCategoryBox from "../frontend-components/SectionGridCategoryBox/SectionGridCategoryBox";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
-
 	//
 	const {
-		blockLayoutType,
-		gridClass,
-		gridClassCustom,
+		filterDataBy,
+		numberPerPage,
+		order,
+		orderBy,
 		typeOfTerm,
-		termCardName,
-		termsNumber,
-		sectionId,
-		option,
 		categories,
 		tags,
-		orderBy,
-		order,
+		//
+		blockLayoutStyle,
+		termCardName,
 		heading,
 		subHeading,
 		hasBackground,
+		gridClass,
+		gridClassCustom,
+		//
+		graphQLvariables,
 	} = attributes;
 
-	// SAVE ID SECTION
-	useEffect(() => {
-		setAttributes({ sectionId: clientId });
-	}, []);
-
-	let TERMSQUERY;
+	//
+	let GQL_QUERY__string = TERMS_QUERY_FILTER__string;
 	let variables = {};
+	//
 
 	// CATEGORIES
 	if (typeOfTerm === "category") {
-		if (option === "by_filter") {
+		if (filterDataBy === "by_filter") {
 			variables = {
 				order,
 				orderby: orderBy,
-				first: Number(termsNumber),
+				first: Number(numberPerPage),
 			};
-			TERMSQUERY = TERMSQUERY_FILTER;
+			GQL_QUERY__string = TERMS_QUERY_FILTER__string;
 		} else {
 			variables = {
 				termTaxonomId: (categories || []).map((item) => item.value),
 			};
-			TERMSQUERY = TERMSQUERY_SPECIFIC;
+			GQL_QUERY__string = TERMS_QUERY_SPECIFIC__string;
 		}
 	}
 
 	// TAGS;
 	if (typeOfTerm === "tag") {
-		if (option === "by_filter") {
+		if (filterDataBy === "by_filter") {
 			variables = {
 				order,
 				orderby: orderBy,
-				first: Number(termsNumber),
+				first: Number(numberPerPage),
 			};
-			TERMSQUERY = TERMSQUERY_FILTER_TAGS;
+			GQL_QUERY__string = TERMS_QUERY_FILTER_TAGS__string;
 		} else {
 			variables = { termTaxonomId: (tags || []).map((item) => item.value) };
-			TERMSQUERY = TERMSQUERY_SPECIFIC_TAGS;
+			GQL_QUERY__string = TERMS_QUERY_SPECIFIC_TAGS__string;
 		}
 	}
 
-	const { loading, error, data } = TERMSQUERY
-		? useQuery(TERMSQUERY, { variables })
-		: {};
+	// =================== QUERY GRAPHQL ===================
+	const gqlQuery = gql`
+		${GQL_QUERY__string}
+	`;
+	const { loading, error, data } = useQuery(gqlQuery, { variables });
 
-	const termsLists = data?.tags?.edges || data?.categories?.edges || [];
+	const dataLists = data?.tags?.edges || data?.categories?.edges || [];
+
+	// ---- SAVE graphQLvariables ----
+	useEffect(() => {
+		if (!data) return;
+		setAttributes({
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string,
+			},
+		});
+	}, [data]);
 
 	const renderFilterPostsContent = () => {
-		if (option === "by_term_specific") {
+		if (filterDataBy === "by_specific") {
 			return (
 				<div className="w-full space-y-2.5">
 					{typeOfTerm === "category" && (
@@ -154,13 +167,13 @@ export default function Edit(props) {
 					<legend>{__("Number per page", "ncmaz-core")}</legend>
 					<NumberControl
 						isShiftStepEnabled={true}
-						onChange={(termsNumber) => {
-							setAttributes({ termsNumber: Number(termsNumber) });
-						}}
-						min={1}
+						onChange={(numberPerPage) =>
+							setAttributes({ numberPerPage: Number(numberPerPage) })
+						}
+						min={4}
 						max={30}
 						shiftStep={10}
-						value={termsNumber}
+						value={numberPerPage}
 					/>
 				</div>
 			</div>
@@ -171,25 +184,29 @@ export default function Edit(props) {
 		return (
 			<div className="space-y-2.5">
 				<SelectControl
-					label={__("Choose type of block", "ncmaz-core")}
-					value={blockLayoutType}
+					label={__("Choose block layout", "ncmaz-core")}
+					value={blockLayoutStyle}
 					options={[
-						{ label: "Layout type 1", value: "type-1" },
-						{ label: "Layout type 2", value: "type-2" },
+						{ label: "layout 1", value: "layout-1" },
+						{ label: "layout 2", value: "layout-2" },
 					]}
-					onChange={(blockLayoutType) => setAttributes({ blockLayoutType })}
+					onChange={(blockLayoutStyle) => {
+						setAttributes({ blockLayoutStyle });
+					}}
 				/>
-
 				<SelectControl
-					label={__("Choose type of term card", "ncmaz-core")}
+					label={__("Choose type of card", "ncmaz-core")}
 					value={termCardName}
 					options={[
+						{ label: "Term card 1", value: "card1" },
 						{ label: "Term card 2", value: "card2" },
 						{ label: "Term card 3", value: "card3" },
 						{ label: "Term card 4", value: "card4" },
 						{ label: "Term card 5", value: "card5" },
 					]}
-					onChange={(termCardName) => setAttributes({ termCardName })}
+					onChange={(termCardName) => {
+						setAttributes({ termCardName });
+					}}
 				/>
 
 				<SelectControl
@@ -271,16 +288,13 @@ export default function Edit(props) {
 									/>
 									<div className="border-b border-gray-600 my-2"></div>
 									<RadioControl
-										label="Term query by"
-										selected={option}
+										label="Users query by"
+										selected={filterDataBy}
 										options={[
-											{
-												label: "Select term by term specific",
-												value: "by_term_specific",
-											},
-											{ label: "Select term by filter", value: "by_filter" },
+											{ label: "Select users specific", value: "by_specific" },
+											{ label: "Select users by filter", value: "by_filter" },
 										]}
-										onChange={(option) => setAttributes({ option })}
+										onChange={(filterDataBy) => setAttributes({ filterDataBy })}
 									/>
 								</div>
 							</PanelRow>
@@ -297,27 +311,15 @@ export default function Edit(props) {
 		return (
 			<div className={hasBackground ? "py-16" : ""}>
 				{hasBackground && <BackgroundSection />}
+
 				<SectionGridCategoryBox
 					heading={heading}
 					subHeading={subHeading}
 					categoryCardType={termCardName}
-					categories={termsLists}
+					categories={dataLists}
 					gridClass={!!gridClassCustom ? gridClassCustom : gridClass}
-					headingCenter={blockLayoutType === "type-2"}
+					headingCenter={blockLayoutStyle === "layout-1"}
 				/>
-			</div>
-		);
-		return (
-			<div className="grid grid-cols-3 gap-5">
-				{termsLists.map(({ node }) => (
-					<div key={node.id} className="flex items-center space-x-2">
-						<span
-							className={"w-5 h-5"}
-							style={{ backgroundColor: node.ncTaxonomyMeta.color }}
-						></span>
-						<span>{node.name}</span>
-					</div>
-				))}
 			</div>
 		);
 	};
