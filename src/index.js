@@ -56,8 +56,7 @@ registerBlockType("ncmaz-core/block-magazine", {
 	save: BlockMagazineSave,
 	attributes: {
 		sectionName: { type: "string", default: "magazine-1" },
-		sectionId: { type: "string", default: "gutenberg_section_id" },
-		option: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		posts: { type: "array", default: [] },
 		categories: { type: "array", default: [] },
 		authors: { type: "array", default: [] },
@@ -70,9 +69,11 @@ registerBlockType("ncmaz-core/block-magazine", {
 			type: "string",
 			default: "This is sub heading of section...",
 		},
-		postNumber: { type: "number", default: 6 },
+		numberPerPage: { type: "number", default: 10 },
 		showFilterTab: { type: "boolean", default: true },
 		hasBackground: { type: "boolean", default: false },
+		//
+		graphQLvariables: { type: "object", default: {} },
 	},
 });
 
@@ -86,11 +87,11 @@ registerBlockType("ncmaz-core/block-posts-slider", {
 	),
 	save: BlockPostsSliderSave,
 	attributes: {
-		blockLayoutType: { type: "string", default: "type-1" },
+		filterDataBy: { type: "string", default: "by_filter" },
+		blockLayoutStyle: { type: "string", default: "layout-1" },
 		postCardName: { type: "string", default: "card4" },
 		itemPerView: { type: "number", default: 4 },
 		sectionId: { type: "string", default: "gutenberg_section_id" },
-		option: { type: "string", default: "by_filter" },
 		posts: { type: "array", default: [] },
 		categories: { type: "array", default: [] },
 		authors: { type: "array", default: [] },
@@ -103,9 +104,11 @@ registerBlockType("ncmaz-core/block-posts-slider", {
 			type: "string",
 			default: "This is sub heading of section...",
 		},
-		postNumber: { type: "number", default: 6 },
+		numberPerPage: { type: "number", default: 10 },
 		showFilterTab: { type: "boolean", default: false },
 		hasBackground: { type: "boolean", default: false },
+		//
+		graphQLvariables: { type: "object", default: {} },
 	},
 });
 
@@ -119,29 +122,32 @@ registerBlockType("ncmaz-core/block-posts-grid", {
 	),
 	save: BlockPostsGridSave,
 	attributes: {
-		blockLayoutType: { type: "string", default: "type-1" },
-		postCardName: { type: "string", default: "card4" },
-		gridClass: {
-			type: "string",
-			default: "grid-cols-1 sm:grid-cols-2 lg:md:grid-cols-3 xl:grid-cols-4",
-		},
-		sectionId: { type: "string", default: "gutenberg_section_id" },
-		option: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		posts: { type: "array", default: [] },
 		categories: { type: "array", default: [] },
 		authors: { type: "array", default: [] },
 		tags: { type: "array", default: [] },
 		orderBy: { type: "string", default: "AUTHOR" },
 		order: { type: "string", default: "DESC" },
+		//
+		blockLayoutStyle: { type: "string", default: "layout-1" },
+		postCardName: { type: "string", default: "card4" },
+		gridClass: {
+			type: "string",
+			default: "grid-cols-1 sm:grid-cols-2 lg:md:grid-cols-3 xl:grid-cols-4",
+		},
+		gridClassCustom: { type: "string", default: "" },
 		viewMoreHref: { type: "string", default: "#" },
 		heading: { type: "string", default: "Heading of section grid" },
 		subHeading: {
 			type: "string",
 			default: "This is sub heading of section...",
 		},
-		postNumber: { type: "number", default: 8 },
+		numberPerPage: { type: "number", default: 10 },
 		showFilterTab: { type: "boolean", default: false },
 		hasBackground: { type: "boolean", default: false },
+		//
+		graphQLvariables: { type: "object", default: {} },
 	},
 });
 

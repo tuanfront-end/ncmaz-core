@@ -44974,6 +44974,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_InputNumberPerPage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/InputNumberPerPage */ "./src/components/InputNumberPerPage.js");
 /* harmony import */ var _components_InputSearchAuthors__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../components/InputSearchAuthors */ "./src/components/InputSearchAuthors.js");
 /* harmony import */ var _components_SelectPostFormat__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../components/SelectPostFormat */ "./src/components/SelectPostFormat.js");
+/* harmony import */ var _apollo_client__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @apollo/client */ "./node_modules/@apollo/client/index.js");
+/* harmony import */ var _queryGraphql__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./queryGraphql */ "./src/block-magazine/queryGraphql.js");
+
+
 
 
 
@@ -44989,6 +44993,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Edit(props) {
+  var _data$posts;
+
   const {
     attributes,
     setAttributes,
@@ -44996,31 +45002,72 @@ function Edit(props) {
   } = props; //
 
   const {
-    sectionId,
-    option,
+    filterDataBy,
     posts,
     categories,
     tags,
     orderBy,
     order,
-    postNumber,
+    numberPerPage,
     authors,
+    //
+    sectionName,
     showFilterTab,
     viewMoreHref,
     heading,
     subHeading,
     hasBackground,
-    sectionName
-  } = attributes; // SAVE ID SECTION
+    //
+    graphQLvariables
+  } = attributes; //
+
+  let GQL_QUERY__string = "";
+  let variables = {}; //
+
+  if (filterDataBy === "by_specific") {
+    variables = {
+      // arr posts Slugs
+      nameIn: (posts === null || posts === void 0 ? void 0 : posts.map(item => item.value)) || []
+    };
+    GQL_QUERY__string = _queryGraphql__WEBPACK_IMPORTED_MODULE_14__["POSTS_SECTION_SPECIFIC__string"];
+  } else {
+    GQL_QUERY__string = _queryGraphql__WEBPACK_IMPORTED_MODULE_14__["POSTS_SECTION_BY_FILTER__string"];
+    variables = {
+      // term IDs
+      categoryIn: (categories === null || categories === void 0 ? void 0 : categories.map(item => item.value)) || [],
+      tagIn: (tags === null || tags === void 0 ? void 0 : tags.map(item => item.value)) || [],
+      authorIn: (authors === null || authors === void 0 ? void 0 : authors.map(item => item.value)) || [],
+      order,
+      field: orderBy,
+      first: Number(numberPerPage)
+    };
+  } // =================== QUERY GRAPHQL ===================
+
+
+  const gqlQuery = _apollo_client__WEBPACK_IMPORTED_MODULE_13__["gql"]`
+		${GQL_QUERY__string}
+	`;
+  const {
+    loading,
+    error,
+    data
+  } = Object(_apollo_client__WEBPACK_IMPORTED_MODULE_13__["useQuery"])(gqlQuery, {
+    variables
+  });
+  const dataLists = (data === null || data === void 0 ? void 0 : (_data$posts = data.posts) === null || _data$posts === void 0 ? void 0 : _data$posts.edges) || []; // ---- SAVE graphQLvariables ----
 
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    if (!data) return;
     setAttributes({
-      sectionId: clientId
+      graphQLvariables: {
+        variables,
+        queryString: GQL_QUERY__string
+      }
     });
-  }, []); //
+  }, [data]); //
 
   const renderFilterPostsContent = () => {
-    if (option === "by_post_specific") {
+    if (filterDataBy === "by_specific") {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_InputSearchPosts__WEBPACK_IMPORTED_MODULE_3__["default"], {
         defaultValue: posts,
         onChange: posts => setAttributes({
@@ -45057,9 +45104,9 @@ function Edit(props) {
         order
       })
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_InputNumberPerPage__WEBPACK_IMPORTED_MODULE_10__["default"], {
-      defaultValue: postNumber,
-      onChange: postNumber => setAttributes({
-        postNumber
+      defaultValue: numberPerPage,
+      onChange: numberPerPage => setAttributes({
+        numberPerPage
       })
     }));
   };
@@ -45118,7 +45165,7 @@ function Edit(props) {
       onChange: subHeading => setAttributes({
         subHeading
       })
-    }), option !== "by_post_specific" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    }), filterDataBy !== "by_specific" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "w-full space-x-3 flex "
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["FormToggle"], {
       checked: showFilterTab,
@@ -45126,7 +45173,7 @@ function Edit(props) {
         showFilterTab: !showFilterTab
       }),
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Show filter tab", "ncmaz-core")
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Show filter tab", "ncmaz-core"))), option !== "by_post_specific" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Show filter tab", "ncmaz-core"))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("View more href", "ncmaz-core"),
       value: viewMoreHref,
       type: "url",
@@ -45142,39 +45189,215 @@ function Edit(props) {
       }),
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core")
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core"))));
+  };
+
+  const renderSidebarSetting = () => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["InspectorControls"], {
+      key: "setting"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      "data-type": "ncmaz-core/sidebar-settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Panel"], {
+      header: "Section settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+      title: "General Settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderGeneralSetting())), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+      initialOpen: false,
+      title: "Filter data settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
+      label: "Posts of the section",
+      selected: filterDataBy,
+      options: [{
+        label: "Select posts by specific",
+        value: "by_specific"
+      }, {
+        label: "Select posts by filter",
+        value: "by_filter"
+      }],
+      onChange: filterDataBy => setAttributes({
+        filterDataBy
+      })
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "border-b border-gray-600 mt-2 mb-4"
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent())))));
   }; //
 
 
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["useBlockProps"])(), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["InspectorControls"], {
-    key: "setting"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    "data-type": "ncmaz-core/sidebar-settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Panel"], {
-    header: "Section settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
-    title: "General Settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderGeneralSetting())), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
-    initialOpen: false,
-    title: "Filter data settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
-    label: "Posts of the section",
-    selected: option,
-    options: [{
-      label: "Select posts by post specific",
-      value: "by_post_specific"
-    }, {
-      label: "Select posts by filter",
-      value: "by_filter"
-    }],
-    onChange: option => setAttributes({
-      option
-    })
-  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "border-b border-gray-600 mt-2 mb-4"
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent()))))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "p-6 bg-indigo-200 text-3xl border border-black"
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("BLOCK MAGAZINE!", "ncmaz-core")));
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["useBlockProps"])(), renderSidebarSetting(), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "p-6 bg-pink-300  border border-black"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Sorry, preview mode is comming soon!", "ncmaz-core")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+    className: "text-3xl"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("BLOCK SECTION MAGAZINE", "ncmaz-core")), loading && "LOADING .....", error && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("pre", {
+    className: "text-xs text-red-500"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("code", null, JSON.stringify(error))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "post length: ", JSON.stringify(dataLists.length))));
 }
+
+/***/ }),
+
+/***/ "./src/block-magazine/queryGraphql.js":
+/*!********************************************!*\
+  !*** ./src/block-magazine/queryGraphql.js ***!
+  \********************************************/
+/*! exports provided: POSTS_SECTION_BY_FILTER__string, POSTS_SECTION_SPECIFIC__string */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POSTS_SECTION_BY_FILTER__string", function() { return POSTS_SECTION_BY_FILTER__string; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POSTS_SECTION_SPECIFIC__string", function() { return POSTS_SECTION_SPECIFIC__string; });
+const postFields = ` edges {
+  node {
+    id
+    link
+    author {
+      node {
+        id
+        avatar {
+          default
+          extraAttr
+          forceDefault
+          foundAvatar
+          height
+          size
+          url
+          width
+        }
+        url
+        uri
+        username
+        name
+        slug
+      }
+    }
+    categories {
+      edges {
+        node {
+          id
+          link
+          name
+          uri
+          slug
+          count
+          categoryId
+        }
+      }
+    }
+    commentCount
+    date
+    excerpt
+    featuredImage {
+      node {
+        id
+        altText
+        caption
+        sourceUrl
+      }
+    }
+    postFormats {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+    postId
+    slug
+    title
+    ncmazVideoUrl {
+      fieldGroupName
+      videoUrl
+    }
+    ncmazAudioUrl{
+      fieldGroupName
+      audioUrl
+    }
+    ncmazGalleryImgs{
+      fieldGroupName
+      image1 {
+        id
+        sourceUrl
+      }
+      image2 {
+        id
+        sourceUrl
+      }
+      image3 {
+        id
+        sourceUrl
+      }
+      image4 {
+        id
+        sourceUrl
+      }
+      image5 {
+        id
+        sourceUrl
+      }
+      image6 {
+        id
+        sourceUrl
+      }
+      image7 {
+        id
+        sourceUrl
+      }
+      image8 {
+        id
+        sourceUrl
+      }
+      image9 {
+        id
+        sourceUrl
+      }
+      image10 {
+        id
+        sourceUrl
+      }
+    }
+  }
+}`;
+const POSTS_SECTION_BY_FILTER__string = `
+  query MyQuery(
+    $field: PostObjectsConnectionOrderbyEnum = AUTHOR
+    $order: OrderEnum = ASC
+    $categoryIn: [ID] = ""
+    $tagIn: [ID] = ""
+    $authorIn: [ID] = ""
+    $last: Int = null
+    $first: Int = 10
+    $before: String = ""
+    $after: String = ""
+  ) {
+    posts(
+      where: {
+        orderby: { field: $field, order: $order }
+        categoryIn: $categoryIn
+        tagIn: $tagIn
+        authorIn: $authorIn
+      }
+      last: $last
+      first: $first
+      before: $before
+      after: $after
+    ) {
+     ${postFields}
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        endCursor
+        startCursor
+      }
+    }
+  }
+`;
+const POSTS_SECTION_SPECIFIC__string = `
+  query MyQuery($nameIn: [String] = "") {
+    posts(where: { nameIn: $nameIn }) {
+      ${postFields}
+    }
+  }
+`;
+
 
 /***/ }),
 
@@ -45205,63 +45428,41 @@ function save(props) {
     attributes
   } = props;
   const {
-    sectionId,
-    option,
+    filterDataBy,
     posts,
     categories,
     tags,
     orderBy,
     order,
-    postNumber,
-    authors = [],
+    numberPerPage,
+    authors,
+    //
+    sectionName,
     showFilterTab,
     viewMoreHref,
     heading,
     subHeading,
     hasBackground,
-    sectionName
+    //
+    graphQLvariables
   } = attributes; //
-
-  const uniqueId = "nc-block-magazine__" + sectionId; //
-
-  let params = {}; //
-
-  if (option === "by_post_specific" && !!posts && !!posts.length) {
-    params = {
-      slug: posts.map(item => item.value)
-    };
-  }
-
-  if (option === "by_filter") {
-    params = {
-      categories: categories.map(item => item.value),
-      tags: tags.map(item => item.value),
-      author: authors.map(item => item.value),
-      orderby: orderBy,
-      order,
-      per_page: postNumber
-    };
-  }
 
   const ncGutenbergSectionsData = {
     blockName: "nc-block-magazine",
-    endpoint: "/wp/v2/posts",
-    params,
-    option,
+    graphQLvariables,
     settings: {
       sectionName,
+      showFilterTab,
+      viewMoreHref,
       heading,
       subHeading,
-      viewMoreHref,
-      showFilterTab,
       hasBackground,
-      categoriesFilter: categories
+      categories
     }
   };
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"].save(), {
     "data-nc-gutenberg-section": true,
     "data-nc-gutenberg-section-type": "block-magazine",
-    "data-nc-gutenberg-section-id": uniqueId,
     "data-nc-gutenberg-section-api": JSON.stringify(ncGutenbergSectionsData)
   }));
 }
@@ -45296,6 +45497,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_InputNumberPerPage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/InputNumberPerPage */ "./src/components/InputNumberPerPage.js");
 /* harmony import */ var _components_InputSearchAuthors__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../components/InputSearchAuthors */ "./src/components/InputSearchAuthors.js");
 /* harmony import */ var _components_SelectPostFormat__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../components/SelectPostFormat */ "./src/components/SelectPostFormat.js");
+/* harmony import */ var _apollo_client__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @apollo/client */ "./node_modules/@apollo/client/index.js");
+/* harmony import */ var _queryGraphql__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./queryGraphql */ "./src/block-posts-grid/queryGraphql.js");
+
+
 
 
 
@@ -45311,6 +45516,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Edit(props) {
+  var _data$posts;
+
   const {
     attributes,
     setAttributes,
@@ -45318,33 +45525,75 @@ function Edit(props) {
   } = props; //
 
   const {
-    postCardName,
-    blockLayoutType,
-    gridClass,
-    sectionId,
-    option,
+    filterDataBy,
     posts,
     categories,
     tags,
     orderBy,
     order,
-    postNumber,
+    numberPerPage,
     authors,
+    //
+    blockLayoutStyle,
+    postCardName,
+    gridClass,
+    gridClassCustom,
     showFilterTab,
     viewMoreHref,
     heading,
     subHeading,
-    hasBackground
-  } = attributes; // SAVE ID SECTION
+    hasBackground,
+    //
+    graphQLvariables
+  } = attributes; //
+
+  let GQL_QUERY__string = "";
+  let variables = {}; //
+
+  if (filterDataBy === "by_specific") {
+    variables = {
+      // arr posts Slugs
+      nameIn: (posts === null || posts === void 0 ? void 0 : posts.map(item => item.value)) || []
+    };
+    GQL_QUERY__string = _queryGraphql__WEBPACK_IMPORTED_MODULE_14__["POSTS_SECTION_SPECIFIC__string"];
+  } else {
+    GQL_QUERY__string = _queryGraphql__WEBPACK_IMPORTED_MODULE_14__["POSTS_SECTION_BY_FILTER__string"];
+    variables = {
+      // term IDs
+      categoryIn: (categories === null || categories === void 0 ? void 0 : categories.map(item => item.value)) || [],
+      tagIn: (tags === null || tags === void 0 ? void 0 : tags.map(item => item.value)) || [],
+      authorIn: (authors === null || authors === void 0 ? void 0 : authors.map(item => item.value)) || [],
+      order,
+      field: orderBy,
+      first: Number(numberPerPage)
+    };
+  } // =================== QUERY GRAPHQL ===================
+
+
+  const gqlQuery = _apollo_client__WEBPACK_IMPORTED_MODULE_13__["gql"]`
+		${GQL_QUERY__string}
+	`;
+  const {
+    loading,
+    error,
+    data
+  } = Object(_apollo_client__WEBPACK_IMPORTED_MODULE_13__["useQuery"])(gqlQuery, {
+    variables
+  });
+  const dataLists = (data === null || data === void 0 ? void 0 : (_data$posts = data.posts) === null || _data$posts === void 0 ? void 0 : _data$posts.edges) || []; // ---- SAVE graphQLvariables ----
 
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    if (!data) return;
     setAttributes({
-      sectionId: clientId
+      graphQLvariables: {
+        variables,
+        queryString: GQL_QUERY__string
+      }
     });
-  }, []); //
+  }, [data]); //
 
   const renderFilterPostsContent = () => {
-    if (option === "by_post_specific") {
+    if (filterDataBy === "by_specific") {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_InputSearchPosts__WEBPACK_IMPORTED_MODULE_3__["default"], {
         defaultValue: posts,
         onChange: posts => setAttributes({
@@ -45381,9 +45630,9 @@ function Edit(props) {
         order
       })
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_InputNumberPerPage__WEBPACK_IMPORTED_MODULE_10__["default"], {
-      defaultValue: postNumber,
-      onChange: postNumber => setAttributes({
-        postNumber
+      defaultValue: numberPerPage,
+      onChange: numberPerPage => setAttributes({
+        numberPerPage
       })
     }));
   };
@@ -45393,16 +45642,16 @@ function Edit(props) {
       className: "space-y-2.5"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["SelectControl"], {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Choose type of block", "ncmaz-core"),
-      value: blockLayoutType,
+      value: blockLayoutStyle,
       options: [{
         label: "Layout type 1",
-        value: "type-1"
+        value: "layout-1"
       }, {
         label: "Layout type 2",
-        value: "type-2"
+        value: "layout-2"
       }],
-      onChange: blockLayoutType => setAttributes({
-        blockLayoutType
+      onChange: blockLayoutStyle => setAttributes({
+        blockLayoutStyle
       })
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["SelectControl"], {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Choose type of post card", "ncmaz-core"),
@@ -45451,7 +45700,15 @@ function Edit(props) {
       onChange: gridClass => setAttributes({
         gridClass
       })
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Items per row custom (advance)", "ncmaz-core"),
+      value: gridClassCustom,
+      type: "text",
+      onChange: gridClassCustom => setAttributes({
+        gridClassCustom
+      }),
+      help: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])(`If you enter this field will overwrite the field 'Choose items per row' above`, "ncmaz-core")
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Heading", "ncmaz-core"),
       value: heading,
       type: "text",
@@ -45465,7 +45722,7 @@ function Edit(props) {
       onChange: subHeading => setAttributes({
         subHeading
       })
-    }), option !== "by_post_specific" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    }), filterDataBy !== "by_specific" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "w-full space-x-3 flex "
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["FormToggle"], {
       checked: showFilterTab,
@@ -45489,39 +45746,215 @@ function Edit(props) {
       }),
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core")
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core"))));
+  };
+
+  const renderSidebarSetting = () => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["InspectorControls"], {
+      key: "setting"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      "data-type": "ncmaz-core/sidebar-settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Panel"], {
+      header: "Section settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+      title: "General Settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderGeneralSetting())), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+      initialOpen: false,
+      title: "Filter data settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
+      label: "Posts of the section",
+      selected: filterDataBy,
+      options: [{
+        label: "Select posts by specific",
+        value: "by_specific"
+      }, {
+        label: "Select posts by filter",
+        value: "by_filter"
+      }],
+      onChange: filterDataBy => setAttributes({
+        filterDataBy
+      })
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "border-b border-gray-600 mt-2 mb-4"
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent())))));
   }; //
 
 
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["useBlockProps"])(), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["InspectorControls"], {
-    key: "setting"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    "data-type": "ncmaz-core/sidebar-settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Panel"], {
-    header: "Section settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
-    title: "General Settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderGeneralSetting())), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
-    initialOpen: false,
-    title: "Filter data settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
-    label: "Posts of the section",
-    selected: option,
-    options: [{
-      label: "Select posts by post specific",
-      value: "by_post_specific"
-    }, {
-      label: "Select posts by filter",
-      value: "by_filter"
-    }],
-    onChange: option => setAttributes({
-      option
-    })
-  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "border-b border-gray-600 mt-2 mb-4"
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent()))))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "p-6 bg-yellow-500 text-3xl border border-black"
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("BLOCK POSTS GRID", "ncmaz-core")));
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["useBlockProps"])(), renderSidebarSetting(), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "p-6 bg-blue-300  border border-black"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Sorry, preview mode is comming soon!", "ncmaz-core")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+    className: "text-3xl"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("BLOCK POSTS GRID", "ncmaz-core")), loading && "LOADING .....", error && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("pre", {
+    className: "text-xs text-red-500"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("code", null, JSON.stringify(error))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "post length: ", JSON.stringify(dataLists.length))));
 }
+
+/***/ }),
+
+/***/ "./src/block-posts-grid/queryGraphql.js":
+/*!**********************************************!*\
+  !*** ./src/block-posts-grid/queryGraphql.js ***!
+  \**********************************************/
+/*! exports provided: POSTS_SECTION_BY_FILTER__string, POSTS_SECTION_SPECIFIC__string */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POSTS_SECTION_BY_FILTER__string", function() { return POSTS_SECTION_BY_FILTER__string; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POSTS_SECTION_SPECIFIC__string", function() { return POSTS_SECTION_SPECIFIC__string; });
+const postFields = ` edges {
+  node {
+    id
+    link
+    author {
+      node {
+        id
+        avatar {
+          default
+          extraAttr
+          forceDefault
+          foundAvatar
+          height
+          size
+          url
+          width
+        }
+        url
+        uri
+        username
+        name
+        slug
+      }
+    }
+    categories {
+      edges {
+        node {
+          id
+          link
+          name
+          uri
+          slug
+          count
+          categoryId
+        }
+      }
+    }
+    commentCount
+    date
+    excerpt
+    featuredImage {
+      node {
+        id
+        altText
+        caption
+        sourceUrl
+      }
+    }
+    postFormats {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+    postId
+    slug
+    title
+    ncmazVideoUrl {
+      fieldGroupName
+      videoUrl
+    }
+    ncmazAudioUrl{
+      fieldGroupName
+      audioUrl
+    }
+    ncmazGalleryImgs{
+      fieldGroupName
+      image1 {
+        id
+        sourceUrl
+      }
+      image2 {
+        id
+        sourceUrl
+      }
+      image3 {
+        id
+        sourceUrl
+      }
+      image4 {
+        id
+        sourceUrl
+      }
+      image5 {
+        id
+        sourceUrl
+      }
+      image6 {
+        id
+        sourceUrl
+      }
+      image7 {
+        id
+        sourceUrl
+      }
+      image8 {
+        id
+        sourceUrl
+      }
+      image9 {
+        id
+        sourceUrl
+      }
+      image10 {
+        id
+        sourceUrl
+      }
+    }
+  }
+}`;
+const POSTS_SECTION_BY_FILTER__string = `
+  query MyQuery(
+    $field: PostObjectsConnectionOrderbyEnum = AUTHOR
+    $order: OrderEnum = ASC
+    $categoryIn: [ID] = ""
+    $tagIn: [ID] = ""
+    $authorIn: [ID] = ""
+    $last: Int = null
+    $first: Int = 10
+    $before: String = ""
+    $after: String = ""
+  ) {
+    posts(
+      where: {
+        orderby: { field: $field, order: $order }
+        categoryIn: $categoryIn
+        tagIn: $tagIn
+        authorIn: $authorIn
+      }
+      last: $last
+      first: $first
+      before: $before
+      after: $after
+    ) {
+     ${postFields}
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        endCursor
+        startCursor
+      }
+    }
+  }
+`;
+const POSTS_SECTION_SPECIFIC__string = `
+  query MyQuery($nameIn: [String] = "") {
+    posts(where: { nameIn: $nameIn }) {
+      ${postFields}
+    }
+  }
+`;
+
 
 /***/ }),
 
@@ -45552,67 +45985,47 @@ function save(props) {
     attributes
   } = props;
   const {
-    sectionId,
-    option,
+    filterDataBy,
     posts,
     categories,
     tags,
     orderBy,
     order,
-    postNumber,
-    authors = [],
+    numberPerPage,
+    authors,
+    //
+    blockLayoutStyle,
+    postCardName,
+    gridClass,
+    gridClassCustom,
     showFilterTab,
     viewMoreHref,
     heading,
     subHeading,
     hasBackground,
-    postCardName,
-    blockLayoutType,
-    gridClass
+    //
+    graphQLvariables
   } = attributes; //
 
-  const uniqueId = "nc-block-posts-grid__" + sectionId; //
-
-  let params = {}; //
-
-  if (option === "by_post_specific" && !!posts && !!posts.length) {
-    params = {
-      slug: posts.map(item => item.value)
-    };
-  }
-
-  if (option === "by_filter") {
-    params = {
-      categories: categories.map(item => item.value),
-      tags: tags.map(item => item.value),
-      author: authors.map(item => item.value),
-      orderby: orderBy,
-      order,
-      per_page: postNumber
-    };
-  }
-
   const ncGutenbergSectionsData = {
-    blockName: "nc-block-posts-slider",
-    endpoint: "/wp/v2/posts",
-    params,
-    option,
+    blockName: "nc-block-posts-grid",
+    graphQLvariables,
     settings: {
-      blockLayoutType,
-      gridClass,
+      blockLayoutStyle,
       postCardName,
+      gridClass,
+      gridClassCustom,
+      showFilterTab,
+      viewMoreHref,
       heading,
       subHeading,
-      viewMoreHref,
-      showFilterTab,
       hasBackground,
-      categoriesFilter: categories
+      categories
     }
   };
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"].save(), {
     "data-nc-gutenberg-section": true,
     "data-nc-gutenberg-section-type": "block-posts-grid",
-    "data-nc-gutenberg-section-id": uniqueId,
     "data-nc-gutenberg-section-api": JSON.stringify(ncGutenbergSectionsData)
   }));
 }
@@ -45647,6 +46060,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_InputNumberPerPage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/InputNumberPerPage */ "./src/components/InputNumberPerPage.js");
 /* harmony import */ var _components_InputSearchAuthors__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../components/InputSearchAuthors */ "./src/components/InputSearchAuthors.js");
 /* harmony import */ var _components_SelectPostFormat__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../components/SelectPostFormat */ "./src/components/SelectPostFormat.js");
+/* harmony import */ var _apollo_client__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @apollo/client */ "./node_modules/@apollo/client/index.js");
+/* harmony import */ var _queryGraphql__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./queryGraphql */ "./src/block-posts-slider/queryGraphql.js");
+
+
 
 
 
@@ -45662,6 +46079,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Edit(props) {
+  var _data$posts;
+
   const {
     attributes,
     setAttributes,
@@ -45669,33 +46088,74 @@ function Edit(props) {
   } = props; //
 
   const {
-    postCardName,
-    blockLayoutType,
-    itemPerView,
-    sectionId,
-    option,
+    filterDataBy,
     posts,
     categories,
     tags,
     orderBy,
     order,
-    postNumber,
+    numberPerPage,
     authors,
+    //
+    blockLayoutStyle,
+    postCardName,
+    itemPerView,
     showFilterTab,
     viewMoreHref,
     heading,
     subHeading,
-    hasBackground
-  } = attributes; // SAVE ID SECTION
+    hasBackground,
+    //
+    graphQLvariables
+  } = attributes; //
+
+  let GQL_QUERY__string = "";
+  let variables = {}; //
+
+  if (filterDataBy === "by_specific") {
+    variables = {
+      // arr posts Slugs
+      nameIn: (posts === null || posts === void 0 ? void 0 : posts.map(item => item.value)) || []
+    };
+    GQL_QUERY__string = _queryGraphql__WEBPACK_IMPORTED_MODULE_14__["POSTS_SECTION_SPECIFIC__string"];
+  } else {
+    GQL_QUERY__string = _queryGraphql__WEBPACK_IMPORTED_MODULE_14__["POSTS_SECTION_BY_FILTER__string"];
+    variables = {
+      // term IDs
+      categoryIn: (categories === null || categories === void 0 ? void 0 : categories.map(item => item.value)) || [],
+      tagIn: (tags === null || tags === void 0 ? void 0 : tags.map(item => item.value)) || [],
+      authorIn: (authors === null || authors === void 0 ? void 0 : authors.map(item => item.value)) || [],
+      order,
+      field: orderBy,
+      first: Number(numberPerPage)
+    };
+  } // =================== QUERY GRAPHQL ===================
+
+
+  const gqlQuery = _apollo_client__WEBPACK_IMPORTED_MODULE_13__["gql"]`
+		${GQL_QUERY__string}
+	`;
+  const {
+    loading,
+    error,
+    data
+  } = Object(_apollo_client__WEBPACK_IMPORTED_MODULE_13__["useQuery"])(gqlQuery, {
+    variables
+  });
+  const dataLists = (data === null || data === void 0 ? void 0 : (_data$posts = data.posts) === null || _data$posts === void 0 ? void 0 : _data$posts.edges) || []; // ---- SAVE graphQLvariables ----
 
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    if (!data) return;
     setAttributes({
-      sectionId: clientId
+      graphQLvariables: {
+        variables,
+        queryString: GQL_QUERY__string
+      }
     });
-  }, []); //
+  }, [data]); //
 
   const renderFilterPostsContent = () => {
-    if (option === "by_post_specific") {
+    if (filterDataBy === "by_specific") {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_InputSearchPosts__WEBPACK_IMPORTED_MODULE_3__["default"], {
         defaultValue: posts,
         onChange: posts => setAttributes({
@@ -45732,9 +46192,9 @@ function Edit(props) {
         order
       })
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_InputNumberPerPage__WEBPACK_IMPORTED_MODULE_10__["default"], {
-      defaultValue: postNumber,
-      onChange: postNumber => setAttributes({
-        postNumber
+      defaultValue: numberPerPage,
+      onChange: numberPerPage => setAttributes({
+        numberPerPage
       })
     }));
   };
@@ -45744,21 +46204,24 @@ function Edit(props) {
       className: "space-y-2.5"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["SelectControl"], {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Choose type of block", "ncmaz-core"),
-      value: blockLayoutType,
+      value: blockLayoutStyle,
       options: [{
         label: "Layout type 1",
-        value: "type-1"
+        value: "layout-1"
       }, {
         label: "Layout type 2",
-        value: "type-2"
+        value: "layout-2"
       }],
-      onChange: blockLayoutType => setAttributes({
-        blockLayoutType
+      onChange: blockLayoutStyle => setAttributes({
+        blockLayoutStyle
       })
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["SelectControl"], {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Choose type of post card", "ncmaz-core"),
       value: postCardName,
       options: [{
+        label: "Post card 3",
+        value: "card3"
+      }, {
         label: "Post card 4",
         value: "card4"
       }, {
@@ -45768,6 +46231,9 @@ function Edit(props) {
         label: "Post card 9",
         value: "card9"
       }, {
+        label: "Post card 10",
+        value: "card10"
+      }, {
         label: "Post card 10V2",
         value: "card10V2"
       }, {
@@ -45776,6 +46242,9 @@ function Edit(props) {
       }, {
         label: "Post card 14",
         value: "card14"
+      }, {
+        label: "Post card 15-Podcast",
+        value: "card15Podcast"
       }],
       onChange: postCardName => setAttributes({
         postCardName
@@ -45807,7 +46276,7 @@ function Edit(props) {
       onChange: subHeading => setAttributes({
         subHeading
       })
-    }), option !== "by_post_specific" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    }), filterDataBy !== "by_specific" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "w-full space-x-3 flex "
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["FormToggle"], {
       checked: showFilterTab,
@@ -45815,7 +46284,7 @@ function Edit(props) {
         showFilterTab: !showFilterTab
       }),
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Show filter tab", "ncmaz-core")
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Show filter tab", "ncmaz-core"))), option !== "by_post_specific" && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Show filter tab", "ncmaz-core"))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["TextControl"], {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("View more href", "ncmaz-core"),
       value: viewMoreHref,
       type: "url",
@@ -45831,39 +46300,215 @@ function Edit(props) {
       }),
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core")
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Enable Background", "ncmaz-core"))));
+  };
+
+  const renderSidebarSetting = () => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["InspectorControls"], {
+      key: "setting"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      "data-type": "ncmaz-core/sidebar-settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Panel"], {
+      header: "Section settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+      title: "General Settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderGeneralSetting())), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
+      initialOpen: false,
+      title: "Filter data settings"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
+      label: "Posts of the section",
+      selected: filterDataBy,
+      options: [{
+        label: "Select posts by specific",
+        value: "by_specific"
+      }, {
+        label: "Select posts by filter",
+        value: "by_filter"
+      }],
+      onChange: filterDataBy => setAttributes({
+        filterDataBy
+      })
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "border-b border-gray-600 mt-2 mb-4"
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent())))));
   }; //
 
 
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["useBlockProps"])(), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["InspectorControls"], {
-    key: "setting"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    "data-type": "ncmaz-core/sidebar-settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Panel"], {
-    header: "Section settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
-    title: "General Settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderGeneralSetting())), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelBody"], {
-    initialOpen: false,
-    title: "Filter data settings"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
-    label: "Posts of the section",
-    selected: option,
-    options: [{
-      label: "Select posts by post specific",
-      value: "by_post_specific"
-    }, {
-      label: "Select posts by filter",
-      value: "by_filter"
-    }],
-    onChange: option => setAttributes({
-      option
-    })
-  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "border-b border-gray-600 mt-2 mb-4"
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent()))))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "p-6 bg-green-300 text-3xl border border-black"
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("BLOCK POSTS SLIDER", "ncmaz-core")));
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["useBlockProps"])(), renderSidebarSetting(), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "p-6 bg-green-300  border border-black"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Sorry, preview mode is comming soon!", "ncmaz-core")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+    className: "text-3xl"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("BLOCK POSTS SLIDER", "ncmaz-core")), loading && "LOADING .....", error && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("pre", {
+    className: "text-xs text-red-500"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("code", null, JSON.stringify(error))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "post length: ", JSON.stringify(dataLists.length))));
 }
+
+/***/ }),
+
+/***/ "./src/block-posts-slider/queryGraphql.js":
+/*!************************************************!*\
+  !*** ./src/block-posts-slider/queryGraphql.js ***!
+  \************************************************/
+/*! exports provided: POSTS_SECTION_BY_FILTER__string, POSTS_SECTION_SPECIFIC__string */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POSTS_SECTION_BY_FILTER__string", function() { return POSTS_SECTION_BY_FILTER__string; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POSTS_SECTION_SPECIFIC__string", function() { return POSTS_SECTION_SPECIFIC__string; });
+const postFields = ` edges {
+  node {
+    id
+    link
+    author {
+      node {
+        id
+        avatar {
+          default
+          extraAttr
+          forceDefault
+          foundAvatar
+          height
+          size
+          url
+          width
+        }
+        url
+        uri
+        username
+        name
+        slug
+      }
+    }
+    categories {
+      edges {
+        node {
+          id
+          link
+          name
+          uri
+          slug
+          count
+          categoryId
+        }
+      }
+    }
+    commentCount
+    date
+    excerpt
+    featuredImage {
+      node {
+        id
+        altText
+        caption
+        sourceUrl
+      }
+    }
+    postFormats {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+    postId
+    slug
+    title
+    ncmazVideoUrl {
+      fieldGroupName
+      videoUrl
+    }
+    ncmazAudioUrl{
+      fieldGroupName
+      audioUrl
+    }
+    ncmazGalleryImgs{
+      fieldGroupName
+      image1 {
+        id
+        sourceUrl
+      }
+      image2 {
+        id
+        sourceUrl
+      }
+      image3 {
+        id
+        sourceUrl
+      }
+      image4 {
+        id
+        sourceUrl
+      }
+      image5 {
+        id
+        sourceUrl
+      }
+      image6 {
+        id
+        sourceUrl
+      }
+      image7 {
+        id
+        sourceUrl
+      }
+      image8 {
+        id
+        sourceUrl
+      }
+      image9 {
+        id
+        sourceUrl
+      }
+      image10 {
+        id
+        sourceUrl
+      }
+    }
+  }
+}`;
+const POSTS_SECTION_BY_FILTER__string = `
+  query MyQuery(
+    $field: PostObjectsConnectionOrderbyEnum = AUTHOR
+    $order: OrderEnum = ASC
+    $categoryIn: [ID] = ""
+    $tagIn: [ID] = ""
+    $authorIn: [ID] = ""
+    $last: Int = null
+    $first: Int = 10
+    $before: String = ""
+    $after: String = ""
+  ) {
+    posts(
+      where: {
+        orderby: { field: $field, order: $order }
+        categoryIn: $categoryIn
+        tagIn: $tagIn
+        authorIn: $authorIn
+      }
+      last: $last
+      first: $first
+      before: $before
+      after: $after
+    ) {
+     ${postFields}
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        endCursor
+        startCursor
+      }
+    }
+  }
+`;
+const POSTS_SECTION_SPECIFIC__string = `
+  query MyQuery($nameIn: [String] = "") {
+    posts(where: { nameIn: $nameIn }) {
+      ${postFields}
+    }
+  }
+`;
+
 
 /***/ }),
 
@@ -45894,67 +46539,45 @@ function save(props) {
     attributes
   } = props;
   const {
-    sectionId,
-    option,
+    filterDataBy,
     posts,
     categories,
     tags,
     orderBy,
     order,
-    postNumber,
-    authors = [],
+    numberPerPage,
+    authors,
+    //
+    blockLayoutStyle,
+    postCardName,
+    itemPerView,
     showFilterTab,
     viewMoreHref,
     heading,
     subHeading,
     hasBackground,
-    postCardName,
-    blockLayoutType,
-    itemPerView
+    //
+    graphQLvariables
   } = attributes; //
-
-  const uniqueId = "nc-block-posts-slider__" + sectionId; //
-
-  let params = {}; //
-
-  if (option === "by_post_specific" && !!posts && !!posts.length) {
-    params = {
-      slug: posts.map(item => item.value)
-    };
-  }
-
-  if (option === "by_filter") {
-    params = {
-      categories: categories.map(item => item.value),
-      tags: tags.map(item => item.value),
-      author: authors.map(item => item.value),
-      orderby: orderBy,
-      order,
-      per_page: postNumber
-    };
-  }
 
   const ncGutenbergSectionsData = {
     blockName: "nc-block-posts-slider",
-    endpoint: "/wp/v2/posts",
-    params,
-    option,
+    graphQLvariables,
     settings: {
-      blockLayoutType,
-      itemPerView,
+      blockLayoutStyle,
       postCardName,
+      itemPerView,
+      showFilterTab,
+      viewMoreHref,
       heading,
       subHeading,
-      viewMoreHref,
-      showFilterTab,
       hasBackground,
-      categoriesFilter: categories
+      categories
     }
   };
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"].save(), {
     "data-nc-gutenberg-section": true,
     "data-nc-gutenberg-section-type": "block-posts-slider",
-    "data-nc-gutenberg-section-id": uniqueId,
     "data-nc-gutenberg-section-api": JSON.stringify(ncGutenbergSectionsData)
   }));
 }
@@ -48102,9 +48725,12 @@ const InputSearchCategories = ({
       });
       setIsState("done");
       const converted = response.data.reduce((obj, item) => ({ ...obj,
-        [item.slug]: { ...item,
+        [item.slug]: {
+          id: item.id,
+          slug: item.slug,
           value: item.id,
-          label: item.name
+          label: item.name,
+          name: item.name
         }
       }), {});
       setObjData({ ...objData,
@@ -49703,11 +50329,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
       type: "string",
       default: "magazine-1"
     },
-    sectionId: {
-      type: "string",
-      default: "gutenberg_section_id"
-    },
-    option: {
+    filterDataBy: {
       type: "string",
       default: "by_filter"
     },
@@ -49747,9 +50369,9 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
       type: "string",
       default: "This is sub heading of section..."
     },
-    postNumber: {
+    numberPerPage: {
       type: "number",
-      default: 6
+      default: 10
     },
     showFilterTab: {
       type: "boolean",
@@ -49758,6 +50380,11 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     hasBackground: {
       type: "boolean",
       default: false
+    },
+    //
+    graphQLvariables: {
+      type: "object",
+      default: {}
     }
   }
 }); //
@@ -49769,9 +50396,13 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_posts_slider_edit__WEBPACK_IMPORTED_MODULE_6__["default"], props)),
   save: _block_posts_slider_save__WEBPACK_IMPORTED_MODULE_7__["default"],
   attributes: {
-    blockLayoutType: {
+    filterDataBy: {
       type: "string",
-      default: "type-1"
+      default: "by_filter"
+    },
+    blockLayoutStyle: {
+      type: "string",
+      default: "layout-1"
     },
     postCardName: {
       type: "string",
@@ -49784,10 +50415,6 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     sectionId: {
       type: "string",
       default: "gutenberg_section_id"
-    },
-    option: {
-      type: "string",
-      default: "by_filter"
     },
     posts: {
       type: "array",
@@ -49825,9 +50452,9 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
       type: "string",
       default: "This is sub heading of section..."
     },
-    postNumber: {
+    numberPerPage: {
       type: "number",
-      default: 6
+      default: 10
     },
     showFilterTab: {
       type: "boolean",
@@ -49836,6 +50463,11 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     hasBackground: {
       type: "boolean",
       default: false
+    },
+    //
+    graphQLvariables: {
+      type: "object",
+      default: {}
     }
   }
 }); //
@@ -49847,23 +50479,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_posts_grid_edit__WEBPACK_IMPORTED_MODULE_8__["default"], props)),
   save: _block_posts_grid_save__WEBPACK_IMPORTED_MODULE_9__["default"],
   attributes: {
-    blockLayoutType: {
-      type: "string",
-      default: "type-1"
-    },
-    postCardName: {
-      type: "string",
-      default: "card4"
-    },
-    gridClass: {
-      type: "string",
-      default: "grid-cols-1 sm:grid-cols-2 lg:md:grid-cols-3 xl:grid-cols-4"
-    },
-    sectionId: {
-      type: "string",
-      default: "gutenberg_section_id"
-    },
-    option: {
+    filterDataBy: {
       type: "string",
       default: "by_filter"
     },
@@ -49891,6 +50507,23 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
       type: "string",
       default: "DESC"
     },
+    //
+    blockLayoutStyle: {
+      type: "string",
+      default: "layout-1"
+    },
+    postCardName: {
+      type: "string",
+      default: "card4"
+    },
+    gridClass: {
+      type: "string",
+      default: "grid-cols-1 sm:grid-cols-2 lg:md:grid-cols-3 xl:grid-cols-4"
+    },
+    gridClassCustom: {
+      type: "string",
+      default: ""
+    },
     viewMoreHref: {
       type: "string",
       default: "#"
@@ -49903,9 +50536,9 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
       type: "string",
       default: "This is sub heading of section..."
     },
-    postNumber: {
+    numberPerPage: {
       type: "number",
-      default: 8
+      default: 10
     },
     showFilterTab: {
       type: "boolean",
@@ -49914,6 +50547,11 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     hasBackground: {
       type: "boolean",
       default: false
+    },
+    //
+    graphQLvariables: {
+      type: "object",
+      default: {}
     }
   }
 }); //
