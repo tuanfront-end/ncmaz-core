@@ -33,8 +33,15 @@ import BlockUsersSliderSave from "./block-users-slider/save";
 import BlockUsersGridrEdit from "./block-users-grid/edit";
 import BlockUsersGridrSave from "./block-users-grid/save";
 //
-
 //
+import BlockBecomeAuthorEdit from "./block-become-author/edit";
+import BlockBecomeAuthorSave from "./block-become-author/save";
+//
+//
+import BlockVideosEdit from "./block-videos/edit";
+import BlockVideosSave from "./block-videos/save";
+//
+
 const client = new ApolloClient({
 	uri: "http://localhost/wordpress-1/graphql",
 	cache: new InMemoryCache(),
@@ -285,5 +292,65 @@ registerBlockType("ncmaz-core/block-users-grid", {
 		hasBackground: { type: "boolean", default: false },
 		//
 		graphQLvariables: { type: "object", default: {} },
+	},
+});
+
+//
+registerBlockType("ncmaz-core/block-become-author", {
+	title: "Ncmaz Block Become Author",
+	edit: (props) => (
+		<ApolloProvider client={client}>
+			<BlockBecomeAuthorEdit {...props} />
+		</ApolloProvider>
+	),
+	save: BlockBecomeAuthorSave,
+	attributes: {
+		hasBackground: { type: "boolean", default: true },
+		headingSmallText: {
+			type: "string",
+			default: "supper change your planning powers",
+		},
+		heading: {
+			type: "string",
+			default: "Become an author and share your great stories",
+		},
+		description: {
+			type: "string",
+			default: `Become an author you can earn extra income by writing articles. Read
+		and share new perspectives on just about any topic. Everyone’s welcome.`,
+		},
+		buttonText: { type: "string", default: "Become an author" },
+		buttonHref: { type: "string", default: "/#" },
+		rightImg: {
+			type: "string",
+			default:
+				"https://chisnghiax.com/ncmaz/static/media/BecomeAnAuthorImg.02703848.png",
+		},
+	},
+});
+
+//
+registerBlockType("ncmaz-core/block-videos", {
+	title: "Ncmaz Block Videos",
+	edit: (props) => (
+		<ApolloProvider client={client}>
+			<BlockVideosEdit {...props} />
+		</ApolloProvider>
+	),
+	save: BlockVideosSave,
+	attributes: {
+		hasBackground: { type: "boolean", default: false },
+		heading: {
+			type: "string",
+			default: "🎬 The Videos",
+		},
+		subHeading: {
+			type: "string",
+			default: `Check out our hottest videos. View more and share more new perspectives on just about any topic. Everyone’s welcome.`,
+		},
+		videoIds: {
+			type: "array",
+			default: [],
+		},
 	},
 });
