@@ -1,5 +1,4 @@
 import { registerBlockType } from "@wordpress/blocks";
-
 import {
 	ApolloClient,
 	InMemoryCache,
@@ -7,6 +6,11 @@ import {
 	useQuery,
 	gql,
 } from "@apollo/client";
+
+const { Fragment } = wp.element;
+const { withSelect } = wp.data;
+const { __ } = wp.i18n;
+
 import "./style.scss";
 //
 import BlockMagazineEdit from "./block-magazine/edit";
@@ -40,6 +44,11 @@ import BlockBecomeAuthorSave from "./block-become-author/save";
 //
 import BlockVideosEdit from "./block-videos/edit";
 import BlockVideosSave from "./block-videos/save";
+//
+
+//
+import BlockNewsLetterEdit from "./block-newsletter/edit";
+import BlockNewsLetterSave from "./block-newsletter/save";
 //
 
 const client = new ApolloClient({
@@ -332,11 +341,7 @@ registerBlockType("ncmaz-core/block-become-author", {
 //
 registerBlockType("ncmaz-core/block-videos", {
 	title: "Ncmaz Block Videos",
-	edit: (props) => (
-		<ApolloProvider client={client}>
-			<BlockVideosEdit {...props} />
-		</ApolloProvider>
-	),
+	edit: BlockVideosEdit,
 	save: BlockVideosSave,
 	attributes: {
 		hasBackground: { type: "boolean", default: false },
@@ -349,6 +354,46 @@ registerBlockType("ncmaz-core/block-videos", {
 			default: `Check out our hottest videos. View more and share more new perspectives on just about any topic. Everyone’s welcome.`,
 		},
 		videoIds: {
+			type: "array",
+			default: [],
+		},
+	},
+});
+
+//
+registerBlockType("ncmaz-core/block-newsletter", {
+	title: "Ncmaz Block Newsletter",
+
+	edit: withSelect((select, props) => {
+		return {
+			media: props.attributes.mediaId
+				? select("core").getMedia(props.attributes.mediaId)
+				: undefined,
+		};
+	})(BlockNewsLetterEdit),
+	// edit: (props) => <BlockNewsLetterEdit {...props} />,
+	save: BlockNewsLetterSave,
+	attributes: {
+		hasBackground: { type: "boolean", default: false },
+		heading: {
+			type: "string",
+			default: "Join our newsletter 🎉",
+		},
+		subHeading: {
+			type: "string",
+			default:
+				"Read and share new perspectives on just about any topic. Everyone’s welcome.",
+		},
+
+		mediaId: {
+			type: "number",
+			default: 0,
+		},
+		mediaUrl: {
+			type: "string",
+			default: "",
+		},
+		descLists: {
 			type: "array",
 			default: [],
 		},
