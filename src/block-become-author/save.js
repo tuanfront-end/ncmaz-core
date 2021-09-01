@@ -12,12 +12,13 @@ export default function save(props) {
 		description,
 		buttonText,
 		buttonHref,
-		rightImg,
+		mediaUrl,
+		mediaId,
 	} = attributes;
 
 	return (
 		<div {...useBlockProps.save()}>
-			<div className="container relative">
+			<div className={`relative ${hasBackground ? "py-16" : ""}`}>
 				{hasBackground && <BackgroundSection />}
 
 				<SectionBecomeAnAuthor
@@ -26,7 +27,7 @@ export default function save(props) {
 					smallText={headingSmallText}
 					buttonHref={buttonHref}
 					buttonText={buttonText}
-					rightImg={rightImg}
+					rightImg={mediaUrl}
 				/>
 			</div>
 		</div>

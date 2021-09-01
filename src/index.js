@@ -45,10 +45,22 @@ import BlockBecomeAuthorSave from "./block-become-author/save";
 import BlockVideosEdit from "./block-videos/edit";
 import BlockVideosSave from "./block-videos/save";
 //
-
 //
 import BlockNewsLetterEdit from "./block-newsletter/edit";
 import BlockNewsLetterSave from "./block-newsletter/save";
+//
+//- -------------------------------------------------------
+//
+import BlockWidgetPostsEdit from "./block-widget-posts/edit";
+import BlockWidgetPostsSave from "./block-widget-posts/save";
+//
+//
+import BlockWidgetUsersEdit from "./block-widget-users/edit";
+import BlockWidgetUsersSave from "./block-widget-users/save";
+//
+//
+import BlockWidgetTermsEdit from "./block-widget-terms/edit";
+import BlockWidgetTermsSave from "./block-widget-terms/save";
 //
 
 const client = new ApolloClient({
@@ -307,11 +319,13 @@ registerBlockType("ncmaz-core/block-users-grid", {
 //
 registerBlockType("ncmaz-core/block-become-author", {
 	title: "Ncmaz Block Become Author",
-	edit: (props) => (
-		<ApolloProvider client={client}>
-			<BlockBecomeAuthorEdit {...props} />
-		</ApolloProvider>
-	),
+	edit: withSelect((select, props) => {
+		return {
+			media: props.attributes.mediaId
+				? select("core").getMedia(props.attributes.mediaId)
+				: undefined,
+		};
+	})(BlockBecomeAuthorEdit),
 	save: BlockBecomeAuthorSave,
 	attributes: {
 		hasBackground: { type: "boolean", default: true },
@@ -330,11 +344,8 @@ registerBlockType("ncmaz-core/block-become-author", {
 		},
 		buttonText: { type: "string", default: "Become an author" },
 		buttonHref: { type: "string", default: "/#" },
-		rightImg: {
-			type: "string",
-			default:
-				"https://chisnghiax.com/ncmaz/static/media/BecomeAnAuthorImg.02703848.png",
-		},
+		mediaId: { type: "number", default: 0 },
+		mediaUrl: { type: "string", default: "" },
 	},
 });
 
@@ -363,7 +374,6 @@ registerBlockType("ncmaz-core/block-videos", {
 //
 registerBlockType("ncmaz-core/block-newsletter", {
 	title: "Ncmaz Block Newsletter",
-
 	edit: withSelect((select, props) => {
 		return {
 			media: props.attributes.mediaId
@@ -371,7 +381,6 @@ registerBlockType("ncmaz-core/block-newsletter", {
 				: undefined,
 		};
 	})(BlockNewsLetterEdit),
-	// edit: (props) => <BlockNewsLetterEdit {...props} />,
 	save: BlockNewsLetterSave,
 	attributes: {
 		hasBackground: { type: "boolean", default: false },
@@ -384,18 +393,82 @@ registerBlockType("ncmaz-core/block-newsletter", {
 			default:
 				"Read and share new perspectives on just about any topic. Everyone’s welcome.",
 		},
+		mediaId: { type: "number", default: 0 },
+		mediaUrl: { type: "string", default: "" },
+		descLists: { type: "array", default: [] },
+	},
+});
 
-		mediaId: {
-			type: "number",
-			default: 0,
-		},
-		mediaUrl: {
-			type: "string",
-			default: "",
-		},
-		descLists: {
-			type: "array",
-			default: [],
-		},
+// ===========================================WIDGETS====================================================================
+//
+registerBlockType("ncmaz-core/block-widget-posts", {
+	title: "Ncmaz Block Widget Posts",
+	edit: (props) => (
+		<ApolloProvider client={client}>
+			<BlockWidgetPostsEdit {...props} />
+		</ApolloProvider>
+	),
+	save: BlockWidgetPostsSave,
+	attributes: {
+		filterDataBy: { type: "string", default: "by_filter" },
+		posts: { type: "array", default: [] },
+		categories: { type: "array", default: [] },
+		authors: { type: "array", default: [] },
+		tags: { type: "array", default: [] },
+		orderBy: { type: "string", default: "AUTHOR" },
+		order: { type: "string", default: "DESC" },
+		//
+		postCardName: { type: "string", default: "card4" },
+		heading: { type: "string", default: "🎯 Popular Posts" },
+		numberPerPage: { type: "number", default: 5 },
+		//
+		graphQLvariables: { type: "object", default: {} },
+	},
+});
+//
+registerBlockType("ncmaz-core/block-widget-users", {
+	title: "Ncmaz Block Widget Users",
+	edit: (props) => (
+		<ApolloProvider client={client}>
+			<BlockWidgetUsersEdit {...props} />
+		</ApolloProvider>
+	),
+	save: BlockWidgetUsersSave,
+	attributes: {
+		filterDataBy: { type: "string", default: "by_filter" },
+		numberPerPage: { type: "number", default: 10 },
+		orderBy: { type: "string", default: "REGISTERED" },
+		order: { type: "string", default: "DESC" },
+		userIds: { type: "array", default: [] },
+		roleIn: { type: "array", default: [] },
+		//
+		heading: { type: "string", default: "🎭 Discover Authors" },
+		//
+		graphQLvariables: { type: "object", default: {} },
+	},
+});
+//
+//
+registerBlockType("ncmaz-core/block-widget-terms", {
+	title: "Ncmaz Block Widget Terms",
+	edit: (props) => (
+		<ApolloProvider client={client}>
+			<BlockWidgetTermsEdit {...props} />
+		</ApolloProvider>
+	),
+	save: BlockWidgetTermsSave,
+	attributes: {
+		termCardName: { type: "string", default: "card1" },
+		typeOfTerm: { type: "string", default: "category" },
+		filterDataBy: { type: "string", default: "by_filter" },
+		categories: { type: "array", default: [] },
+		tags: { type: "array", default: [] },
+		orderBy: { type: "string", default: "NAME" },
+		order: { type: "string", default: "DESC" },
+		//
+		heading: { type: "string", default: "✨ Trending topic" },
+		//
+		numberPerPage: { type: "number", default: 10 },
+		graphQLvariables: { type: "object", default: {} },
 	},
 });

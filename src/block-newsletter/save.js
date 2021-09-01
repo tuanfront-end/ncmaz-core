@@ -17,7 +17,7 @@ export default function save(props) {
 
 	return (
 		<div {...useBlockProps.save()}>
-			<div className={hasBackground ? "container py-16" : "container"}>
+			<div className={hasBackground ? "relative py-16" : ""}>
 				{hasBackground && <BackgroundSection />}
 				<div
 					className={`nc-SectionSubscribe2 relative flex flex-col lg:flex-row items-center `}

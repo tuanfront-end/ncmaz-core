@@ -61,11 +61,14 @@ const postFields = ` edges {
       fieldGroupName
       videoUrl
     }
-    ncmazAudioUrl{
+    ncmazAudioUrl {
       fieldGroupName
       audioUrl
     }
-    ncmazGalleryImgs{
+    ncPostMetaData {
+      favoriteButton
+    }
+    ncmazGalleryImgs {
       fieldGroupName
       image1 {
         id

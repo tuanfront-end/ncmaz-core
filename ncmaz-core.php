@@ -52,5 +52,71 @@ function create_block_ncmaz_core_block_init()
 }
 add_action('init', 'create_block_ncmaz_core_block_init');
 
-//
-?>
+// 
+// 
+// 
+add_action('acf/save_post', 'my_acf_save_post');
+function my_acf_save_post($post_id)
+{
+	// Get newly saved values.
+	$m = fm_estimated_reading_time();
+	// $m = strlen(the_content() || "") / 200;
+	update_field('reading_time', $m, $post_id);
+}
+
+// UPDATE VIEW COUNT
+
+function my_acf_prepare_field($field)
+{
+	$field['readonly'] = true;
+	return $field;
+}
+
+// Apply to fields named "example_field".
+add_filter('acf/prepare_field/name=views_count', 'my_acf_prepare_field');
+add_filter('acf/prepare_field/name=favorite_button', 'my_acf_prepare_field');
+add_filter('acf/prepare_field/name=reading_time', 'my_acf_prepare_field');
+
+function yourprefix_add_to_content($content)
+{
+	if (!is_single()) return;
+
+	if (is_single()) {
+
+		var_dump(fm_estimated_reading_time());
+		die;
+		// Get the current value.
+		$count = (int) get_field('views_count', the_ID());
+
+		// Increase it.
+		$count++;
+
+		// Update with new value.
+		update_field('views_count', $count, the_ID());
+	}
+}
+add_filter('the_content', 'yourprefix_add_to_content');
+
+
+
+function fm_estimated_reading_time()
+{
+
+	// load the content
+	// $thecontent = $post->post_content;
+	$thecontent = get_the_content();
+	// count the number of words
+	$words = str_word_count(strip_tags($thecontent));
+	// rounding off and deviding per 200 words per minute
+	$m = floor($words / 200);
+	// rounding off to get the seconds
+	$s = floor($words % 200 / (200 / 60));
+	// calculate the amount of time needed to read
+	$estimate = $m . ' minute' . ($m == 1 ? '' : 's') . ', ' . $s . ' second' . ($s == 1 ? '' : 's');
+	// create output
+	var_dump($words);
+	$output = '<p>Estimated reading time: ' . $estimate . '</p>';
+	// return the estimate
+	return $output;
+	return $m || 11;
+}

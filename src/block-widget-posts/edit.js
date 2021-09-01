@@ -16,6 +16,7 @@ import {
 	FormToggle,
 	SelectControl,
 	__experimentalNumberControl as NumberControl,
+	Spinner,
 } from "@wordpress/components";
 import {
 	InspectorControls,
@@ -32,6 +33,7 @@ import {
 	POSTS_SECTION_BY_FILTER__string,
 	POSTS_SECTION_SPECIFIC__string,
 } from "./queryGraphql";
+import WidgetPosts from "../frontend-components/WidgetPosts/WidgetPosts";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -47,15 +49,8 @@ export default function Edit(props) {
 		numberPerPage,
 		authors,
 		//
-		blockLayoutStyle,
 		postCardName,
-		gridClass,
-		gridClassCustom,
-		showFilterTab,
-		viewMoreHref,
 		heading,
-		subHeading,
-		hasBackground,
 		//
 		graphQLvariables,
 	} = attributes;
@@ -159,16 +154,6 @@ export default function Edit(props) {
 		return (
 			<div className="space-y-2.5">
 				<SelectControl
-					label={__("Choose type of block", "ncmaz-core")}
-					value={blockLayoutStyle}
-					options={[
-						{ label: "Layout type 1", value: "layout-1" },
-						{ label: "Layout type 2", value: "layout-2" },
-					]}
-					onChange={(blockLayoutStyle) => setAttributes({ blockLayoutStyle })}
-				/>
-
-				<SelectControl
 					label={__("Choose type of post card", "ncmaz-core")}
 					value={postCardName}
 					options={[
@@ -185,84 +170,12 @@ export default function Edit(props) {
 					onChange={(postCardName) => setAttributes({ postCardName })}
 				/>
 
-				<SelectControl
-					label={__("Choose items per row", "ncmaz-core")}
-					value={gridClass}
-					options={[
-						{
-							label: "1",
-							value: "grid-cols-1",
-						},
-						{
-							label: "1 - sm:2",
-							value: "grid-cols-1 sm:grid-cols-2",
-						},
-						{
-							label: "1 - sm:2 - lg:3",
-							value: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
-						},
-						{
-							label: "1 - sm:2 - lg:3 - xl:4",
-							value:
-								"grid-cols-1 sm:grid-cols-2 lg:md:grid-cols-3 xl:grid-cols-4",
-						},
-					]}
-					onChange={(gridClass) => setAttributes({ gridClass })}
-				/>
-
-				<div>
-					<TextControl
-						label={__("Items per row custom (advance)", "ncmaz-core")}
-						value={gridClassCustom}
-						type="text"
-						onChange={(gridClassCustom) => setAttributes({ gridClassCustom })}
-						help={__(
-							`If you enter this field will overwrite the field 'Choose items per row' above`,
-							"ncmaz-core"
-						)}
-					/>
-				</div>
-
 				<TextControl
 					label={__("Heading", "ncmaz-core")}
 					value={heading}
 					type="text"
 					onChange={(heading) => setAttributes({ heading })}
 				/>
-
-				<TextControl
-					label={__("Sub heading", "ncmaz-core")}
-					value={subHeading}
-					type="text"
-					onChange={(subHeading) => setAttributes({ subHeading })}
-				/>
-
-				{filterDataBy !== "by_specific" && (
-					<div className="w-full space-x-3 flex ">
-						<FormToggle
-							checked={showFilterTab}
-							onChange={() => setAttributes({ showFilterTab: !showFilterTab })}
-							label={__("Show filter tab", "ncmaz-core")}
-						/>
-						<legend>{__("Show filter tab", "ncmaz-core")}</legend>
-					</div>
-				)}
-
-				<TextControl
-					label={__("View more href", "ncmaz-core")}
-					value={viewMoreHref}
-					type="url"
-					onChange={(viewMoreHref) => setAttributes({ viewMoreHref })}
-				/>
-
-				<div className="w-full space-x-3 flex ">
-					<FormToggle
-						checked={hasBackground}
-						onChange={() => setAttributes({ hasBackground: !hasBackground })}
-						label={__("Enable Background", "ncmaz-core")}
-					/>
-					<legend>{__("Enable Background", "ncmaz-core")}</legend>
-				</div>
 			</div>
 		);
 	};
@@ -296,22 +209,21 @@ export default function Edit(props) {
 		);
 	};
 
+	const renderPreview = () => {
+		return <WidgetPosts heading={heading} postEdges={dataLists} />;
+	};
+
 	//
 	return (
 		<div {...useBlockProps()}>
 			{renderSidebarSetting()}
-
-			<div className="p-6 bg-blue-300  border border-black">
-				<p>{__("Sorry, preview mode is comming soon!", "ncmaz-core")}</p>
-				<p className="text-3xl">{__("BLOCK POSTS GRID", "ncmaz-core")}</p>
-				{loading && "LOADING ....."}
-				{error && (
-					<pre className="text-xs text-red-500">
-						<code>{JSON.stringify(error)}</code>
-					</pre>
-				)}
-				<p>post length: {JSON.stringify(dataLists.length)}</p>
-			</div>
+			{loading && <Spinner />}
+			{error && (
+				<pre className="text-xs text-red-500">
+					<code>{JSON.stringify(error)}</code>
+				</pre>
+			)}
+			{renderPreview()}
 		</div>
 	);
 }

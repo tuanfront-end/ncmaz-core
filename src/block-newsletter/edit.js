@@ -50,11 +50,6 @@ export default function Edit(props) {
 		});
 	};
 
-	const blockStyle = {
-		backgroundImage:
-			attributes.mediaUrl != "" ? 'url("' + attributes.mediaUrl + '")' : "none",
-	};
-
 	const renderSidebarSettings = () => {
 		return (
 			<InspectorControls key="setting">
@@ -85,7 +80,7 @@ export default function Edit(props) {
 										/>
 									</div>
 
-									<div className="editor-post-featured-image">
+									<div className="editor-post-featured-image mb-3">
 										<MediaUploadCheck>
 											<MediaUpload
 												onSelect={onSelectMedia}
