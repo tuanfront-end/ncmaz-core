@@ -16,6 +16,7 @@ import {
 	FormToggle,
 	SelectControl,
 	__experimentalNumberControl as NumberControl,
+	Spinner,
 } from "@wordpress/components";
 import {
 	InspectorControls,
@@ -32,6 +33,7 @@ import {
 	POSTS_SECTION_BY_FILTER__string,
 	POSTS_SECTION_SPECIFIC__string,
 } from "./queryGraphql";
+import SectionGridPosts from "./SectionGridPosts";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -102,6 +104,17 @@ export default function Edit(props) {
 			},
 		});
 	}, [data]);
+
+	// const handleClickTab = (item) => {
+	// 	if (item === -1) {
+	// 		setTabActiveId(item);
+	// 		return;
+	// 	}
+	// 	if (item.id === tabActiveId) {
+	// 		return;
+	// 	}
+	// 	setTabActiveId(item.id);
+	// };
 
 	//
 	const renderFilterPostsContent = () => {
@@ -300,18 +313,17 @@ export default function Edit(props) {
 	return (
 		<div {...useBlockProps()}>
 			{renderSidebarSetting()}
-
-			<div className="p-6 bg-blue-300  border border-black">
-				<p>{__("Sorry, preview mode is comming soon!", "ncmaz-core")}</p>
-				<p className="text-3xl">{__("BLOCK POSTS GRID", "ncmaz-core")}</p>
-				{loading && "LOADING ....."}
-				{error && (
-					<pre className="text-xs text-red-500">
-						<code>{JSON.stringify(error)}</code>
-					</pre>
-				)}
-				<p>post length: {JSON.stringify(dataLists.length)}</p>
-			</div>
+			{loading && <Spinner />}
+			{error && (
+				<pre className="text-xs text-red-500">
+					<code>{JSON.stringify(error)}</code>
+				</pre>
+			)}
+			<SectionGridPosts
+				{...attributes}
+				listPosts={dataLists}
+				loading={loading}
+			/>
 		</div>
 	);
 }
