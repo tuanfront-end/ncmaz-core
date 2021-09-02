@@ -171,7 +171,6 @@ export default function Edit(props) {
 					label={__("Choose type of post card", "ncmaz-core")}
 					value={postCardName}
 					options={[
-						{ label: "Post card 3", value: "card3" },
 						{ label: "Post card 4", value: "card4" },
 						{ label: "Post card 7", value: "card7" },
 						{ label: "Post card 9", value: "card9" },
@@ -179,7 +178,6 @@ export default function Edit(props) {
 						{ label: "Post card 10V2", value: "card10V2" },
 						{ label: "Post card 11", value: "card11" },
 						{ label: "Post card 14", value: "card14" },
-						{ label: "Post card 15-Podcast", value: "card15Podcast" },
 					]}
 					onChange={(postCardName) => setAttributes({ postCardName })}
 				/>

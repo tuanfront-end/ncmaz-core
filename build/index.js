@@ -45520,14 +45520,17 @@ const postFields = ` edges {
       fieldGroupName
       videoUrl
     }
-    ncmazAudioUrl{
+    ncmazAudioUrl {
       fieldGroupName
       audioUrl
     }
     ncPostMetaData {
-      favoriteButton
+      favoriteButtonShortcode
+      readingTimeShortcode
+      viewsCount
+      fieldGroupName
     }
-    ncmazGalleryImgs{
+    ncmazGalleryImgs {
       fieldGroupName
       image1 {
         id
@@ -45558,14 +45561,6 @@ const postFields = ` edges {
         sourceUrl
       }
       image8 {
-        id
-        sourceUrl
-      }
-      image9 {
-        id
-        sourceUrl
-      }
-      image10 {
         id
         sourceUrl
       }
@@ -46339,7 +46334,10 @@ const postFields = ` edges {
       audioUrl
     }
     ncPostMetaData {
-      favoriteButton
+      favoriteButtonShortcode
+      readingTimeShortcode
+      viewsCount
+      fieldGroupName
     }
     ncmazGalleryImgs {
       fieldGroupName
@@ -46372,14 +46370,6 @@ const postFields = ` edges {
         sourceUrl
       }
       image8 {
-        id
-        sourceUrl
-      }
-      image9 {
-        id
-        sourceUrl
-      }
-      image10 {
         id
         sourceUrl
       }
@@ -46692,9 +46682,6 @@ function Edit(props) {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])("Choose type of post card", "ncmaz-core"),
       value: postCardName,
       options: [{
-        label: "Post card 3",
-        value: "card3"
-      }, {
         label: "Post card 4",
         value: "card4"
       }, {
@@ -46715,9 +46702,6 @@ function Edit(props) {
       }, {
         label: "Post card 14",
         value: "card14"
-      }, {
-        label: "Post card 15-Podcast",
-        value: "card15Podcast"
       }],
       onChange: postCardName => setAttributes({
         postCardName
@@ -46891,11 +46875,17 @@ const postFields = ` edges {
       fieldGroupName
       videoUrl
     }
-    ncmazAudioUrl{
+    ncmazAudioUrl {
       fieldGroupName
       audioUrl
     }
-    ncmazGalleryImgs{
+    ncPostMetaData {
+      favoriteButtonShortcode
+      readingTimeShortcode
+      viewsCount
+      fieldGroupName
+    }
+    ncmazGalleryImgs {
       fieldGroupName
       image1 {
         id
@@ -46926,14 +46916,6 @@ const postFields = ` edges {
         sourceUrl
       }
       image8 {
-        id
-        sourceUrl
-      }
-      image9 {
-        id
-        sourceUrl
-      }
-      image10 {
         id
         sourceUrl
       }
