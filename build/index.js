@@ -52076,6 +52076,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PostCardLikeAction_PostCardLikeAction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../PostCardLikeAction/PostCardLikeAction */ "./src/frontend-components/PostCardLikeAction/PostCardLikeAction.js");
 /* harmony import */ var _CardAuthor2_CardAuthor2__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../CardAuthor2/CardAuthor2 */ "./src/frontend-components/CardAuthor2/CardAuthor2.js");
 /* harmony import */ var _utils_formatDate__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../utils/formatDate */ "./src/utils/formatDate.js");
+/* harmony import */ var _utils_getImgsFromNcmazGalleryImgs_JS__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../utils/getImgsFromNcmazGalleryImgs.JS */ "./src/utils/getImgsFromNcmazGalleryImgs.JS");
+
 
 
 
@@ -52106,14 +52108,70 @@ const Card10V3 = ({
     ncPostMetaData,
     featuredImage
   } = post;
+  const galleryImgs = Object(_utils_getImgsFromNcmazGalleryImgs_JS__WEBPACK_IMPORTED_MODULE_12__["default"])(ncmazGalleryImgs);
+
+  const renderGallery2 = () => {
+    if (!galleryImgs) return null;
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "w-full h-full grid grid-rows-2 gap-2"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "grid grid-cols-3 gap-2 "
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      containerClassName: "relative col-span-2",
+      className: "absolute inset-0 object-cover w-full h-full",
+      src: isSkeleton ? "." : galleryImgs[0]
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      containerClassName: "relative",
+      className: "absolute inset-0 object-cover w-full h-full",
+      src: isSkeleton ? "." : galleryImgs[1]
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "grid grid-cols-3 gap-2 "
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      containerClassName: "relative",
+      className: "absolute inset-0 object-cover w-full h-full",
+      src: isSkeleton ? "." : galleryImgs[2]
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      containerClassName: "relative col-span-2",
+      className: "absolute inset-0 object-cover w-full h-full",
+      src: isSkeleton ? "." : galleryImgs[3]
+    })));
+  };
+
+  const renderGallery = () => {
+    if (!galleryImgs) return null;
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "w-full h-full grid grid-cols-3 gap-2"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "grid "
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      containerClassName: "relative",
+      className: "absolute inset-0 object-cover w-full h-full",
+      src: isSkeleton ? "." : galleryImgs[0]
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "grid grid-rows-2 gap-2"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      containerClassName: "relative",
+      className: "absolute inset-0 object-cover w-full h-full",
+      src: isSkeleton ? "." : galleryImgs[1]
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      containerClassName: "relative",
+      className: "absolute inset-0 object-cover w-full h-full",
+      src: isSkeleton ? "." : galleryImgs[2]
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "grid "
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      containerClassName: "relative",
+      className: "absolute inset-0 object-cover w-full h-full",
+      src: isSkeleton ? "." : galleryImgs[3]
+    })));
+  };
+
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: `nc-Card10V3 group relative flex flex-col ${className}`,
     "data-nc-id": "Card10V3"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "block group rounded-3xl flex-shrink-0 relative w-full aspect-w-16 aspect-h-16 sm:aspect-h-9 overflow-hidden"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    src: featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.node.sourceUrl
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+  }, galleryType === 1 ? renderGallery() : renderGallery2(), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
     href: link,
     className: "absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity"
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
@@ -57529,6 +57587,46 @@ function ncFormatDate(date) {
   }).format(d);
   return `${mo} ${da}, ${ye}`;
 }
+
+/***/ }),
+
+/***/ "./src/utils/getImgsFromNcmazGalleryImgs.JS":
+/*!**************************************************!*\
+  !*** ./src/utils/getImgsFromNcmazGalleryImgs.JS ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function getImgsFromNcmazGalleryImgs(ncmazGalleryImgs) {
+	const {
+		image1,
+		image2,
+		image3,
+		image4,
+		image5,
+		image6,
+		image7,
+		image8,
+	} = ncmazGalleryImgs;
+
+	const arr = [
+		(image1 || {}).sourceUrl,
+		(image2 || {}).sourceUrl,
+		(image3 || {}).sourceUrl,
+		(image4 || {}).sourceUrl,
+		(image5 || {}).sourceUrl,
+		(image6 || {}).sourceUrl,
+		(image7 || {}).sourceUrl,
+		(image8 || {}).sourceUrl,
+	].filter((item) => !!item);
+
+	return arr;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (getImgsFromNcmazGalleryImgs);
+
 
 /***/ }),
 
