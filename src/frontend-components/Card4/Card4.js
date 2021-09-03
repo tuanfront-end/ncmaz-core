@@ -27,7 +27,7 @@ const Card4 = ({ className = "h-full", post, isSkeleton }) => {
 			<span className="block flex-shrink-0 relative w-full aspect-w-16 aspect-h-9 rounded-t-xl overflow-hidden">
 				<NcImage
 					containerClassName="absolute inset-0"
-					src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
+					src={featuredImage?.node.sourceUrl}
 				/>
 				<div>
 					{ncPostMetaData.favoriteButtonShortcode && (

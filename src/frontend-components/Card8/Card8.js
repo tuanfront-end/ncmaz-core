@@ -22,7 +22,7 @@ const Card8 = ({ className = "h-full", post, isSkeleton }) => {
 			>
 				<NcImage
 					containerClassName="absolute inset-0"
-					src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
+					src={featuredImage?.node.sourceUrl}
 				/>
 				<PostTypeFeaturedIcon
 					className="absolute top-4 left-4"

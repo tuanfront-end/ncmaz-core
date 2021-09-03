@@ -76,7 +76,7 @@ const Card3 = ({ className = "h-full", size = "large", post, isSkeleton }) => {
 				>
 					<NcImage
 						containerClassName="absolute inset-0"
-						src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
+						src={featuredImage?.node.sourceUrl}
 					/>
 					<span>
 						<PostTypeFeaturedIcon

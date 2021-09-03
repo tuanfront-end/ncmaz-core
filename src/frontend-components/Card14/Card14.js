@@ -37,7 +37,7 @@ const Card14 = ({
 				<NcImage
 					containerClassName="absolute inset-0 overflow-hidden"
 					className="object-cover w-full h-full rounded-3xl "
-					src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
+					src={featuredImage?.node.sourceUrl}
 				/>
 
 				<span className="absolute inset-0 bg-black bg-opacity-40">

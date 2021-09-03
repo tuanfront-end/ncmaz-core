@@ -15,7 +15,7 @@ const Card17Podcast = ({ className = "", post, isSkeleton }) => {
 	const { title, link, featuredImage, postFormats } = post;
 	const postFormatName = postFormats.edges[0]?.node.name;
 
-	const renderIcon = (state?: "loading" | "playing") => {
+	const renderIcon = (state) => {
 		switch (state) {
 			case "loading":
 				return (
@@ -70,7 +70,7 @@ const Card17Podcast = ({ className = "", post, isSkeleton }) => {
 		}
 	};
 
-	const renderDefaultBtnListen = (state?: "loading" | "playing") => {
+	const renderDefaultBtnListen = (state) => {
 		return (
 			<span className="w-11 h-11 flex items-center justify-center rounded-full bg-white dark:bg-neutral-800 text-primary-6000 dark:text-primary-200 shadow-lg cursor-pointer">
 				{renderIcon(state)}
@@ -88,7 +88,7 @@ const Card17Podcast = ({ className = "", post, isSkeleton }) => {
 					<NcImage
 						containerClassName="absolute inset-0"
 						className="object-cover w-full h-full "
-						src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
+						src={featuredImage?.node.sourceUrl}
 					/>
 				</div>
 				<div className="flex flex-col flex-grow">
@@ -103,15 +103,8 @@ const Card17Podcast = ({ className = "", post, isSkeleton }) => {
 				</div>
 			</a>
 
-			{/* {(postFormatName === "Video" || postFormatName === "Audio") && (
-        <ButtonPlayMusicRunningContainer
-          post={post}
-          className=""
-          renderDefaultBtn={() => renderDefaultBtnListen()}
-          renderLoadingBtn={() => renderDefaultBtnListen("loading")}
-          renderPlayingBtn={() => renderDefaultBtnListen("playing")}
-        />
-      )} */}
+			{(postFormatName === "Video" || postFormatName === "Audio") &&
+				renderDefaultBtnListen()}
 		</div>
 	);
 };

@@ -15,6 +15,7 @@ import {
 	FormToggle,
 	SelectControl,
 	__experimentalNumberControl as NumberControl,
+	Spinner,
 } from "@wordpress/components";
 import {
 	InspectorControls,
@@ -35,6 +36,7 @@ import {
 	USERS_QUERY_FILTER__string,
 	USERS_QUERY_SPECIFIC__string,
 } from "./queryGraphql";
+import EmptyState from "../frontend-components/EmptyState/EmptyState";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -259,6 +261,16 @@ export default function Edit(props) {
 			<div className={hasBackground ? "py-16" : ""}>
 				{hasBackground && <BackgroundSection />}
 
+				{/* --------------------- */}
+				{loading && <Spinner />}
+				{error && (
+					<pre className="text-xs text-red-500">
+						<code>{JSON.stringify(error)}</code>
+					</pre>
+				)}
+				{!usersList.length && !loading && <EmptyState />}
+				{/* --------------------- */}
+
 				<SectionSliderNewAuthors
 					blockLayoutStyle={blockLayoutStyle}
 					userCardName={userCardName}
@@ -278,13 +290,6 @@ export default function Edit(props) {
 			{renderSidebarSettings()}
 
 			{renderPreviewContent()}
-
-			{loading && "LOADING ....."}
-			{error && (
-				<pre className="text-xs text-red-500">
-					<code>{JSON.stringify(error)}</code>
-				</pre>
-			)}
 		</div>
 	);
 }

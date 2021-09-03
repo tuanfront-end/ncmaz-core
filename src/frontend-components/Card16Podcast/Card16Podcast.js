@@ -20,7 +20,7 @@ const Card16Podcast = ({
 	const { title, link, categories, excerpt, featuredImage, postFormats } = post;
 	const postFormatName = postFormats.edges[0]?.node.name;
 
-	const renderIcon = (state?: "playing" | "loading") => {
+	const renderIcon = (state) => {
 		if (!state) {
 			return (
 				<svg className="ml-0.5 w-9 h-9" fill="currentColor" viewBox="0 0 24 24">
@@ -55,7 +55,7 @@ const Card16Podcast = ({
 		);
 	};
 
-	const renderListenButtonDefault = (state?: "playing" | "loading") => {
+	const renderListenButtonDefault = (state) => {
 		return (
 			<div className="w-14 h-14 flex items-center justify-center rounded-full bg-neutral-50 text-primary-500 cursor-pointer">
 				{renderIcon(state)}
@@ -88,8 +88,10 @@ const Card16Podcast = ({
 			<div className="w-11/12 transform -mt-32 ">
 				<div className="px-5 flex items-center space-x-4">
 					<div className="flex-grow ">
-						{/* <img src={musicWave} alt="musicWave" /> */}
+						<img src={"musicWave"} alt="musicWave" />
 					</div>
+					{(postFormatName === "Video" || postFormatName === "Audio") &&
+						renderListenButtonDefault()}
 				</div>
 				<div className="p-5 mt-5 bg-white dark:bg-neutral-900 shadow-xl dark:shadow-2xl rounded-3xl rounded-tl-none flex flex-col flex-grow ">
 					<h2 className="nc-card-title block text-xl font-semibold text-neutral-900 dark:text-neutral-100 ">

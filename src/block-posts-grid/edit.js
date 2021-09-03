@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { __ } from "@wordpress/i18n";
 import InputSearchPosts from "../components/InputSearchPosts";
 import InputSearchCategories from "../components/InputSearchCategories";
 import InputSearchTags from "../components/InputSearchTags";
-import { useEffect } from "@wordpress/element";
 import {
 	TextControl,
 	Panel,
@@ -34,9 +33,12 @@ import {
 	POSTS_SECTION_SPECIFIC__string,
 } from "./queryGraphql";
 import SectionGridPosts from "./SectionGridPosts";
+import EmptyState from "../frontend-components/EmptyState/EmptyState";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
+	//
+	const [tabActiveId, setTabActiveId] = useState(-1);
 
 	//
 	const {
@@ -65,9 +67,11 @@ export default function Edit(props) {
 	//
 	let GQL_QUERY__string = "";
 	let variables = {};
+	let variablesUseNow;
 	//
 
 	if (filterDataBy === "by_specific") {
+		variablesUseNow = null;
 		variables = {
 			// arr posts Slugs
 			nameIn: posts?.map((item) => item.value) || [],
@@ -84,13 +88,23 @@ export default function Edit(props) {
 			field: orderBy,
 			first: Number(numberPerPage),
 		};
+		//
+		variablesUseNow = {
+			...variables,
+			categoryIn:
+				tabActiveId && tabActiveId !== -1
+					? [tabActiveId]
+					: categories?.map((item) => item.value) || [],
+		};
 	}
 
 	// =================== QUERY GRAPHQL ===================
 	const gqlQuery = gql`
 		${GQL_QUERY__string}
 	`;
-	const { loading, error, data } = useQuery(gqlQuery, { variables });
+	const { loading, error, data } = useQuery(gqlQuery, {
+		variables: variablesUseNow || variables,
+	});
 
 	const dataLists = data?.posts?.edges || [];
 
@@ -105,16 +119,16 @@ export default function Edit(props) {
 		});
 	}, [data]);
 
-	// const handleClickTab = (item) => {
-	// 	if (item === -1) {
-	// 		setTabActiveId(item);
-	// 		return;
-	// 	}
-	// 	if (item.id === tabActiveId) {
-	// 		return;
-	// 	}
-	// 	setTabActiveId(item.id);
-	// };
+	const handleClickTab = (item) => {
+		if (item === -1) {
+			setTabActiveId(item);
+			return;
+		}
+		if (item.id === tabActiveId) {
+			return;
+		}
+		setTabActiveId(item.id);
+	};
 
 	//
 	const renderFilterPostsContent = () => {
@@ -313,16 +327,23 @@ export default function Edit(props) {
 	return (
 		<div {...useBlockProps()}>
 			{renderSidebarSetting()}
+
+			{/*  */}
 			{loading && <Spinner />}
 			{error && (
 				<pre className="text-xs text-red-500">
 					<code>{JSON.stringify(error)}</code>
 				</pre>
 			)}
+			{!dataLists.length && !loading && <EmptyState />}
+			{/*  */}
+
 			<SectionGridPosts
 				{...attributes}
 				listPosts={dataLists}
 				loading={loading}
+				tabActiveId={tabActiveId}
+				handleClickTab={handleClickTab}
 			/>
 		</div>
 	);

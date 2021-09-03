@@ -22,10 +22,8 @@ const Card10 = ({ className = "h-full", post, isSkeleton }) => {
 				href={link}
 				className="block  group rounded-3xl flex-shrink-0 relative w-full aspect-w-9 aspect-h-7 sm:aspect-h-10 overflow-hidden"
 			>
-				<div>
-					<NcImage
-						src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
-					/>
+				<div className="bg-gray-300">
+					<NcImage src={featuredImage?.node.sourceUrl} />
 				</div>
 
 				<span className="absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity"></span>

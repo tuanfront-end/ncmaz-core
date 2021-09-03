@@ -10,6 +10,7 @@ import Card10V2 from "../frontend-components/Card10/Card10V2";
 import Card11 from "../frontend-components/Card11/Card11";
 import Card14 from "../frontend-components/Card14/Card14";
 import Card15Podcast from "../frontend-components/Card15Podcast/Card15Podcast";
+import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
 
 const SectionGridPosts = ({
 	blockLayoutStyle,
@@ -22,7 +23,11 @@ const SectionGridPosts = ({
 	viewMoreHref,
 	categories = [],
 	postCardName,
+	hasBackground,
+	//
 	loading,
+	tabActiveId,
+	handleClickTab = () => {},
 }) => {
 	const renderHeading = () => {
 		if (blockLayoutStyle === "layout-1") {
@@ -75,14 +80,16 @@ const SectionGridPosts = ({
 	};
 
 	return (
-		<div>
+		<div className={hasBackground ? "relative py-16" : "relative"}>
+			{hasBackground && <BackgroundSection />}
 			{showFilterTab ? (
 				<HeaderSectionFilter
 					tabs={categories}
 					viewMoreHref={viewMoreHref}
 					heading={heading}
 					subHeading={subHeading}
-					// onClickTab={handleClickTab}
+					onClickTab={handleClickTab}
+					tabActiveId={tabActiveId}
 				/>
 			) : (
 				renderHeading()

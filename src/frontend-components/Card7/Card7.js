@@ -42,7 +42,7 @@ const Card7 = ({
 				<NcImage
 					containerClassName="absolute inset-0 overflow-hidden"
 					className="object-cover w-full h-full rounded-3xl "
-					src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
+					src={featuredImage?.node.sourceUrl}
 				/>
 				<PostTypeFeaturedIcon
 					className="absolute top-3 left-3"

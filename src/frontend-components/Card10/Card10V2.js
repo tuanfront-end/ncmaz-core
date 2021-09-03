@@ -19,10 +19,8 @@ const Card10V2 = ({ className = "h-full", post, isSkeleton }) => {
 			data-nc-id="Card10V2"
 		>
 			<div className="block group rounded-3xl flex-shrink-0 relative w-full aspect-w-16 aspect-h-12 sm:aspect-h-9 overflow-hidden">
-				<div>
-					<NcImage
-						src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
-					/>
+				<div className="bg-gray-300">
+					<NcImage src={featuredImage?.node.sourceUrl} />
 				</div>
 
 				<a

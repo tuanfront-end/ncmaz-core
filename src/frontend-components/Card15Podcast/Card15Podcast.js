@@ -97,7 +97,7 @@ const Card15Podcast = ({ className = "h-full", post, isSkeleton }) => {
 					<NcImage
 						containerClassName="absolute inset-0"
 						className="object-cover w-full h-full "
-						src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
+						src={featuredImage?.node.sourceUrl}
 					/>
 				</a>
 			</div>

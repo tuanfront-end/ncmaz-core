@@ -25,12 +25,10 @@ const Card11 = ({
 			data-nc-id="Card11"
 		>
 			<div
-				className={`block flex-shrink-0 relative w-full rounded-t-xl overflow-hidden ${ratio}`}
+				className={`block flex-shrink-0 relative w-full rounded-t-xl overflow-hidden bg-gray-300 ${ratio}`}
 			>
 				<div>
-					<NcImage
-						src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
-					/>
+					<NcImage src={featuredImage?.node.sourceUrl} />
 				</div>
 			</div>
 			<a href={link} className="absolute inset-0"></a>

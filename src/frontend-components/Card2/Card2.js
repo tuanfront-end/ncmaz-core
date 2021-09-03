@@ -27,7 +27,7 @@ const Card2 = ({ className = "h-full", size = "normal", post, isSkeleton }) => {
 			<span className="block flex-shrink-0 flex-grow relative w-full h-0 pt-[75%] sm:pt-[55%] rounded-xl sm:rounded-b-none overflow-hidden">
 				<NcImage
 					containerClassName="absolute inset-0"
-					src={isSkeleton ? "." : featuredImage?.node.sourceUrl}
+					src={featuredImage?.node.sourceUrl}
 				/>
 
 				<PostTypeFeaturedIcon

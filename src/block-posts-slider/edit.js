@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import InputSearchPosts from "../components/InputSearchPosts";
 import InputSearchCategories from "../components/InputSearchCategories";
 import InputSearchTags from "../components/InputSearchTags";
-import { useEffect } from "@wordpress/element";
+import { useEffect, useState } from "@wordpress/element";
 import {
 	TextControl,
 	Panel,
@@ -16,6 +16,8 @@ import {
 	FormToggle,
 	SelectControl,
 	__experimentalNumberControl as NumberControl,
+	Spinner,
+	RangeControl,
 } from "@wordpress/components";
 import {
 	InspectorControls,
@@ -32,10 +34,13 @@ import {
 	POSTS_SECTION_BY_FILTER__string,
 	POSTS_SECTION_SPECIFIC__string,
 } from "./queryGraphql";
+import SectionSliderPosts from "./SectionSliderPosts";
+import EmptyState from "../frontend-components/EmptyState/EmptyState";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
-
+	//
+	const [tabActiveId, setTabActiveId] = useState(-1);
 	//
 	const {
 		filterDataBy,
@@ -61,10 +66,12 @@ export default function Edit(props) {
 
 	//
 	let GQL_QUERY__string = "";
+	let variablesUseNow;
 	let variables = {};
 	//
 
 	if (filterDataBy === "by_specific") {
+		variablesUseNow = null;
 		variables = {
 			// arr posts Slugs
 			nameIn: posts?.map((item) => item.value) || [],
@@ -81,13 +88,23 @@ export default function Edit(props) {
 			field: orderBy,
 			first: Number(numberPerPage),
 		};
+		//
+		variablesUseNow = {
+			...variables,
+			categoryIn:
+				tabActiveId && tabActiveId !== -1
+					? [tabActiveId]
+					: categories?.map((item) => item.value) || [],
+		};
 	}
 
 	// =================== QUERY GRAPHQL ===================
 	const gqlQuery = gql`
 		${GQL_QUERY__string}
 	`;
-	const { loading, error, data } = useQuery(gqlQuery, { variables });
+	const { loading, error, data } = useQuery(gqlQuery, {
+		variables: variablesUseNow || variables,
+	});
 
 	const dataLists = data?.posts?.edges || [];
 
@@ -101,6 +118,17 @@ export default function Edit(props) {
 			},
 		});
 	}, [data]);
+
+	const handleClickTab = (item) => {
+		if (item === -1) {
+			setTabActiveId(item);
+			return;
+		}
+		if (item.id === tabActiveId) {
+			return;
+		}
+		setTabActiveId(item.id);
+	};
 
 	//
 	const renderFilterPostsContent = () => {
@@ -146,9 +174,12 @@ export default function Edit(props) {
 				/>
 
 				{/* ------- */}
-				<InputNumberPerPage
-					defaultValue={numberPerPage}
+				<RangeControl
+					label={__("Number per page", "ncmaz-core")}
+					value={numberPerPage}
 					onChange={(numberPerPage) => setAttributes({ numberPerPage })}
+					min={1}
+					max={20}
 				/>
 			</div>
 		);
@@ -183,16 +214,12 @@ export default function Edit(props) {
 				/>
 
 				<div className="w-full space-y-1">
-					<legend>{__("Item per view", "ncmaz-core")}</legend>
-					<NumberControl
-						isShiftStepEnabled={true}
-						onChange={(itemPerView) => {
-							setAttributes({ itemPerView: Number(itemPerView) });
-						}}
-						min={3}
-						max={6}
-						shiftStep={10}
+					<RangeControl
+						label={__("Item per view", "ncmaz-core")}
 						value={itemPerView}
+						onChange={(itemPerView) => setAttributes({ itemPerView })}
+						min={3}
+						max={5}
 					/>
 				</div>
 
@@ -274,17 +301,22 @@ export default function Edit(props) {
 		<div {...useBlockProps()}>
 			{renderSidebarSetting()}
 
-			<div className="p-6 bg-green-300  border border-black">
-				<p>{__("Sorry, preview mode is comming soon!", "ncmaz-core")}</p>
-				<p className="text-3xl">{__("BLOCK POSTS SLIDER", "ncmaz-core")}</p>
-				{loading && "LOADING ....."}
-				{error && (
-					<pre className="text-xs text-red-500">
-						<code>{JSON.stringify(error)}</code>
-					</pre>
-				)}
-				<p>post length: {JSON.stringify(dataLists.length)}</p>
-			</div>
+			{loading && <Spinner />}
+			{error && (
+				<pre className="text-xs text-red-500">
+					<code>{JSON.stringify(error)}</code>
+				</pre>
+			)}
+			{!dataLists.length && !loading && <EmptyState />}
+
+			<SectionSliderPosts
+				{...attributes}
+				listData={dataLists}
+				loading={loading}
+				tabActiveId={tabActiveId}
+				handleClickTab={handleClickTab}
+				className=" "
+			/>
 		</div>
 	);
 }

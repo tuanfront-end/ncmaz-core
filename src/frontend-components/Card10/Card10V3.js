@@ -34,11 +34,7 @@ const Card10V3 = ({
 			data-nc-id="Card10V3"
 		>
 			<div className="block group rounded-3xl flex-shrink-0 relative w-full aspect-w-16 aspect-h-16 sm:aspect-h-9 overflow-hidden">
-				<div>
-					<NcImage
-						src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
-					/>
-				</div>
+				<NcImage src={featuredImage?.node.sourceUrl} />
 
 				<a
 					href={link}

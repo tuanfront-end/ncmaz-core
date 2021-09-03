@@ -45,7 +45,7 @@ const Card13 = ({ className = "", post, isSkeleton }) => {
 				className={`block relative flex-shrink-0 w-2/5 sm:w-1/3 ml-3 sm:ml-5`}
 			>
 				<NcImage
-					containerClassName="absolute inset-0 "
+					containerClassName="absolute inset-0 rounded-xl sm:rounded-3xl"
 					className="object-cover w-full h-full rounded-xl sm:rounded-3xl"
 					src={isSkeleton ? "." : featuredImage?.node.sourceUrl}
 				/>
