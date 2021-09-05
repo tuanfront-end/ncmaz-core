@@ -113,9 +113,9 @@ const POSTS_SECTION_BY_FILTER__string = `
   query MyQuery(
     $field: PostObjectsConnectionOrderbyEnum = AUTHOR
     $order: OrderEnum = ASC
-    $categoryIn: [ID] = ""
-    $tagIn: [ID] = ""
-    $authorIn: [ID] = ""
+    $categoryIn: [ID] = []
+    $tagIn: [ID] = []
+    $authorIn: [ID] = []
     $last: Int = null
     $first: Int = 10
     $before: String = ""

@@ -1,9 +1,9 @@
 (window["webpackJsonp_ncmaz_core"] = window["webpackJsonp_ncmaz_core"] || []).push([["style-index"],{
 
-/***/ "./src/style.scss":
-/*!************************!*\
-  !*** ./src/style.scss ***!
-  \************************/
+/***/ "./src/style.css":
+/*!***********************!*\
+  !*** ./src/style.css ***!
+  \***********************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56686,35 +56686,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _apollo_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @apollo/client */ "./node_modules/@apollo/client/index.js");
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
-/* harmony import */ var _block_magazine_edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block-magazine/edit */ "./src/block-magazine/edit.js");
-/* harmony import */ var _block_magazine_save__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./block-magazine/save */ "./src/block-magazine/save.js");
-/* harmony import */ var _block_posts_slider_edit__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block-posts-slider/edit */ "./src/block-posts-slider/edit.js");
-/* harmony import */ var _block_posts_slider_save__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./block-posts-slider/save */ "./src/block-posts-slider/save.js");
-/* harmony import */ var _block_posts_grid_edit__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./block-posts-grid/edit */ "./src/block-posts-grid/edit.js");
-/* harmony import */ var _block_posts_grid_save__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./block-posts-grid/save */ "./src/block-posts-grid/save.js");
-/* harmony import */ var _block_terms_slider_edit__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./block-terms-slider/edit */ "./src/block-terms-slider/edit.js");
-/* harmony import */ var _block_terms_slider_save__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./block-terms-slider/save */ "./src/block-terms-slider/save.js");
-/* harmony import */ var _block_terms_grid_edit__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./block-terms-grid/edit */ "./src/block-terms-grid/edit.js");
-/* harmony import */ var _block_terms_grid_save__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./block-terms-grid/save */ "./src/block-terms-grid/save.js");
-/* harmony import */ var _block_users_slider_edit__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./block-users-slider/edit */ "./src/block-users-slider/edit.js");
-/* harmony import */ var _block_users_slider_save__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./block-users-slider/save */ "./src/block-users-slider/save.js");
-/* harmony import */ var _block_users_grid_edit__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./block-users-grid/edit */ "./src/block-users-grid/edit.js");
-/* harmony import */ var _block_users_grid_save__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./block-users-grid/save */ "./src/block-users-grid/save.js");
-/* harmony import */ var _block_become_author_edit__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./block-become-author/edit */ "./src/block-become-author/edit.js");
-/* harmony import */ var _block_become_author_save__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./block-become-author/save */ "./src/block-become-author/save.js");
-/* harmony import */ var _block_videos_edit__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./block-videos/edit */ "./src/block-videos/edit.js");
-/* harmony import */ var _block_videos_save__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./block-videos/save */ "./src/block-videos/save.js");
-/* harmony import */ var _block_newsletter_edit__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./block-newsletter/edit */ "./src/block-newsletter/edit.js");
-/* harmony import */ var _block_newsletter_save__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./block-newsletter/save */ "./src/block-newsletter/save.js");
-/* harmony import */ var _block_widget_posts_edit__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./block-widget-posts/edit */ "./src/block-widget-posts/edit.js");
-/* harmony import */ var _block_widget_posts_save__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./block-widget-posts/save */ "./src/block-widget-posts/save.js");
-/* harmony import */ var _block_widget_users_edit__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./block-widget-users/edit */ "./src/block-widget-users/edit.js");
-/* harmony import */ var _block_widget_users_save__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./block-widget-users/save */ "./src/block-widget-users/save.js");
-/* harmony import */ var _block_widget_terms_edit__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./block-widget-terms/edit */ "./src/block-widget-terms/edit.js");
-/* harmony import */ var _block_widget_terms_save__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./block-widget-terms/save */ "./src/block-widget-terms/save.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_30___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_30__);
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./style.css */ "./src/style.css");
+/* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./styles/index.scss */ "./src/styles/index.scss");
+/* harmony import */ var _block_magazine_edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./block-magazine/edit */ "./src/block-magazine/edit.js");
+/* harmony import */ var _block_magazine_save__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block-magazine/save */ "./src/block-magazine/save.js");
+/* harmony import */ var _block_posts_slider_edit__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./block-posts-slider/edit */ "./src/block-posts-slider/edit.js");
+/* harmony import */ var _block_posts_slider_save__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./block-posts-slider/save */ "./src/block-posts-slider/save.js");
+/* harmony import */ var _block_posts_grid_edit__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./block-posts-grid/edit */ "./src/block-posts-grid/edit.js");
+/* harmony import */ var _block_posts_grid_save__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./block-posts-grid/save */ "./src/block-posts-grid/save.js");
+/* harmony import */ var _block_terms_slider_edit__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./block-terms-slider/edit */ "./src/block-terms-slider/edit.js");
+/* harmony import */ var _block_terms_slider_save__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./block-terms-slider/save */ "./src/block-terms-slider/save.js");
+/* harmony import */ var _block_terms_grid_edit__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./block-terms-grid/edit */ "./src/block-terms-grid/edit.js");
+/* harmony import */ var _block_terms_grid_save__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./block-terms-grid/save */ "./src/block-terms-grid/save.js");
+/* harmony import */ var _block_users_slider_edit__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./block-users-slider/edit */ "./src/block-users-slider/edit.js");
+/* harmony import */ var _block_users_slider_save__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./block-users-slider/save */ "./src/block-users-slider/save.js");
+/* harmony import */ var _block_users_grid_edit__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./block-users-grid/edit */ "./src/block-users-grid/edit.js");
+/* harmony import */ var _block_users_grid_save__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./block-users-grid/save */ "./src/block-users-grid/save.js");
+/* harmony import */ var _block_become_author_edit__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./block-become-author/edit */ "./src/block-become-author/edit.js");
+/* harmony import */ var _block_become_author_save__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./block-become-author/save */ "./src/block-become-author/save.js");
+/* harmony import */ var _block_videos_edit__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./block-videos/edit */ "./src/block-videos/edit.js");
+/* harmony import */ var _block_videos_save__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./block-videos/save */ "./src/block-videos/save.js");
+/* harmony import */ var _block_newsletter_edit__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./block-newsletter/edit */ "./src/block-newsletter/edit.js");
+/* harmony import */ var _block_newsletter_save__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./block-newsletter/save */ "./src/block-newsletter/save.js");
+/* harmony import */ var _block_widget_posts_edit__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./block-widget-posts/edit */ "./src/block-widget-posts/edit.js");
+/* harmony import */ var _block_widget_posts_save__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./block-widget-posts/save */ "./src/block-widget-posts/save.js");
+/* harmony import */ var _block_widget_users_edit__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./block-widget-users/edit */ "./src/block-widget-users/edit.js");
+/* harmony import */ var _block_widget_users_save__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./block-widget-users/save */ "./src/block-widget-users/save.js");
+/* harmony import */ var _block_widget_terms_edit__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./block-widget-terms/edit */ "./src/block-widget-terms/edit.js");
+/* harmony import */ var _block_widget_terms_save__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./block-widget-terms/save */ "./src/block-widget-terms/save.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_31___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_31__);
 
 
 
@@ -56727,6 +56728,7 @@ const {
 const {
   __
 } = wp.i18n;
+
  //
 
 
@@ -56784,15 +56786,15 @@ const client = new _apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloClient"]({
 }); //
 
 
-axios__WEBPACK_IMPORTED_MODULE_30___default.a.defaults.baseURL = "http://localhost/wordpress-1/"; //
+axios__WEBPACK_IMPORTED_MODULE_31___default.a.defaults.baseURL = "http://localhost/wordpress-1/"; //
 // sectionName: magazine-1 .... magazine-9
 
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncmaz-core/block-magazine", {
   title: "Ncmaz Block Magazine",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_magazine_edit__WEBPACK_IMPORTED_MODULE_4__["default"], props)),
-  save: _block_magazine_save__WEBPACK_IMPORTED_MODULE_5__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_magazine_edit__WEBPACK_IMPORTED_MODULE_5__["default"], props)),
+  save: _block_magazine_save__WEBPACK_IMPORTED_MODULE_6__["default"],
   attributes: {
     sectionName: {
       type: "string",
@@ -56862,8 +56864,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   title: "Ncmaz Block Posts Slider",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_posts_slider_edit__WEBPACK_IMPORTED_MODULE_6__["default"], props)),
-  save: _block_posts_slider_save__WEBPACK_IMPORTED_MODULE_7__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_posts_slider_edit__WEBPACK_IMPORTED_MODULE_7__["default"], props)),
+  save: _block_posts_slider_save__WEBPACK_IMPORTED_MODULE_8__["default"],
   attributes: {
     filterDataBy: {
       type: "string",
@@ -56945,8 +56947,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   title: "Ncmaz Block Posts Grid",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_posts_grid_edit__WEBPACK_IMPORTED_MODULE_8__["default"], props)),
-  save: _block_posts_grid_save__WEBPACK_IMPORTED_MODULE_9__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_posts_grid_edit__WEBPACK_IMPORTED_MODULE_9__["default"], props)),
+  save: _block_posts_grid_save__WEBPACK_IMPORTED_MODULE_10__["default"],
   attributes: {
     filterDataBy: {
       type: "string",
@@ -57030,8 +57032,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   title: "Ncmaz Block Terms Slider",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_terms_slider_edit__WEBPACK_IMPORTED_MODULE_10__["default"], props)),
-  save: _block_terms_slider_save__WEBPACK_IMPORTED_MODULE_11__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_terms_slider_edit__WEBPACK_IMPORTED_MODULE_11__["default"], props)),
+  save: _block_terms_slider_save__WEBPACK_IMPORTED_MODULE_12__["default"],
   attributes: {
     typeOfTerm: {
       type: "string",
@@ -57098,8 +57100,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   title: "Ncmaz Block Terms Grid",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_terms_grid_edit__WEBPACK_IMPORTED_MODULE_12__["default"], props)),
-  save: _block_terms_grid_save__WEBPACK_IMPORTED_MODULE_13__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_terms_grid_edit__WEBPACK_IMPORTED_MODULE_13__["default"], props)),
+  save: _block_terms_grid_save__WEBPACK_IMPORTED_MODULE_14__["default"],
   attributes: {
     blockLayoutStyle: {
       type: "string",
@@ -57173,8 +57175,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   title: "Ncmaz Block Users Slider",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_users_slider_edit__WEBPACK_IMPORTED_MODULE_14__["default"], props)),
-  save: _block_users_slider_save__WEBPACK_IMPORTED_MODULE_15__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_users_slider_edit__WEBPACK_IMPORTED_MODULE_15__["default"], props)),
+  save: _block_users_slider_save__WEBPACK_IMPORTED_MODULE_16__["default"],
   attributes: {
     filterDataBy: {
       type: "string",
@@ -57238,8 +57240,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   title: "Ncmaz Block Users Grid",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_users_grid_edit__WEBPACK_IMPORTED_MODULE_16__["default"], props)),
-  save: _block_users_grid_save__WEBPACK_IMPORTED_MODULE_17__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_users_grid_edit__WEBPACK_IMPORTED_MODULE_17__["default"], props)),
+  save: _block_users_grid_save__WEBPACK_IMPORTED_MODULE_18__["default"],
   attributes: {
     filterDataBy: {
       type: "string",
@@ -57308,8 +57310,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     return {
       media: props.attributes.mediaId ? select("core").getMedia(props.attributes.mediaId) : undefined
     };
-  })(_block_become_author_edit__WEBPACK_IMPORTED_MODULE_18__["default"]),
-  save: _block_become_author_save__WEBPACK_IMPORTED_MODULE_19__["default"],
+  })(_block_become_author_edit__WEBPACK_IMPORTED_MODULE_19__["default"]),
+  save: _block_become_author_save__WEBPACK_IMPORTED_MODULE_20__["default"],
   attributes: {
     hasBackground: {
       type: "boolean",
@@ -57349,8 +57351,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
 
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncmaz-core/block-videos", {
   title: "Ncmaz Block Videos",
-  edit: _block_videos_edit__WEBPACK_IMPORTED_MODULE_20__["default"],
-  save: _block_videos_save__WEBPACK_IMPORTED_MODULE_21__["default"],
+  edit: _block_videos_edit__WEBPACK_IMPORTED_MODULE_21__["default"],
+  save: _block_videos_save__WEBPACK_IMPORTED_MODULE_22__["default"],
   attributes: {
     hasBackground: {
       type: "boolean",
@@ -57377,8 +57379,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     return {
       media: props.attributes.mediaId ? select("core").getMedia(props.attributes.mediaId) : undefined
     };
-  })(_block_newsletter_edit__WEBPACK_IMPORTED_MODULE_22__["default"]),
-  save: _block_newsletter_save__WEBPACK_IMPORTED_MODULE_23__["default"],
+  })(_block_newsletter_edit__WEBPACK_IMPORTED_MODULE_23__["default"]),
+  save: _block_newsletter_save__WEBPACK_IMPORTED_MODULE_24__["default"],
   attributes: {
     hasBackground: {
       type: "boolean",
@@ -57412,8 +57414,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   title: "Ncmaz Block Widget Posts",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_widget_posts_edit__WEBPACK_IMPORTED_MODULE_24__["default"], props)),
-  save: _block_widget_posts_save__WEBPACK_IMPORTED_MODULE_25__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_widget_posts_edit__WEBPACK_IMPORTED_MODULE_25__["default"], props)),
+  save: _block_widget_posts_save__WEBPACK_IMPORTED_MODULE_26__["default"],
   attributes: {
     filterDataBy: {
       type: "string",
@@ -57468,8 +57470,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   title: "Ncmaz Block Widget Users",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_widget_users_edit__WEBPACK_IMPORTED_MODULE_26__["default"], props)),
-  save: _block_widget_users_save__WEBPACK_IMPORTED_MODULE_27__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_widget_users_edit__WEBPACK_IMPORTED_MODULE_27__["default"], props)),
+  save: _block_widget_users_save__WEBPACK_IMPORTED_MODULE_28__["default"],
   attributes: {
     filterDataBy: {
       type: "string",
@@ -57513,8 +57515,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   title: "Ncmaz Block Widget Terms",
   edit: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_apollo_client__WEBPACK_IMPORTED_MODULE_2__["ApolloProvider"], {
     client: client
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_widget_terms_edit__WEBPACK_IMPORTED_MODULE_28__["default"], props)),
-  save: _block_widget_terms_save__WEBPACK_IMPORTED_MODULE_29__["default"],
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_block_widget_terms_edit__WEBPACK_IMPORTED_MODULE_29__["default"], props)),
+  save: _block_widget_terms_save__WEBPACK_IMPORTED_MODULE_30__["default"],
   attributes: {
     termCardName: {
       type: "string",
@@ -57560,6 +57562,20 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     }
   }
 });
+
+/***/ }),
+
+/***/ "./src/styles/index.scss":
+/*!*******************************!*\
+  !*** ./src/styles/index.scss ***!
+  \*******************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
 
 /***/ }),
 

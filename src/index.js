@@ -11,7 +11,8 @@ const { Fragment } = wp.element;
 const { withSelect } = wp.data;
 const { __ } = wp.i18n;
 
-import "./style.scss";
+import "./style.css";
+import "./styles/index.scss";
 //
 import BlockMagazineEdit from "./block-magazine/edit";
 import BlockMagazineSave from "./block-magazine/save";
