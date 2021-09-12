@@ -67,7 +67,7 @@ module.exports = {
 		],
 		safelist,
 	},
-	darkMode: "class", // or 'media' or 'class',
+	darkMode: false, // or 'media' or 'class',
 	theme: {
 		container: {
 			center: true,
