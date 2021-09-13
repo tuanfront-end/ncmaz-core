@@ -1,0 +1,26 @@
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+	// ---------------------------------- ##  Code ----------------------------------
+	code {
+		@apply bg-gray-300 font-normal px-0.5 rounded-[4px];
+		font-size: inherit;
+		&::after,
+		&::before {
+			display: none;
+		}
+	}
+	pre {
+		@apply overflow-x-auto;
+		strong {
+			color: inherit;
+		}
+	}
+	//
+	.prose-sm {
+		pre {
+			@apply overflow-x-auto;
+			strong {
+				color: inherit;
+			}
+		}
+	}
+}

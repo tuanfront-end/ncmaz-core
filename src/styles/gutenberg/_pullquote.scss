@@ -1,0 +1,45 @@
+// ------------------------------------------ ## Pullquote ------------------------------------------
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+	blockquote,
+	.wp-block-quote.is-large,
+	.wp-block-quote.is-style-large {
+		font-weight: 500;
+		font-style: italic;
+		color: #18181b;
+		border-left-width: 0.25rem;
+		border-left-style: solid;
+		border-left-color: #e4e4e7;
+		quotes: "\201C""\201D""\2018""\2019";
+		margin-top: 1.6em;
+		margin-bottom: 1.6em;
+		padding-left: 1em;
+	}
+	.has-background {
+		@apply py-8 rounded-2xl;
+		blockquote {
+			@apply border-none;
+			p {
+				@apply my-1;
+			}
+		}
+	}
+	cite {
+		color: currentColor;
+		font-size: 0.8125em;
+		position: relative;
+		font-style: normal;
+		@apply opacity-70;
+	}
+	.wp-block-pullquote .wp-block-pullquote__citation {
+		@apply opacity-70 mt-5;
+	}
+
+	.wp-block-pullquote {
+		@apply text-left py-4 border-none;
+
+		cite,
+		&.has-background {
+			@apply py-10 rounded border-none;
+		}
+	}
+}

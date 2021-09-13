@@ -1,0 +1,98 @@
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+	.wp-block-cover-image img.wp-block-cover__image-background,
+	.wp-block-cover-image video.wp-block-cover__video-background,
+	.wp-block-cover img.wp-block-cover__image-background,
+	.wp-block-cover video.wp-block-cover__video-background {
+		@apply mt-0 mb-0;
+	}
+
+	.wp-block-cover,
+	.wp-block-cover-image {
+		&:not(.alignwide):not(.alignfull) {
+			clear: both;
+		}
+
+		&.alignfull {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
+		@apply text-gray-100;
+		strong {
+			@apply text-gray-100;
+		}
+		margin-top: 1.25em;
+		margin-bottom: 1.25em;
+
+		.wp-block-cover__inner-container,
+		.wp-block-cover-image-text,
+		.wp-block-cover-text {
+			color: currentColor; // Uses text color specified with background-color options in 07-utilities\color-palette.scss
+			@apply my-5;
+
+			a:not(.wp-block-button__link):not(.wp-block-file__button) {
+				color: currentColor;
+			}
+
+			.has-link-color a {
+				@apply text-gray-100;
+			}
+		}
+
+		.has-large-font-size {
+			@apply leading-tight;
+		}
+
+		/* default & custom background-color */
+		&:not([class*="background-color"]) {
+			.wp-block-cover__inner-container,
+			.wp-block-cover-image-text,
+			.wp-block-cover-text {
+				@apply text-gray-100;
+			}
+		}
+
+		/* Treating H2 separately to account for legacy /core styles */
+		h2 {
+			@apply text-2xl;
+			max-width: inherit; // undo opinionated styles
+			text-align: inherit; // undo opinionated styles
+			padding: 0;
+
+			&.has-text-align-left {
+				text-align: left;
+			}
+
+			&.has-text-align-center {
+				text-align: center;
+			}
+
+			&.has-text-align-right {
+				text-align: right;
+			}
+		}
+
+		&.alignleft,
+		&.alignright {
+			margin-top: 0;
+			> * {
+				width: 100%;
+			}
+		}
+
+		&.has-left-content,
+		&.has-right-content {
+			justify-content: center;
+		}
+
+		/* The background color class is used just for the overlay, and does not need to be applied to the inner container. */
+		&[class*="-background-color"][class] .wp-block-cover__inner-container {
+			background-color: unset;
+		}
+	}
+	//
+
+	[data-align="left"]:first-child {
+		margin-top: 1.25rem;
+	}
+}

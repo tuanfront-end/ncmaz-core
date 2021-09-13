@@ -1,0 +1,34 @@
+body.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+	//
+	.wp-block-gallery {
+		// margin: 0 auto;
+		figure {
+			@apply m-0;
+		}
+	}
+
+	.blocks-gallery-grid,
+	.wp-block-gallery {
+		@apply list-none;
+		li {
+			@apply p-0;
+			&::before {
+				@apply hidden;
+			}
+		}
+	}
+
+	//
+	.gallery-item {
+		img {
+			@apply w-full mb-0;
+		}
+		.wp-caption-text.gallery-caption {
+			color: #6b7280;
+			font-size: 0.875em;
+			line-height: 1.4285714;
+			margin-top: 0.8571429em;
+			text-align: center;
+		}
+	}
+}

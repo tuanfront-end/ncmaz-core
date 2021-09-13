@@ -1,0 +1,17 @@
+// ---------------------------------- ##  Table ----------------------------------
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+	.wp-block-table td,
+	.wp-block-table th {
+		@apply border-none;
+	}
+
+	//
+	.wp-block-calendar {
+		table {
+			th,
+			td {
+				@apply text-center;
+			}
+		}
+	}
+}

@@ -1,0 +1,23 @@
+// ----------------------------------   ##   Image ----------------------------------
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+	.wp-block-image {
+		img {
+			margin-bottom: 0;
+		}
+
+		figcaption {
+			@apply text-center mt-[10px] text-gray-600;
+		}
+	}
+	figure {
+		img {
+			@apply my-0;
+		}
+	}
+
+	[data-align="left"] {
+		.wp-block-image {
+			@apply mt-1 #{!important};
+		}
+	}
+}
