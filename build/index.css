@@ -1395,46 +1395,49 @@ ul > :not([hidden]) ~ :not([hidden]){
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
-.block-editor-block-list__layout.is-root-container > *{
+.post-type-post .block-editor-block-list__layout.is-root-container > *{
   width: 100vw !important;
   max-width: 80rem !important;
 }
 
-.block-editor__container .block-editor-block-list__layout {
-  overflow: hidden;
-}
-.block-editor__container [data-type^=ncmaz-core] img{
-  border-width: 0px;
-  border-style: none;
-}
-.block-editor__container [data-type^=ncmaz-core] ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.block-editor__container [data-type^=ncmaz-core] ul li {
-  list-style: none;
-}
-.block-editor__container [data-type^=ncmaz-core] h1:not([class*=my-]), .block-editor__container [data-type^=ncmaz-core] h2:not([class*=my-]), .block-editor__container [data-type^=ncmaz-core] h3:not([class*=my-]), .block-editor__container [data-type^=ncmaz-core] h4:not([class*=my-]), .block-editor__container [data-type^=ncmaz-core] h5:not([class*=my-]), .block-editor__container [data-type^=ncmaz-core] p:not([class*=my-]){
-  margin-top: 0px;
-  margin-bottom: 0px;
+.post-type-page .block-editor-block-list__layout.is-root-container > *{
+  width: 100% !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
 }
 
-.wp-block .container {
-  padding: 0 !important;
+@media (min-width: 640px){
+  .post-type-page .block-editor-block-list__layout.is-root-container > *{
+    max-width: 640px !important;
+  }
 }
 
-.\!prose-sm h1 + *,
-.prose-sm h1 + *,
-.prose h1 + * {
-  margin-top: 0 !important;
+@media (min-width: 768px){
+  .post-type-page .block-editor-block-list__layout.is-root-container > *{
+    max-width: 768px !important;
+  }
 }
 
-.prose input[type=submit]{
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+@media (min-width: 1024px){
+  .post-type-page .block-editor-block-list__layout.is-root-container > *{
+    max-width: 1024px !important;
+  }
+}
+
+@media (min-width: 1280px){
+  .post-type-page .block-editor-block-list__layout.is-root-container > *{
+    max-width: 1280px !important;
+  }
+}
+
+@media (min-width: 1536px){
+  .post-type-page .block-editor-block-list__layout.is-root-container > *{
+    max-width: 1536px !important;
+    padding-right: 128px !important;
+    padding-left: 128px !important;
+  }
 }
 
 .wp-block.editor-post-title.editor-post-title__block{
@@ -1461,6 +1464,23 @@ ul > :not([hidden]) ~ :not([hidden]){
     font-size: 3rem !important;
     line-height: 1 !important;
   }
+}
+
+.wp-block .container {
+  padding: 0 !important;
+}
+
+.\!prose-sm h1 + *,
+.prose-sm h1 + *,
+.prose h1 + * {
+  margin-top: 0 !important;
+}
+
+.prose input[type=submit]{
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .wp-admin #wpwrap .block-editor-block-list__layout.is-root-container{
@@ -2603,10 +2623,24 @@ ul > :not([hidden]) ~ :not([hidden]){
 .wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
   max-width: unset;
 }
-.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container > *{
-  margin-left: auto !important;
-  margin-right: auto !important;
-  max-width: 768px !important;
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container .block-editor-block-list__layout {
+  overflow: hidden;
+}
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container [data-type^=ncmaz-core] img{
+  border-width: 0px;
+  border-style: none;
+}
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container [data-type^=ncmaz-core] ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container [data-type^=ncmaz-core] ul li {
+  list-style: none;
+}
+.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container [data-type^=ncmaz-core] h1:not([class*=my-]), .wp-admin #wpwrap .block-editor-block-list__layout.is-root-container [data-type^=ncmaz-core] h2:not([class*=my-]), .wp-admin #wpwrap .block-editor-block-list__layout.is-root-container [data-type^=ncmaz-core] h3:not([class*=my-]), .wp-admin #wpwrap .block-editor-block-list__layout.is-root-container [data-type^=ncmaz-core] h4:not([class*=my-]), .wp-admin #wpwrap .block-editor-block-list__layout.is-root-container [data-type^=ncmaz-core] h5:not([class*=my-]), .wp-admin #wpwrap .block-editor-block-list__layout.is-root-container [data-type^=ncmaz-core] p:not([class*=my-]){
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 .wp-admin #wpwrap .block-editor-block-list__layout.is-root-container a.wp-block-button__link{
   --tw-text-opacity: 1;

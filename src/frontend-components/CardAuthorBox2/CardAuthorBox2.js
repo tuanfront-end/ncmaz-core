@@ -34,7 +34,7 @@ const CardAuthorBox2 = ({ className = "", author }) => {
 					containerClassName="ring-2 ring-white"
 					sizeClass="w-16 h-16 text-2xl"
 					radius="rounded-full"
-					imgUrl={avatar.url}
+					imgUrl={avatar?.url}
 					userName={username}
 				/>
 				<div className="mt-3">

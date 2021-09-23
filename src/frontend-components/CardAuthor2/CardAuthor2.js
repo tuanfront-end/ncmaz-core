@@ -20,7 +20,7 @@ const CardAuthor2 = ({
 				sizeClass="h-10 w-10 text-base"
 				containerClassName="flex-shrink-0 mr-3"
 				radius="rounded-full"
-				imgUrl={node.avatar.url}
+				imgUrl={node.avatar?.url}
 				userName={node.username}
 			/>
 			<div>

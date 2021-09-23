@@ -28,7 +28,7 @@ const PostCardMeta = ({
 						sizeClass={
 							size === "normal" ? "h-7 w-7 text-sm" : "h-10 w-10 text-xl"
 						}
-						imgUrl={author.avatar.url}
+						imgUrl={author.avatar?.url}
 						userName={author.username}
 					/>
 				)}

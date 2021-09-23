@@ -266,7 +266,7 @@ export default function Edit(props) {
 									onChange={(filterDataBy) => setAttributes({ filterDataBy })}
 								/>
 							</PanelRow>
-							<div className="border-b border-gray-600 mt-3 mb-4"></div>
+							<div className="border-b border-gray-600 mt-3 mb-4 "></div>
 							<PanelRow>{renderFilterPostsContent()}</PanelRow>
 						</PanelBody>
 					</Panel>

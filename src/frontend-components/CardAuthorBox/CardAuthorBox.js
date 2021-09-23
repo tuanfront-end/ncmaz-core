@@ -14,7 +14,7 @@ const CardAuthorBox = ({ className = "", author }) => {
 			<Avatar
 				sizeClass="w-20 h-20 text-2xl"
 				radius="rounded-full"
-				imgUrl={avatar.url}
+				imgUrl={avatar?.url}
 				userName={username}
 			/>
 			<div className="mt-3">

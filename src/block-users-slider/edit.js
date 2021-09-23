@@ -258,7 +258,7 @@ export default function Edit(props) {
 
 	const renderPreviewContent = () => {
 		return (
-			<div className={hasBackground ? "py-16" : ""}>
+			<div className={hasBackground ? "py-16 " : ""}>
 				{hasBackground && <BackgroundSection />}
 
 				{/* --------------------- */}

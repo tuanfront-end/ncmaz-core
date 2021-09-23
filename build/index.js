@@ -45595,14 +45595,7 @@ const postFields = ` edges {
       node {
         id
         avatar {
-          default
-          extraAttr
-          forceDefault
-          foundAvatar
-          height
-          size
           url
-          width
         }
         url
         uri
@@ -45621,6 +45614,9 @@ const postFields = ` edges {
           slug
           count
           categoryId
+          ncTaxonomyMeta {
+            color
+          }
         }
       }
     }
@@ -46593,14 +46589,7 @@ const postFields = ` edges {
       node {
         id
         avatar {
-          default
-          extraAttr
-          forceDefault
-          foundAvatar
-          height
-          size
           url
-          width
         }
         url
         uri
@@ -46619,6 +46608,9 @@ const postFields = ` edges {
           slug
           count
           categoryId
+          ncTaxonomyMeta {
+            color
+          }
         }
       }
     }
@@ -47369,14 +47361,7 @@ const postFields = ` edges {
       node {
         id
         avatar {
-          default
-          extraAttr
-          forceDefault
-          foundAvatar
-          height
-          size
           url
-          width
         }
         url
         uri
@@ -47395,6 +47380,9 @@ const postFields = ` edges {
           slug
           count
           categoryId
+          ncTaxonomyMeta {
+            color
+          }
         }
       }
     }
@@ -48956,7 +48944,7 @@ function Edit(props) {
         filterDataBy
       })
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "border-b border-gray-600 mt-3 mb-4"
+      className: "border-b border-gray-600 mt-3 mb-4 "
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["PanelRow"], null, renderFilterPostsContent())))));
   };
 
@@ -48996,9 +48984,6 @@ __webpack_require__.r(__webpack_exports__);
 const GQLcommon = `edges {
 	node {
 		id
-		avatar {
-			url
-		}
 		name
 		username
 		userId
@@ -49408,7 +49393,7 @@ function Edit(props) {
 
   const renderPreviewContent = () => {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: hasBackground ? "py-16" : ""
+      className: hasBackground ? "py-16 " : ""
     }, hasBackground && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_frontend_components_BackgroundSection_BackgroundSection__WEBPACK_IMPORTED_MODULE_15__["default"], null), loading && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Spinner"], null), error && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("pre", {
       className: "text-xs text-red-500"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("code", null, JSON.stringify(error))), !usersList.length && !loading && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_frontend_components_EmptyState_EmptyState__WEBPACK_IMPORTED_MODULE_19__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_frontend_components_SectionSliderNewAthors_SectionSliderNewAuthors__WEBPACK_IMPORTED_MODULE_17__["default"], {
@@ -49444,9 +49429,6 @@ __webpack_require__.r(__webpack_exports__);
 const GQLcommon = `edges {
 	node {
 		id
-		avatar {
-			url
-		}
 		name
 		username
 		userId
@@ -49984,14 +49966,7 @@ const postFields = ` edges {
       node {
         id
         avatar {
-          default
-          extraAttr
-          forceDefault
-          foundAvatar
-          height
-          size
           url
-          width
         }
         url
         uri
@@ -50010,6 +49985,9 @@ const postFields = ` edges {
           slug
           count
           categoryId
+          ncTaxonomyMeta {
+            color
+          }
         }
       }
     }
@@ -50914,9 +50892,6 @@ __webpack_require__.r(__webpack_exports__);
 const GQLcommon = `edges {
 	node {
 		id
-		avatar {
-			url
-		}
 		name
 		username
 		userId
@@ -52517,7 +52492,7 @@ const Card14 = ({
   hoverClass = "",
   isSkeleton
 }) => {
-  var _postFormats$edges$;
+  var _postFormats$edges$, _author$node$avatar;
 
   const {
     title,
@@ -52568,7 +52543,7 @@ const Card14 = ({
     radius: "rounded-full",
     containerClassName: "ring-2 ring-white",
     sizeClass: "h-7 w-7 text-sm",
-    imgUrl: author.node.avatar.url,
+    imgUrl: (_author$node$avatar = author.node.avatar) === null || _author$node$avatar === void 0 ? void 0 : _author$node$avatar.url,
     userName: author.node.username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "block text-white truncate"
@@ -53817,7 +53792,7 @@ const CardAuthor = ({
     sizeClass: "h-10 w-10 text-base",
     containerClassName: "flex-shrink-0 mr-4",
     radius: "rounded-full",
-    imgUrl: avatar.url,
+    imgUrl: avatar === null || avatar === void 0 ? void 0 : avatar.url,
     userName: username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", {
     className: `text-base text-neutral-900 dark:text-neutral-100 font-semibold`
@@ -53857,6 +53832,8 @@ const CardAuthor2 = ({
   date,
   hoverReadingTime = true
 }) => {
+  var _node$avatar;
+
   const {
     node
   } = author;
@@ -53868,7 +53845,7 @@ const CardAuthor2 = ({
     sizeClass: "h-10 w-10 text-base",
     containerClassName: "flex-shrink-0 mr-3",
     radius: "rounded-full",
-    imgUrl: node.avatar.url,
+    imgUrl: (_node$avatar = node.avatar) === null || _node$avatar === void 0 ? void 0 : _node$avatar.url,
     userName: node.username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", {
     className: `text-sm text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium`
@@ -53932,7 +53909,7 @@ const CardAuthorBox = ({
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Avatar_Avatar__WEBPACK_IMPORTED_MODULE_2__["default"], {
     sizeClass: "w-20 h-20 text-2xl",
     radius: "rounded-full",
-    imgUrl: avatar.url,
+    imgUrl: avatar === null || avatar === void 0 ? void 0 : avatar.url,
     userName: username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "mt-3"
@@ -54015,7 +53992,7 @@ const CardAuthorBox2 = ({
     containerClassName: "ring-2 ring-white",
     sizeClass: "w-16 h-16 text-2xl",
     radius: "rounded-full",
-    imgUrl: avatar.url,
+    imgUrl: avatar === null || avatar === void 0 ? void 0 : avatar.url,
     userName: username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "mt-3"
@@ -54497,8 +54474,7 @@ const CategoryBadgeList = ({
     className: `relative my-1 ${itemClass}`,
     key: index,
     name: item.node.name,
-    href: item.node.link // color={item.color as any}
-
+    href: item.node.link
   }))));
 };
 
@@ -55114,6 +55090,8 @@ const PostCardMeta = ({
   hiddenAvatar = false,
   size = "normal"
 }) => {
+  var _author$avatar;
+
   let {
     date,
     author
@@ -55128,7 +55106,7 @@ const PostCardMeta = ({
   }, !hiddenAvatar && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Avatar_Avatar__WEBPACK_IMPORTED_MODULE_2__["default"], {
     radius: "rounded-full",
     sizeClass: size === "normal" ? "h-7 w-7 text-sm" : "h-10 w-10 text-xl",
-    imgUrl: author.avatar.url,
+    imgUrl: (_author$avatar = author.avatar) === null || _author$avatar === void 0 ? void 0 : _author$avatar.url,
     userName: author.username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "block text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium"
@@ -55169,6 +55147,8 @@ const PostCardMetaV2 = ({
   hiddenAvatar = false,
   size = "normal"
 }) => {
+  var _author$avatar;
+
   let {
     date,
     author,
@@ -55184,7 +55164,7 @@ const PostCardMetaV2 = ({
   }, !hiddenAvatar && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Avatar_Avatar__WEBPACK_IMPORTED_MODULE_3__["default"], {
     radius: "rounded-full",
     sizeClass: size === "normal" ? "h-9 w-9 text-base" : "h-10 w-10 text-xl",
-    imgUrl: author.avatar.url,
+    imgUrl: (_author$avatar = author.avatar) === null || _author$avatar === void 0 ? void 0 : _author$avatar.url,
     userName: author.name
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", {
     className: `block font-semibold ${size === "normal" ? "text-base" : "text-lg"}`

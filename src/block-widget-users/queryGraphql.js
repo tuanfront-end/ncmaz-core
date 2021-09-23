@@ -1,9 +1,6 @@
 const GQLcommon = `edges {
 	node {
 		id
-		avatar {
-			url
-		}
 		name
 		username
 		userId

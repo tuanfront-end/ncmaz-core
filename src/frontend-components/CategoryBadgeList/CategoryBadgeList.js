@@ -14,7 +14,6 @@ const CategoryBadgeList = ({ className = "", itemClass = "", categories }) => {
 						key={index}
 						name={item.node.name}
 						href={item.node.link}
-						// color={item.color as any}
 					/>
 				))}
 			</div>
