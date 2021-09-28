@@ -116,13 +116,15 @@ const POSTS_SECTION_BY_FILTER__string = `
     $first: Int = 10
     $before: String = ""
     $after: String = ""
-  ) {
+    $notIn: [ID] = null,
+    ) {
     posts(
       where: {
         orderby: { field: $field, order: $order }
         categoryIn: $categoryIn
         tagIn: $tagIn
         authorIn: $authorIn
+        notIn: $notIn,
       }
       last: $last
       first: $first

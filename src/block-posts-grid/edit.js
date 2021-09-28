@@ -4,6 +4,7 @@ import InputSearchPosts from "../components/InputSearchPosts";
 import InputSearchCategories from "../components/InputSearchCategories";
 import InputSearchTags from "../components/InputSearchTags";
 import {
+	BaseControl,
 	TextControl,
 	Panel,
 	PanelBody,
@@ -62,6 +63,9 @@ export default function Edit(props) {
 		hasBackground,
 		//
 		graphQLvariables,
+		//NEWS
+		enableLoadMoreButton,
+		loadMoreButtonHref,
 	} = attributes;
 
 	//
@@ -275,12 +279,50 @@ export default function Edit(props) {
 					</div>
 				)}
 
-				<TextControl
-					label={__("View more href", "ncmaz-core")}
-					value={viewMoreHref}
-					type="url"
-					onChange={(viewMoreHref) => setAttributes({ viewMoreHref })}
-				/>
+				{filterDataBy !== "by_specific" && showFilterTab && (
+					<TextControl
+						label={__("View more href", "ncmaz-core")}
+						value={viewMoreHref}
+						type="url"
+						onChange={(viewMoreHref) => setAttributes({ viewMoreHref })}
+					/>
+				)}
+
+				<>
+					<div className="w-full space-x-3 flex ">
+						<BaseControl
+							id="FormToggle-1-Enable-Loadmore-mode"
+							label={__("Enable Loadmore button", "ncmaz-core")}
+							help={__(
+								"Show Load-more button (Loadmore infinite mode only work at Select posts by filter)",
+								"ncmaz-core"
+							)}
+						>
+							<FormToggle
+								id="FormToggle-1-Enable-Loadmore-mode"
+								checked={enableLoadMoreButton}
+								onChange={() =>
+									setAttributes({ enableLoadMoreButton: !enableLoadMoreButton })
+								}
+							/>
+						</BaseControl>
+					</div>
+					<TextControl
+						label={__(
+							"Load-more button href (leave empty and Select posts by filter if want use load more infinite post)",
+							"ncmaz-core"
+						)}
+						help={__(
+							"If you want use loadmore mode please do not enter this field.)",
+							"ncmaz-core"
+						)}
+						value={loadMoreButtonHref}
+						type="text"
+						onChange={(loadMoreButtonHref) =>
+							setAttributes({ loadMoreButtonHref })
+						}
+					/>
+				</>
 
 				<div className="w-full space-x-3 flex ">
 					<FormToggle

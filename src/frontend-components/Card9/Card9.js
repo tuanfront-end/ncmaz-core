@@ -37,7 +37,7 @@ const Card9 = ({
 					</h2>
 					<div className="flex mt-2.5">
 						<span className="block text-neutral-200 hover:text-white font-medium truncate">
-							{author.node.name}
+							{author?.node.name}
 						</span>
 						<span className="mx-[6px] font-medium">·</span>
 						<span className="font-normal truncate">{ncFormatDate(date)}</span>

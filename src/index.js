@@ -177,6 +177,12 @@ registerBlockType("ncmaz-core/block-posts-grid", {
 		hasBackground: { type: "boolean", default: false },
 		//
 		graphQLvariables: { type: "object", default: {} },
+		// new
+		enableLoadMoreButton: { type: "boolean", default: true },
+		loadMoreButtonHref: {
+			type: "string",
+			default: "",
+		},
 	},
 });
 

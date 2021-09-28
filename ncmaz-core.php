@@ -15,13 +15,6 @@
  */
 
 
-/**
- * Registers the block using the metadata loaded from the `block.json` file.
- * Behind the scenes, it registers also all assets so they can be enqueued
- * through the block editor in the corresponding context.
- *
- * @see https://developer.wordpress.org/block-editor/tutorials/block-tutorial/writing-your-first-block-type/
- */
 
 function create_block_ncmaz_core_block_init()
 {
@@ -43,19 +36,36 @@ function my_acf_prepare_field($field)
 add_filter('acf/prepare_field/name=views_count', 'my_acf_prepare_field');
 
 // 
-function ncmazUpdateViewsCountOnSinglePage($content)
+function ncmazcoreUpdateViewsCountOnSinglePage($content)
 {
 	if (!is_single()) {
-		return;
+		return $content;
 	}
 
 	if (is_single()) {
-		// Get the current value.
 		$count = (int) get_field('views_count');
-		// Increase it.
 		$count++;
-		// Update with new value.
 		update_field('views_count', $count);
 	}
+	return $content;
 }
-// add_filter('the_content', 'ncmazUpdateViewsCountOnSinglePage');
+add_filter('the_content', 'ncmazcoreUpdateViewsCountOnSinglePage');
+
+// 
+// 
+//  ======================= wp_enqueue_script ===========================
+wp_enqueue_script(
+	'ncmazcore-customizer-script',
+	plugins_url('public/js/customizer.js', __FILE__),
+	array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components'),
+	'20190804',
+	true
+);
+wp_localize_script(
+	'ncmazcore-customizer-script',
+	'ncmazcoreJsData',
+	array(
+		'img_empty_png' => plugins_url('public/images/empty.png', __FILE__),
+		'img_musicWave_png' => plugins_url('public/images/musicWave.png', __FILE__)
+	)
+);

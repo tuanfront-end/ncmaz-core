@@ -15,11 +15,11 @@ const SectionGridAuthorBox = ({
 	const renderCard = (author, index) => {
 		switch (userCardName) {
 			case "card1":
-				return <CardAuthorBox key={index} author={author.node} />;
+				return <CardAuthorBox key={index} author={author?.node} />;
 			case "card2":
-				return <CardAuthorBox2 key={index} author={author.node} />;
+				return <CardAuthorBox2 key={index} author={author?.node} />;
 			default:
-				return <CardAuthorBox2 key={index} author={author.node} />;
+				return <CardAuthorBox2 key={index} author={author?.node} />;
 		}
 	};
 

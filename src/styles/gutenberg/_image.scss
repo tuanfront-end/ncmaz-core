@@ -1,5 +1,7 @@
 // ----------------------------------   ##   Image ----------------------------------
-.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+.wp-admin.ncmaz-not-custom-page
+	#wpwrap
+	.block-editor-block-list__layout.is-root-container {
 	.wp-block-image {
 		img {
 			margin-bottom: 0;

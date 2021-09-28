@@ -1,4 +1,6 @@
-.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+.wp-admin.ncmaz-not-custom-page
+	#wpwrap
+	.block-editor-block-list__layout.is-root-container {
 	// ---------------------------------- ##  Code ----------------------------------
 	code {
 		@apply bg-gray-300 font-normal px-0.5 rounded-[4px];

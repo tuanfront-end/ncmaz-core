@@ -12,7 +12,7 @@ import ncFormatDate from "../../utils/formatDate";
 import Avatar from "../Avatar/Avatar";
 
 const Card17Podcast = ({ className = "", post, isSkeleton }) => {
-	const { title, link, featuredImage, postFormats } = post;
+	const { title, link, featuredImage, postFormats, excerpt } = post;
 	const postFormatName = postFormats.edges[0]?.node.name;
 
 	const renderIcon = (state) => {
@@ -97,9 +97,14 @@ const Card17Podcast = ({ className = "", post, isSkeleton }) => {
 							{title}
 						</span>
 					</h2>
-					<span className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-						40 Episode · 110 minutes - xxxx
-					</span>
+					{excerpt ? (
+						<span className="text-xs text-neutral-500 dark:text-neutral-400 mt-1 ">
+							<span
+								className="line-clamp-1"
+								dangerouslySetInnerHTML={{ __html: excerpt }}
+							></span>
+						</span>
+					) : null}
 				</div>
 			</a>
 

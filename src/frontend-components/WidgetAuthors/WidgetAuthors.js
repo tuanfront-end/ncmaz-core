@@ -19,7 +19,7 @@ const WidgetAuthors = ({
 						<CardAuthor
 							className="p-4 xl:p-5 hover:bg-neutral-200 dark:hover:bg-neutral-700"
 							key={index}
-							author={author.node}
+							author={author?.node}
 						/>
 					))}
 				</div>

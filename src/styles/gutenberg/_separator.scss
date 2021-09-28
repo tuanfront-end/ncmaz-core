@@ -1,5 +1,7 @@
 // ------------------------------------------ ## Separator ------------------------------------------
-.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+.wp-admin.ncmaz-not-custom-page
+	#wpwrap
+	.block-editor-block-list__layout.is-root-container {
 	.wp-block-separator {
 		clear: both;
 		@apply max-w-none;

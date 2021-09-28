@@ -9,7 +9,7 @@ const PostCardMetaV2 = ({
 	size = "normal",
 }) => {
 	let { date, author, title } = meta;
-	author = author.node;
+	author = author?.node;
 
 	return (
 		<div
@@ -25,8 +25,8 @@ const PostCardMetaV2 = ({
 						sizeClass={
 							size === "normal" ? "h-9 w-9 text-base" : "h-10 w-10 text-xl"
 						}
-						imgUrl={author.avatar?.url}
-						userName={author.name}
+						imgUrl={author?.avatar?.url}
+						userName={author?.name}
 					/>
 				)}
 				<div>
@@ -40,7 +40,7 @@ const PostCardMetaV2 = ({
 
 					<div className="flex mt-1.5">
 						<span className="block text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium">
-							{author.name}
+							{author?.name}
 						</span>
 						<span className="text-neutral-500 dark:text-neutral-400 mx-[6px] font-medium">
 							·

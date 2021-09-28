@@ -10,7 +10,7 @@ const PostCardMeta = ({
 }) => {
 	let { date, author } = meta;
 
-	author = author.node;
+	author = author?.node;
 	return (
 		<div
 			className={`nc-PostCardMeta inline-flex items-center flex-wrap text-neutral-800 dark:text-neutral-200 ${
@@ -19,7 +19,7 @@ const PostCardMeta = ({
 			data-nc-id="PostCardMeta"
 		>
 			<a
-				href={author.url + author.uri}
+				href={author?.url + author?.uri}
 				className="relative flex items-center space-x-2"
 			>
 				{!hiddenAvatar && (
@@ -28,12 +28,12 @@ const PostCardMeta = ({
 						sizeClass={
 							size === "normal" ? "h-7 w-7 text-sm" : "h-10 w-10 text-xl"
 						}
-						imgUrl={author.avatar?.url}
-						userName={author.username}
+						imgUrl={author?.avatar?.url}
+						userName={author?.username}
 					/>
 				)}
 				<span className="block text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium">
-					{author.name}
+					{author?.name}
 				</span>
 			</a>
 			<>

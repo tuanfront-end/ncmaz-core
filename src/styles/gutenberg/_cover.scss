@@ -1,4 +1,6 @@
-.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+.wp-admin.ncmaz-not-custom-page
+	#wpwrap
+	.block-editor-block-list__layout.is-root-container {
 	.wp-block-cover-image img.wp-block-cover__image-background,
 	.wp-block-cover-image video.wp-block-cover__video-background,
 	.wp-block-cover img.wp-block-cover__image-background,

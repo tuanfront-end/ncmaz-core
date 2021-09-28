@@ -24,6 +24,9 @@ export default function save(props) {
 		hasBackground,
 		//
 		graphQLvariables,
+		//new
+		enableLoadMoreButton,
+		loadMoreButtonHref,
 	} = attributes;
 	//
 
@@ -41,6 +44,9 @@ export default function save(props) {
 			subHeading,
 			hasBackground,
 			categories,
+			enableLoadMoreButton,
+			loadMoreButtonHref,
+			filterDataBy,
 		},
 	};
 

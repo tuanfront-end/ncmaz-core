@@ -258,7 +258,7 @@ export default function Edit(props) {
 	const renderSidebarSetting = () => {
 		return (
 			<InspectorControls key="setting">
-				<div data-type="ncmaz-core/sidebar-settings">
+				<div className="z-10 relative" data-type="ncmaz-core/sidebar-settings">
 					<Panel header="Section settings">
 						<PanelBody title="General Settings">
 							<PanelRow>{renderGeneralSetting()}</PanelRow>

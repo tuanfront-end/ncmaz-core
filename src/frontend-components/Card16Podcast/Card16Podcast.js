@@ -88,7 +88,7 @@ const Card16Podcast = ({
 			<div className="w-11/12 transform -mt-32 ">
 				<div className="px-5 flex items-center space-x-4">
 					<div className="flex-grow ">
-						<img src={"musicWave"} alt="musicWave" />
+						<img src={ncmazcoreJsData.img_musicWave_png} alt="musicWave" />
 					</div>
 					{(postFormatName === "Video" || postFormatName === "Audio") &&
 						renderListenButtonDefault()}

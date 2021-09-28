@@ -45456,6 +45456,7 @@ function Edit(props) {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_7__["InspectorControls"], {
       key: "setting"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "z-10 relative",
       "data-type": "ncmaz-core/sidebar-settings"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["Panel"], {
       header: "Section settings"
@@ -46297,7 +46298,10 @@ function Edit(props) {
     subHeading,
     hasBackground,
     //
-    graphQLvariables
+    graphQLvariables,
+    //NEWS
+    enableLoadMoreButton,
+    loadMoreButtonHref
   } = attributes; //
 
   let GQL_QUERY__string = "";
@@ -46509,14 +46513,34 @@ function Edit(props) {
         showFilterTab: !showFilterTab
       }),
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("Show filter tab", "ncmaz-core")
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("Show filter tab", "ncmaz-core"))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["TextControl"], {
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("Show filter tab", "ncmaz-core"))), filterDataBy !== "by_specific" && showFilterTab && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["TextControl"], {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("View more href", "ncmaz-core"),
       value: viewMoreHref,
       type: "url",
       onChange: viewMoreHref => setAttributes({
         viewMoreHref
       })
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
+      className: "w-full space-x-3 flex "
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["BaseControl"], {
+      id: "FormToggle-1-Enable-Loadmore-mode",
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("Enable Loadmore button", "ncmaz-core"),
+      help: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("Show Load-more button (Loadmore infinite mode only work at Select posts by filter)", "ncmaz-core")
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["FormToggle"], {
+      id: "FormToggle-1-Enable-Loadmore-mode",
+      checked: enableLoadMoreButton,
+      onChange: () => setAttributes({
+        enableLoadMoreButton: !enableLoadMoreButton
+      })
+    }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["TextControl"], {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("Load-more button href (leave empty and Select posts by filter if want use load more infinite post)", "ncmaz-core"),
+      help: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("If you want use loadmore mode please do not enter this field.)", "ncmaz-core"),
+      value: loadMoreButtonHref,
+      type: "text",
+      onChange: loadMoreButtonHref => setAttributes({
+        loadMoreButtonHref
+      })
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
       className: "w-full space-x-3 flex "
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["FormToggle"], {
       checked: hasBackground,
@@ -46698,13 +46722,15 @@ const POSTS_SECTION_BY_FILTER__string = `
     $first: Int = 10
     $before: String = ""
     $after: String = ""
-  ) {
+    $notIn: [ID] = null,
+    ) {
     posts(
       where: {
         orderby: { field: $field, order: $order }
         categoryIn: $categoryIn
         tagIn: $tagIn
         authorIn: $authorIn
+        notIn: $notIn,
       }
       last: $last
       first: $first
@@ -46778,7 +46804,10 @@ function save(props) {
     subHeading,
     hasBackground,
     //
-    graphQLvariables
+    graphQLvariables,
+    //new
+    enableLoadMoreButton,
+    loadMoreButtonHref
   } = attributes; //
 
   const ncGutenbergSectionsData = {
@@ -46794,7 +46823,10 @@ function save(props) {
       heading,
       subHeading,
       hasBackground,
-      categories
+      categories,
+      enableLoadMoreButton,
+      loadMoreButtonHref,
+      filterDataBy
     }
   };
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"].save(), {
@@ -51305,7 +51337,8 @@ const InputSearchPosts = ({
     isLoading: isState === "loading",
     value: selected,
     onChange: hanleChangeSelect,
-    options: Object.values(objData)
+    options: Object.values(objData),
+    styles: true
   }));
 };
 
@@ -52537,17 +52570,17 @@ const Card14 = ({
   }, title)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "p-2 sm:p-2.5 mt-4 sm:mt-5 bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full flex items-center text-neutral-50 text-xs sm:text-sm font-medium"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
-    href: author.node.url + author.node.uri,
+    href: (author === null || author === void 0 ? void 0 : author.node.url) + (author === null || author === void 0 ? void 0 : author.node.uri),
     className: "relative flex items-center space-x-2"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Avatar_Avatar__WEBPACK_IMPORTED_MODULE_12__["default"], {
     radius: "rounded-full",
     containerClassName: "ring-2 ring-white",
     sizeClass: "h-7 w-7 text-sm",
-    imgUrl: (_author$node$avatar = author.node.avatar) === null || _author$node$avatar === void 0 ? void 0 : _author$node$avatar.url,
-    userName: author.node.username
+    imgUrl: author === null || author === void 0 ? void 0 : (_author$node$avatar = author.node.avatar) === null || _author$node$avatar === void 0 ? void 0 : _author$node$avatar.url,
+    userName: author === null || author === void 0 ? void 0 : author.node.username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "block text-white truncate"
-  }, author.node.name)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+  }, author === null || author === void 0 ? void 0 : author.node.name)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: " mx-[6px]"
   }, "\xB7"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: " font-normal truncate"
@@ -52607,7 +52640,8 @@ const Card15Podcast = ({
     title,
     link,
     featuredImage,
-    postFormats
+    postFormats,
+    excerpt
   } = post;
   const postFormatName = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name;
 
@@ -52693,9 +52727,14 @@ const Card15Podcast = ({
     href: link,
     className: "line-clamp-1",
     title: title
-  }, title)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
-    className: "text-xs text-neutral-500 dark:text-neutral-400 mt-1"
-  }, "40 Episode \xB7 110 minutes xxxx")));
+  }, title)), excerpt ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+    className: "text-xs text-neutral-500 dark:text-neutral-400 mt-1 "
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+    className: "line-clamp-1",
+    dangerouslySetInnerHTML: {
+      __html: excerpt
+    }
+  })) : null));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Card15Podcast);
@@ -52822,7 +52861,7 @@ const Card16Podcast = ({
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "flex-grow "
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
-    src: "musicWave",
+    src: ncmazcoreJsData.img_musicWave_png,
     alt: "musicWave"
   })), (postFormatName === "Video" || postFormatName === "Audio") && renderListenButtonDefault()), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "p-5 mt-5 bg-white dark:bg-neutral-900 shadow-xl dark:shadow-2xl rounded-3xl rounded-tl-none flex flex-col flex-grow "
@@ -52900,7 +52939,8 @@ const Card17Podcast = ({
     title,
     link,
     featuredImage,
-    postFormats
+    postFormats,
+    excerpt
   } = post;
   const postFormatName = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name;
 
@@ -52981,9 +53021,14 @@ const Card17Podcast = ({
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "line-clamp-1",
     title: title
-  }, title)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
-    className: "text-xs text-neutral-500 dark:text-neutral-400 mt-1"
-  }, "40 Episode \xB7 110 minutes - xxxx"))), (postFormatName === "Video" || postFormatName === "Audio") && renderDefaultBtnListen());
+  }, title)), excerpt ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+    className: "text-xs text-neutral-500 dark:text-neutral-400 mt-1 "
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+    className: "line-clamp-1",
+    dangerouslySetInnerHTML: {
+      __html: excerpt
+    }
+  })) : null)), (postFormatName === "Video" || postFormatName === "Audio") && renderDefaultBtnListen());
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Card17Podcast);
@@ -53698,7 +53743,7 @@ const Card9 = ({
       className: "flex mt-2.5"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
       className: "block text-neutral-200 hover:text-white font-medium truncate"
-    }, author.node.name), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+    }, author === null || author === void 0 ? void 0 : author.node.name), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
       className: "mx-[6px] font-medium"
     }, "\xB7"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
       className: "font-normal truncate"
@@ -54499,12 +54544,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const EmptyState = () => {
-  var _ncmazFrontendVariabl;
-
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: `inline-flex flex-col items-center justify-center text-center  pb-10`
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
-    src: (_ncmazFrontendVariabl = ncmazFrontendVariables) === null || _ncmazFrontendVariabl === void 0 ? void 0 : _ncmazFrontendVariabl.emptyStatePng,
+    src: ncmazcoreJsData.img_empty_png,
     className: "w-36 sm:w-40",
     alt: "empty state"
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
@@ -55090,27 +55133,27 @@ const PostCardMeta = ({
   hiddenAvatar = false,
   size = "normal"
 }) => {
-  var _author$avatar;
+  var _author, _author2, _author3, _author4, _author4$avatar, _author5, _author6;
 
   let {
     date,
     author
   } = meta;
-  author = author.node;
+  author = (_author = author) === null || _author === void 0 ? void 0 : _author.node;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: `nc-PostCardMeta inline-flex items-center flex-wrap text-neutral-800 dark:text-neutral-200 ${size === "normal" ? "text-xs" : "text-base"} ${className}`,
     "data-nc-id": "PostCardMeta"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
-    href: author.url + author.uri,
+    href: ((_author2 = author) === null || _author2 === void 0 ? void 0 : _author2.url) + ((_author3 = author) === null || _author3 === void 0 ? void 0 : _author3.uri),
     className: "relative flex items-center space-x-2"
   }, !hiddenAvatar && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Avatar_Avatar__WEBPACK_IMPORTED_MODULE_2__["default"], {
     radius: "rounded-full",
     sizeClass: size === "normal" ? "h-7 w-7 text-sm" : "h-10 w-10 text-xl",
-    imgUrl: (_author$avatar = author.avatar) === null || _author$avatar === void 0 ? void 0 : _author$avatar.url,
-    userName: author.username
+    imgUrl: (_author4 = author) === null || _author4 === void 0 ? void 0 : (_author4$avatar = _author4.avatar) === null || _author4$avatar === void 0 ? void 0 : _author4$avatar.url,
+    userName: (_author5 = author) === null || _author5 === void 0 ? void 0 : _author5.username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "block text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium"
-  }, author.name)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+  }, (_author6 = author) === null || _author6 === void 0 ? void 0 : _author6.name)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "text-neutral-500 dark:text-neutral-400 mx-[6px] font-medium"
   }, "\xB7"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "text-neutral-500 dark:text-neutral-400 font-normal"
@@ -55147,14 +55190,14 @@ const PostCardMetaV2 = ({
   hiddenAvatar = false,
   size = "normal"
 }) => {
-  var _author$avatar;
+  var _author, _author2, _author2$avatar, _author3, _author4;
 
   let {
     date,
     author,
     title
   } = meta;
-  author = author.node;
+  author = (_author = author) === null || _author === void 0 ? void 0 : _author.node;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: `nc-PostCardMetaV2 inline-flex items-center flex-wrap text-neutral-800 dark:text-neutral-200 ${size === "normal" ? "text-xs" : "text-sm"} ${className}`,
     "data-nc-id": "PostCardMetaV2"
@@ -55164,8 +55207,8 @@ const PostCardMetaV2 = ({
   }, !hiddenAvatar && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Avatar_Avatar__WEBPACK_IMPORTED_MODULE_3__["default"], {
     radius: "rounded-full",
     sizeClass: size === "normal" ? "h-9 w-9 text-base" : "h-10 w-10 text-xl",
-    imgUrl: (_author$avatar = author.avatar) === null || _author$avatar === void 0 ? void 0 : _author$avatar.url,
-    userName: author.name
+    imgUrl: (_author2 = author) === null || _author2 === void 0 ? void 0 : (_author2$avatar = _author2.avatar) === null || _author2$avatar === void 0 ? void 0 : _author2$avatar.url,
+    userName: (_author3 = author) === null || _author3 === void 0 ? void 0 : _author3.name
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", {
     className: `block font-semibold ${size === "normal" ? "text-base" : "text-lg"}`
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
@@ -55174,7 +55217,7 @@ const PostCardMetaV2 = ({
     className: "flex mt-1.5"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "block text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium"
-  }, author.name), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+  }, (_author4 = author) === null || _author4 === void 0 ? void 0 : _author4.name), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "text-neutral-500 dark:text-neutral-400 mx-[6px] font-medium"
   }, "\xB7"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "text-neutral-500 dark:text-neutral-400 font-normal"
@@ -55398,19 +55441,19 @@ const SectionGridAuthorBox = ({
       case "card1":
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_CardAuthorBox_CardAuthorBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
           key: index,
-          author: author.node
+          author: author === null || author === void 0 ? void 0 : author.node
         });
 
       case "card2":
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_CardAuthorBox2_CardAuthorBox2__WEBPACK_IMPORTED_MODULE_3__["default"], {
           key: index,
-          author: author.node
+          author: author === null || author === void 0 ? void 0 : author.node
         });
 
       default:
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_CardAuthorBox2_CardAuthorBox2__WEBPACK_IMPORTED_MODULE_3__["default"], {
           key: index,
-          author: author.node
+          author: author === null || author === void 0 ? void 0 : author.node
         });
     }
   };
@@ -56501,7 +56544,7 @@ const WidgetAuthors = ({
   }, authors.map((author, index) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_CardAuthor_CardAuthor__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "p-4 xl:p-5 hover:bg-neutral-200 dark:hover:bg-neutral-700",
     key: index,
-    author: author.node
+    author: author === null || author === void 0 ? void 0 : author.node
   })))));
 };
 
@@ -57003,6 +57046,15 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     graphQLvariables: {
       type: "object",
       default: {}
+    },
+    // new
+    enableLoadMoreButton: {
+      type: "boolean",
+      default: true
+    },
+    loadMoreButtonHref: {
+      type: "string",
+      default: ""
     }
   }
 }); //

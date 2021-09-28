@@ -65,6 +65,7 @@ const InputSearchPosts = ({ onChange, defaultValue = [] }) => {
 				value={selected}
 				onChange={hanleChangeSelect}
 				options={Object.values(objData)}
+				styles
 			/>
 		</div>
 	);

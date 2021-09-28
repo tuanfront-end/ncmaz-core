@@ -1,5 +1,7 @@
 // ----------------------------------   ## List ----------------------------------
-.wp-admin #wpwrap .block-editor-block-list__layout.is-root-container {
+.wp-admin.ncmaz-not-custom-page
+	#wpwrap
+	.block-editor-block-list__layout.is-root-container {
 	ul,
 	ol {
 		@apply m-0 p-0 list-none;
