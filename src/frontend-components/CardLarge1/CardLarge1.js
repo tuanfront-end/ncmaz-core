@@ -56,13 +56,11 @@ const CardLarge1 = ({
 				</div>
 			</div>
 			<div className="w-full md:w-4/5 lg:w-2/3">
-				<a href={link}>
-					<NcImage
-						containerClassName="aspect-w-16 aspect-h-12 sm:aspect-h-9 md:aspect-h-14 lg:aspect-h-10 2xl:aspect-h-9 relative rounded-3xl"
-						className="absolute inset-0 object-cover rounded-3xl"
-						src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
-					/>
-				</a>
+				<NcImage
+					containerClassName="aspect-w-16 aspect-h-12 sm:aspect-h-9 md:aspect-h-14 lg:aspect-h-10 2xl:aspect-h-9 relative rounded-3xl"
+					className="absolute !w-full !h-full !inset-0 object-cover rounded-3xl"
+					src={isSkeleton ? "." : featuredImage?.node.sourceUrl || "."}
+				/>
 			</div>
 		</div>
 	);

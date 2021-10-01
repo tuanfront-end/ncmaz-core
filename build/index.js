@@ -45603,6 +45603,11 @@ const postFields = ` edges {
         username
         name
         slug
+        ncUserMeta {
+          featuredImage {
+            sourceUrl
+          }
+        }
       }
     }
     categories {
@@ -46620,6 +46625,11 @@ const postFields = ` edges {
         username
         name
         slug
+        ncUserMeta {
+          featuredImage {
+            sourceUrl
+          }
+        }
       }
     }
     categories {
@@ -47400,6 +47410,11 @@ const postFields = ` edges {
         username
         name
         slug
+        ncUserMeta {
+          featuredImage {
+            sourceUrl
+          }
+        }
       }
     }
     categories {
@@ -47997,7 +48012,6 @@ const GQL = `edges {
                 id
                 sourceUrl
             }
-            fieldGroupName
         }
     }
 }`;
@@ -48015,7 +48029,6 @@ const GQLtag = `edges {
                 id
                 sourceUrl
             }
-            fieldGroupName
         }
     }
 }`;
@@ -48524,7 +48537,6 @@ const GQL = `edges {
                 id
                 sourceUrl
             }
-            fieldGroupName
         }
     }
 }`;
@@ -48542,7 +48554,6 @@ const GQLtag = `edges {
                 id
                 sourceUrl
             }
-            fieldGroupName
         }
     }
 }`;
@@ -49028,6 +49039,9 @@ const GQLcommon = `edges {
 				sourceUrl
 				id
 			}
+			backgroundImage {
+				sourceUrl
+			}
 		}
 	}
 }`;
@@ -49472,6 +49486,9 @@ const GQLcommon = `edges {
 			featuredImage {
 				sourceUrl
 				id
+			}
+			backgroundImage {
+				sourceUrl
 			}
 		}
 	}
@@ -50005,6 +50022,11 @@ const postFields = ` edges {
         username
         name
         slug
+        ncUserMeta {
+          featuredImage {
+            sourceUrl
+          }
+        }
       }
     }
     categories {
@@ -50519,7 +50541,6 @@ const GQL = `edges {
                 id
                 sourceUrl
             }
-            fieldGroupName
         }
     }
 }`;
@@ -50537,7 +50558,6 @@ const GQLtag = `edges {
                 id
                 sourceUrl
             }
-            fieldGroupName
         }
     }
 }`;
@@ -50935,6 +50955,9 @@ const GQLcommon = `edges {
 			featuredImage {
 				sourceUrl
 				id
+			}
+			backgroundImage {
+				sourceUrl
 			}
 		}
 	}
@@ -54010,6 +54033,7 @@ const CardAuthorBox2 = ({
   const {
     color,
     featuredImage,
+    backgroundImage,
     ncBio
   } = ncUserMeta;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
@@ -54022,22 +54046,22 @@ const CardAuthorBox2 = ({
     className: "flex aspect-w-7 aspect-h-5 sm:aspect-h-6 w-full h-0"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "bg-gray-300"
-  }, (featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.sourceUrl) && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+  }, (backgroundImage === null || backgroundImage === void 0 ? void 0 : backgroundImage.sourceUrl) && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
     className: "!w-full !h-full object-cover",
-    src: featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.sourceUrl
+    src: backgroundImage === null || backgroundImage === void 0 ? void 0 : backgroundImage.sourceUrl
   }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "absolute top-3 inset-x-3 flex"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: " py-1 px-4 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center leading-none text-xs font-medium"
-  }, 999, " ", Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("i", {
-    className: "las la-angle-right ml-3"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("i", {
+    className: "las la-angle-right "
   })))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "-mt-8 m-8 text-center"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Avatar_Avatar__WEBPACK_IMPORTED_MODULE_2__["default"], {
     containerClassName: "ring-2 ring-white",
     sizeClass: "w-16 h-16 text-2xl",
     radius: "rounded-full",
-    imgUrl: avatar === null || avatar === void 0 ? void 0 : avatar.url,
+    imgUrl: (featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.sourceUrl) || (avatar === null || avatar === void 0 ? void 0 : avatar.url),
     userName: username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "mt-3"
@@ -54474,13 +54498,11 @@ const CardLarge1 = ({
     onClickPrev: onClickPrev
   }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "w-full md:w-4/5 lg:w-2/3"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
-    href: link
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
     containerClassName: "aspect-w-16 aspect-h-12 sm:aspect-h-9 md:aspect-h-14 lg:aspect-h-10 2xl:aspect-h-9 relative rounded-3xl",
-    className: "absolute inset-0 object-cover rounded-3xl",
+    className: "absolute !w-full !h-full !inset-0 object-cover rounded-3xl",
     src: isSkeleton ? "." : (featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.node.sourceUrl) || "."
-  }))));
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (CardLarge1);

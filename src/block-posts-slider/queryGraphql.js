@@ -13,6 +13,11 @@ const postFields = ` edges {
         username
         name
         slug
+        ncUserMeta {
+          featuredImage {
+            sourceUrl
+          }
+        }
       }
     }
     categories {

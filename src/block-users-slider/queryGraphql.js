@@ -15,6 +15,9 @@ const GQLcommon = `edges {
 				sourceUrl
 				id
 			}
+			backgroundImage {
+				sourceUrl
+			}
 		}
 	}
 }`;

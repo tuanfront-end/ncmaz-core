@@ -3,7 +3,7 @@ import Avatar from "../Avatar/Avatar";
 
 const CardAuthorBox2 = ({ className = "", author }) => {
 	const { avatar, id, name, ncUserMeta, url, uri, userId, username } = author;
-	const { color, featuredImage, ncBio } = ncUserMeta;
+	const { color, featuredImage, backgroundImage, ncBio } = ncUserMeta;
 
 	return (
 		<a
@@ -14,17 +14,17 @@ const CardAuthorBox2 = ({ className = "", author }) => {
 			<div className="relative flex-shrink-0 ">
 				<div className="flex aspect-w-7 aspect-h-5 sm:aspect-h-6 w-full h-0">
 					<div className="bg-gray-300">
-						{featuredImage?.sourceUrl && (
+						{backgroundImage?.sourceUrl && (
 							<img
 								className="!w-full !h-full object-cover"
-								src={featuredImage?.sourceUrl}
+								src={backgroundImage?.sourceUrl}
 							/>
 						)}
 					</div>
 				</div>
 				<div className="absolute top-3 inset-x-3 flex">
 					<div className=" py-1 px-4 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center leading-none text-xs font-medium">
-						{999} <i className="las la-angle-right ml-3"></i>
+						<i className="las la-angle-right "></i>
 					</div>
 				</div>
 			</div>
@@ -34,7 +34,7 @@ const CardAuthorBox2 = ({ className = "", author }) => {
 					containerClassName="ring-2 ring-white"
 					sizeClass="w-16 h-16 text-2xl"
 					radius="rounded-full"
-					imgUrl={avatar?.url}
+					imgUrl={featuredImage?.sourceUrl || avatar?.url}
 					userName={username}
 				/>
 				<div className="mt-3">

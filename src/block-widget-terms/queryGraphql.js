@@ -12,7 +12,6 @@ const GQL = `edges {
                 id
                 sourceUrl
             }
-            fieldGroupName
         }
     }
 }`;
@@ -31,7 +30,6 @@ const GQLtag = `edges {
                 id
                 sourceUrl
             }
-            fieldGroupName
         }
     }
 }`;
