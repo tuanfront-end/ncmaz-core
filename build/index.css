@@ -1334,6 +1334,24 @@ div .wp-block {
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
+ul.wp-block-social-links {
+  list-style: none !important;
+}
+ul.wp-block-social-links li.wp-social-link > :not([hidden]) ~ :not([hidden]){
+  --tw-space-y-reverse: 0 !important;
+  margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse))) !important;
+  margin-bottom: calc(0px * var(--tw-space-y-reverse)) !important;
+}
+ul.wp-block-social-links li.wp-social-link{
+  padding: 0px !important;
+  list-style-type: none !important;
+  margin: 4px 8px 4px 0 !important;
+}
+ul.wp-block-social-links li.wp-social-link::before {
+  content: none !important;
+  display: none;
+}
+
 .wp-admin .wp-block.editor-post-title.editor-post-title__block{
   width: 100vw !important;
   max-width: 768px !important;

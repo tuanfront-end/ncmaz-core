@@ -144,3 +144,17 @@
 		}
 	}
 }
+
+//
+ul.wp-block-social-links {
+	list-style: none !important;
+	li.wp-social-link {
+		@apply space-y-0  p-0 #{!important};
+		list-style-type: none !important;
+		margin: 4px 8px 4px 0 !important;
+		&::before {
+			content: none !important;
+			display: none;
+		}
+	}
+}
