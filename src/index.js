@@ -65,13 +65,13 @@ import BlockWidgetTermsSave from "./block-widget-terms/save";
 //
 
 const client = new ApolloClient({
-	uri: "http://localhost/wordpress-1/graphql",
+	uri: ncmazcoreJsData.graphQLBasePath,
 	cache: new InMemoryCache(),
 });
 
 //
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost/wordpress-1/";
+axios.defaults.baseURL = ncmazcoreJsData.homeURL;
 //
 
 // sectionName: magazine-1 .... magazine-9

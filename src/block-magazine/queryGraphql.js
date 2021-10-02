@@ -146,7 +146,7 @@ const POSTS_SECTION_BY_FILTER__string = `
 `;
 
 const POSTS_SECTION_SPECIFIC__string = `
-  query MyQuery($nameIn: [String] = "") {
+  query BlockPostMagazineQuery($nameIn: [String] = "") {
     posts(where: { nameIn: $nameIn }) {
       ${postFields}
     }

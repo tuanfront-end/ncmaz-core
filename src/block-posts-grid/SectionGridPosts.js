@@ -80,8 +80,7 @@ const SectionGridPosts = ({
 	};
 
 	return (
-		<div className={hasBackground ? "relative py-16" : "relative"}>
-			{hasBackground && <BackgroundSection />}
+		<div className={"relative"}>
 			{showFilterTab ? (
 				<HeaderSectionFilter
 					tabs={categories}

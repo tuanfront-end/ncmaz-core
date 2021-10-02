@@ -35,6 +35,7 @@ import {
 } from "./queryGraphql";
 import SectionGridPosts from "./SectionGridPosts";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
+import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -369,24 +370,28 @@ export default function Edit(props) {
 	return (
 		<div {...useBlockProps()}>
 			{renderSidebarSetting()}
+			<div className={hasBackground ? "relative py-16" : "relative"}>
+				{hasBackground && <BackgroundSection />}
+				<SectionGridPosts
+					{...attributes}
+					listPosts={dataLists}
+					loading={loading}
+					tabActiveId={tabActiveId}
+					handleClickTab={handleClickTab}
+				/>
 
-			{/*  */}
-			{loading && <Spinner />}
-			{error && (
-				<pre className="text-xs text-red-500">
-					<code>{JSON.stringify(error)}</code>
-				</pre>
-			)}
-			{!dataLists.length && !loading && <EmptyState />}
-			{/*  */}
-
-			<SectionGridPosts
-				{...attributes}
-				listPosts={dataLists}
-				loading={loading}
-				tabActiveId={tabActiveId}
-				handleClickTab={handleClickTab}
-			/>
+				<div className="relative">
+					{/*  */}
+					{loading && <Spinner />}
+					{error && (
+						<pre className="text-xs text-red-500 ">
+							<code>{JSON.stringify(error)}</code>
+						</pre>
+					)}
+					{!dataLists.length && !loading && <EmptyState />}
+					{/*  */}
+				</div>
+			</div>
 		</div>
 	);
 }

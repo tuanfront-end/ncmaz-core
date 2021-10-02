@@ -18,7 +18,9 @@
 
 function create_block_ncmaz_core_block_init()
 {
+
 	if (is_admin()) {
+		ncmazcorePluginEnqueueScript();
 		register_block_type(__DIR__);
 	}
 }
@@ -33,16 +35,19 @@ function ncmazcorePluginEnqueueScript()
 		'ncmazcore-customizer-script',
 		plugins_url('public/js/customizer.js', __FILE__),
 		[],
-		'20190804',
-		true
+		'',
+		false
 	);
 	wp_localize_script(
 		'ncmazcore-customizer-script',
 		'ncmazcoreJsData',
 		array(
+			'ajaxurl'               => admin_url('admin-ajax.php'),
+			'restUrl'               => get_rest_url(),
+			'graphQLBasePath'       => get_site_url(null, '/graphql'),
 			'img_empty_png' => plugins_url('public/images/empty.png', __FILE__),
-			'img_musicWave_png' => plugins_url('public/images/musicWave.png', __FILE__)
+			'img_musicWave_png' => plugins_url('public/images/musicWave.png', __FILE__),
+			'homeURL'               => get_site_url(),
 		)
 	);
 }
-add_action('admin_enqueue_scripts', 'ncmazcorePluginEnqueueScript');

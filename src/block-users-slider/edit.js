@@ -261,16 +261,6 @@ export default function Edit(props) {
 			<div className={hasBackground ? "py-16 " : ""}>
 				{hasBackground && <BackgroundSection />}
 
-				{/* --------------------- */}
-				{loading && <Spinner />}
-				{error && (
-					<pre className="text-xs text-red-500">
-						<code>{JSON.stringify(error)}</code>
-					</pre>
-				)}
-				{!usersList.length && !loading && <EmptyState />}
-				{/* --------------------- */}
-
 				<SectionSliderNewAuthors
 					blockLayoutStyle={blockLayoutStyle}
 					userCardName={userCardName}
@@ -280,6 +270,18 @@ export default function Edit(props) {
 					authors={usersList}
 					perView={itemPerView}
 				/>
+
+				<div className="relative">
+					{/* --------------------- */}
+					{loading && <Spinner />}
+					{error && (
+						<pre className="text-xs text-red-500">
+							<code>{JSON.stringify(error)}</code>
+						</pre>
+					)}
+					{!usersList.length && !loading && <EmptyState />}
+					{/* --------------------- */}
+				</div>
 			</div>
 		);
 	};

@@ -335,14 +335,16 @@ export default function Edit(props) {
 					<Heading desc={subHeading}>{heading}</Heading>
 				)}
 
-				{loading && <Spinner />}
-				{error && (
-					<pre className="text-xs text-red-500">
-						<code>{JSON.stringify(error)}</code>
-					</pre>
-				)}
+				<div className="relative">
+					{loading && <Spinner />}
+					{error && (
+						<pre className="text-xs text-red-500">
+							<code>{JSON.stringify(error)}</code>
+						</pre>
+					)}
 
-				{!dataLists.length && !loading && <EmptyState />}
+					{!dataLists.length && !loading && <EmptyState />}
+				</div>
 
 				{renderLayoutType()}
 			</div>

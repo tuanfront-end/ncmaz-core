@@ -127,48 +127,40 @@ const SectionSliderPosts = ({
 	const isBg = hasBackground;
 
 	return (
-		<div
-			className={`nc-SectionSliderPosts relative ${
-				isBg ? "py-16" : ""
-			}  ${className}`}
-		>
-			{isBg && <BackgroundSection />}
-
-			<div className={`${UNIQUE_CLASS}`}>
-				{showFilterTab ? (
-					<HeaderSectionFilter
-						tabActiveId={tabActiveId}
-						tabs={categories}
-						viewMoreHref={viewMoreHref}
-						heading={heading}
-						subHeading={subHeading}
-						onClickTab={handleClickTab}
-					/>
-				) : (
-					renderHeading()
-				)}
-				<div className="glide__track" data-glide-el="track">
-					<ul className="glide__slides">
-						{listData.map((item, index) => (
-							<li
-								key={index}
-								className={`glide__slide ${
-									enableNexPrevOnFoot ? "pb-12 xl:pb-16" : ""
-								}`}
-							>
-								{renderPostComponent(item.node)}
-							</li>
-						))}
-					</ul>
-				</div>
-
-				{enableNexPrevOnFoot && (
-					<NextPrev
-						btnClassName="w-12 h-12"
-						containerClassName="justify-center"
-					/>
-				)}
+		<div className={`${UNIQUE_CLASS}`}>
+			{showFilterTab ? (
+				<HeaderSectionFilter
+					tabActiveId={tabActiveId}
+					tabs={categories}
+					viewMoreHref={viewMoreHref}
+					heading={heading}
+					subHeading={subHeading}
+					onClickTab={handleClickTab}
+				/>
+			) : (
+				renderHeading()
+			)}
+			<div className="glide__track" data-glide-el="track">
+				<ul className="glide__slides">
+					{listData.map((item, index) => (
+						<li
+							key={index}
+							className={`glide__slide ${
+								enableNexPrevOnFoot ? "pb-12 xl:pb-16" : ""
+							}`}
+						>
+							{renderPostComponent(item.node)}
+						</li>
+					))}
+				</ul>
 			</div>
+
+			{enableNexPrevOnFoot && (
+				<NextPrev
+					btnClassName="w-12 h-12"
+					containerClassName="justify-center"
+				/>
+			)}
 		</div>
 	);
 };

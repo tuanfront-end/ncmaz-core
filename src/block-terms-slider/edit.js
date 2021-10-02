@@ -295,16 +295,6 @@ export default function Edit(props) {
 			<div className={hasBackground ? "py-16" : ""}>
 				{hasBackground && <BackgroundSection />}
 
-				{/* --------------------- */}
-				{loading && <Spinner />}
-				{error && (
-					<pre className="text-xs text-red-500">
-						<code>{JSON.stringify(error)}</code>
-					</pre>
-				)}
-				{!dataLists.length && !loading && <EmptyState />}
-				{/* --------------------- */}
-
 				<SectionSliderNewCategories
 					uniqueClass={clientId}
 					heading={heading}
@@ -315,6 +305,17 @@ export default function Edit(props) {
 					// gridClass={!!gridClassCustom ? gridClassCustom : gridClass}
 					// headingCenter={blockLayoutStyle === "layout-1"}
 				/>
+				<div className="relative">
+					{/* --------------------- */}
+					{loading && <Spinner />}
+					{error && (
+						<pre className="text-xs text-red-500">
+							<code>{JSON.stringify(error)}</code>
+						</pre>
+					)}
+					{!dataLists.length && !loading && <EmptyState />}
+					{/* --------------------- */}
+				</div>
 			</div>
 		);
 	};

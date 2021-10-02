@@ -36,6 +36,7 @@ import {
 } from "./queryGraphql";
 import SectionSliderPosts from "./SectionSliderPosts";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
+import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -300,23 +301,32 @@ export default function Edit(props) {
 	return (
 		<div {...useBlockProps()}>
 			{renderSidebarSetting()}
+			<div
+				className={`nc-SectionSliderPosts relative ${
+					hasBackground ? "py-16" : ""
+				} `}
+			>
+				{hasBackground && <BackgroundSection />}
 
-			{loading && <Spinner />}
-			{error && (
-				<pre className="text-xs text-red-500">
-					<code>{JSON.stringify(error)}</code>
-				</pre>
-			)}
-			{!dataLists.length && !loading && <EmptyState />}
+				<SectionSliderPosts
+					{...attributes}
+					listData={dataLists}
+					loading={loading}
+					tabActiveId={tabActiveId}
+					handleClickTab={handleClickTab}
+					className=" "
+				/>
 
-			<SectionSliderPosts
-				{...attributes}
-				listData={dataLists}
-				loading={loading}
-				tabActiveId={tabActiveId}
-				handleClickTab={handleClickTab}
-				className=" "
-			/>
+				<div className="relative">
+					{loading && <Spinner />}
+					{error && (
+						<pre className="text-xs text-red-500">
+							<code>{JSON.stringify(error)}</code>
+						</pre>
+					)}
+					{!dataLists.length && !loading && <EmptyState />}
+				</div>
+			</div>
 		</div>
 	);
 }
