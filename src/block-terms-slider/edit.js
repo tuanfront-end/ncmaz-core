@@ -33,14 +33,15 @@ import BackgroundSection from "../frontend-components/BackgroundSection/Backgrou
 import Select from "react-select";
 import SectionSliderNewAuthors from "../frontend-components/SectionSliderNewAthors/SectionSliderNewAuthors";
 import SectionGridAuthorBox from "../frontend-components/SectionGridAuthorBox/SectionGridAuthorBox";
-import {
-	TERMS_QUERY_FILTER_TAGS__string,
-	TERMS_QUERY_FILTER__string,
-	TERMS_QUERY_SPECIFIC_TAGS__string,
-	TERMS_QUERY_SPECIFIC__string,
-} from "./queryGraphql";
+
 import SectionGridCategoryBox from "../frontend-components/SectionGridCategoryBox/SectionGridCategoryBox";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
+import {
+	GQL_QUERY_GET_CATEGORIES_BY_FILTER,
+	GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC,
+	GQL_QUERY_GET_TAGS_BY_FILTER,
+	GQL_QUERY_GET_TAGS_BY_SPECIFIC,
+} from "../contains/contants";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -65,7 +66,8 @@ export default function Edit(props) {
 	} = attributes;
 
 	//
-	let GQL_QUERY__string = TERMS_QUERY_FILTER__string;
+	let GQL_QUERY__string = "";
+	let GQL_QUERY__string_xxx = "";
 	let variables = {};
 	//
 
@@ -77,12 +79,14 @@ export default function Edit(props) {
 				orderby: orderBy,
 				first: Number(numberPerPage),
 			};
-			GQL_QUERY__string = TERMS_QUERY_FILTER__string;
+			GQL_QUERY__string = GQL_QUERY_GET_CATEGORIES_BY_FILTER;
+			GQL_QUERY__string_xxx = "GQL_QUERY_GET_CATEGORIES_BY_FILTER";
 		} else {
 			variables = {
 				termTaxonomId: (categories || []).map((item) => item.value),
 			};
-			GQL_QUERY__string = TERMS_QUERY_SPECIFIC__string;
+			GQL_QUERY__string = GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC;
+			GQL_QUERY__string_xxx = "GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC";
 		}
 	}
 
@@ -94,10 +98,12 @@ export default function Edit(props) {
 				orderby: orderBy,
 				first: Number(numberPerPage),
 			};
-			GQL_QUERY__string = TERMS_QUERY_FILTER_TAGS__string;
+			GQL_QUERY__string = GQL_QUERY_GET_TAGS_BY_FILTER;
+			GQL_QUERY__string_xxx = "GQL_QUERY_GET_TAGS_BY_FILTER";
 		} else {
 			variables = { termTaxonomId: (tags || []).map((item) => item.value) };
-			GQL_QUERY__string = TERMS_QUERY_SPECIFIC_TAGS__string;
+			GQL_QUERY__string = GQL_QUERY_GET_TAGS_BY_SPECIFIC;
+			GQL_QUERY__string_xxx = "GQL_QUERY_GET_TAGS_BY_SPECIFIC";
 		}
 	}
 
@@ -115,7 +121,7 @@ export default function Edit(props) {
 		setAttributes({
 			graphQLvariables: {
 				variables,
-				queryString: GQL_QUERY__string,
+				queryString: GQL_QUERY__string_xxx,
 			},
 		});
 	}, [data]);

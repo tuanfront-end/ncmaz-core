@@ -30,9 +30,9 @@ import InputSearchAuthors from "../components/InputSearchAuthors";
 import SelectPostFormat from "../components/SelectPostFormat";
 import { gql, useQuery } from "@apollo/client";
 import {
-	POSTS_SECTION_BY_FILTER__string,
-	POSTS_SECTION_SPECIFIC__string,
-} from "./queryGraphql";
+	GQL_QUERY_GET_POSTS_BY_FILTER,
+	GQL_QUERY_GET_POSTS_BY_SPECIFIC,
+} from "../contains/contants";
 import SectionGridPosts from "./SectionGridPosts";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
@@ -71,6 +71,7 @@ export default function Edit(props) {
 
 	//
 	let GQL_QUERY__string = "";
+	let GQL_QUERY__string_xxx = "";
 	let variables = {};
 	let variablesUseNow;
 	//
@@ -81,9 +82,11 @@ export default function Edit(props) {
 			// arr posts Slugs
 			nameIn: posts?.map((item) => item.value) || [],
 		};
-		GQL_QUERY__string = POSTS_SECTION_SPECIFIC__string;
+		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_SPECIFIC;
+		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_SPECIFIC";
 	} else {
-		GQL_QUERY__string = POSTS_SECTION_BY_FILTER__string;
+		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_FILTER;
+		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_FILTER";
 		variables = {
 			// term IDs
 			categoryIn: categories?.map((item) => item.value) || [],
@@ -119,7 +122,7 @@ export default function Edit(props) {
 		setAttributes({
 			graphQLvariables: {
 				variables,
-				queryString: GQL_QUERY__string,
+				queryString: GQL_QUERY__string_xxx,
 			},
 		});
 	}, [data]);

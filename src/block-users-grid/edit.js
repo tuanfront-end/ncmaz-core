@@ -32,12 +32,12 @@ import SectionSliderNewCategories from "../frontend-components/SectionSliderNewC
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
 import Select from "react-select";
 import SectionSliderNewAuthors from "../frontend-components/SectionSliderNewAthors/SectionSliderNewAuthors";
-import {
-	USERS_QUERY_FILTER__string,
-	USERS_QUERY_SPECIFIC__string,
-} from "./queryGraphql";
 import SectionGridAuthorBox from "../frontend-components/SectionGridAuthorBox/SectionGridAuthorBox";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
+import {
+	GQL_QUERY_GET_USERS_BY_FILTER,
+	GQL_QUERY_GET_USERS_BY_SPECIFIC,
+} from "../contains/contants";
 
 export default function Edit(props) {
 	const { attributes, setAttributes, clientId } = props;
@@ -62,15 +62,18 @@ export default function Edit(props) {
 	} = attributes;
 
 	//
-	let GQL_QUERY__string = USERS_QUERY_FILTER__string;
+	let GQL_QUERY__string = "";
+	let GQL_QUERY__string_xxx = "";
 	let variables = {};
 	//
 
 	if (filterDataBy === "by_specific") {
 		variables = { include: userIds.map((item) => item.value) };
-		GQL_QUERY__string = USERS_QUERY_SPECIFIC__string;
+		GQL_QUERY__string = GQL_QUERY_GET_USERS_BY_SPECIFIC;
+		GQL_QUERY__string_xxx = "GQL_QUERY_GET_USERS_BY_SPECIFIC";
 	} else {
-		GQL_QUERY__string = USERS_QUERY_FILTER__string;
+		GQL_QUERY__string = GQL_QUERY_GET_USERS_BY_FILTER;
+		GQL_QUERY__string_xxx = "GQL_QUERY_GET_USERS_BY_FILTER";
 		variables = {
 			first: numberPerPage,
 			field: orderBy,
@@ -93,7 +96,7 @@ export default function Edit(props) {
 		setAttributes({
 			graphQLvariables: {
 				variables,
-				queryString: GQL_QUERY__string,
+				queryString: GQL_QUERY__string_xxx,
 			},
 		});
 	}, [data]);
