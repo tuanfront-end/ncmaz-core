@@ -13,6 +13,7 @@ export default function save(props) {
 		descLists,
 		mediaUrl,
 		mediaId,
+		mediaSrcSet,
 	} = attributes;
 
 	return (
@@ -46,7 +47,15 @@ export default function save(props) {
 						</div>
 					</div>
 					<div className="flex-grow">
-						{mediaUrl && <img src={mediaUrl} className="w-full" alt="" />}
+						{mediaUrl && (
+							<img
+								srcSet={mediaSrcSet}
+								src={mediaUrl}
+								className="w-full"
+								sizes="(max-width: 1297px) 100vw, 1297px"
+								alt=""
+							/>
+						)}
 					</div>
 				</div>
 			</div>

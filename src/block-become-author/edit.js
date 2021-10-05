@@ -31,12 +31,14 @@ export default function Edit(props) {
 		buttonHref,
 		mediaId,
 		mediaUrl,
+		mediaSrcSet,
 	} = attributes;
 
 	const removeMedia = () => {
 		setAttributes({
 			mediaId: 0,
 			mediaUrl: "",
+			mediaSrcSet: "",
 		});
 	};
 
@@ -44,6 +46,7 @@ export default function Edit(props) {
 		setAttributes({
 			mediaId: media.id,
 			mediaUrl: media.url,
+			mediaSrcSet: `${media.url} 1297w, ${media.sizes?.medium?.url} 300w, ${media.sizes?.full?.url} 1024w, ${media.sizes?.large?.url} 768w`,
 		});
 	};
 

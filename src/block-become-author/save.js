@@ -14,6 +14,7 @@ export default function save(props) {
 		buttonHref,
 		mediaUrl,
 		mediaId,
+		mediaSrcSet,
 	} = attributes;
 
 	return (
@@ -28,6 +29,7 @@ export default function save(props) {
 					buttonHref={buttonHref}
 					buttonText={buttonText}
 					rightImg={mediaUrl}
+					rightImgMediaSrcSet={mediaSrcSet}
 				/>
 			</div>
 		</div>

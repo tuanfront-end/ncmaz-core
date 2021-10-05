@@ -10,6 +10,7 @@ const SectionBecomeAnAuthor = ({
 	buttonText = "Become an author",
 	buttonHref = "/#",
 	rightImg = "https://chisnghiax.com/ncmaz/static/media/BecomeAnAuthorImg.02703848.png",
+	rightImgMediaSrcSet = "",
 }) => {
 	return (
 		<div
@@ -29,7 +30,13 @@ const SectionBecomeAnAuthor = ({
 				</ButtonPrimary>
 			</div>
 			<div className="flex-grow">
-				<img className="max-w-full" src={rightImg} alt="" />
+				<img
+					className="max-w-full"
+					src={rightImg}
+					alt=""
+					srcSet={rightImgMediaSrcSet}
+					sizes="(max-width: 1297px) 100vw, 1297px"
+				/>
 			</div>
 		</div>
 	);

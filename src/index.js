@@ -353,6 +353,7 @@ registerBlockType("ncmaz-core/block-become-author", {
 		buttonHref: { type: "string", default: "/#" },
 		mediaId: { type: "number", default: 0 },
 		mediaUrl: { type: "string", default: "" },
+		mediaSrcSet: { type: "string", default: "" },
 	},
 });
 
@@ -402,6 +403,7 @@ registerBlockType("ncmaz-core/block-newsletter", {
 		},
 		mediaId: { type: "number", default: 0 },
 		mediaUrl: { type: "string", default: "" },
+		mediaSrcSet: { type: "string", default: "" },
 		descLists: { type: "array", default: [] },
 	},
 });
