@@ -2,9 +2,19 @@
 .wp-admin.ncmaz-not-custom-page
 	#wpwrap
 	.block-editor-block-list__layout.is-root-container {
+	table {
+		td,
+		th {
+			@apply border border-neutral-200 p-2 sm:p-3 #{!important};
+		}
+	}
+	thead {
+		@apply bg-neutral-100;
+	}
+
 	.wp-block-table td,
 	.wp-block-table th {
-		@apply border-none;
+		// @apply border-none;
 	}
 
 	//

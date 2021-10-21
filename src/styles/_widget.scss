@@ -106,7 +106,7 @@
 	}
 
 	// UL LIST
-	ul {
+	ul:not(.blocks-gallery-grid) {
 		@apply space-y-4;
 	}
 	.menu-item,

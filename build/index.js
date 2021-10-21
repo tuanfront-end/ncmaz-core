@@ -45823,7 +45823,7 @@ function Edit(props) {
     }, item)))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "mt-10 relative max-w-sm"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["InnerBlocks"], {
-      template: [["mailpoet/subscription-form-block", {}]],
+      template: [["core/shortcode", {}]],
       templateLock: "all"
     }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "flex-grow"
@@ -45899,16 +45899,33 @@ function save(props) {
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "font-medium text-neutral-700 dark:text-neutral-300"
   }, item)))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "mt-10 relative max-w-sm"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__["InnerBlocks"].Content, null))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "nc-SectionSubscribe2__shortcode-wrap mt-10 relative max-w-sm"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__["InnerBlocks"].Content, null)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("form", {
+    className: "nc-SectionSubscribe2__my-form-wrap hidden mt-10 relative max-w-sm"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("input", {
+    type: "email",
+    className: "block w-full border-neutral-200 focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white dark:border-neutral-700 dark:focus:ring-primary-6000 dark:focus:ring-opacity-25 dark:bg-neutral-900 rounded-full text-sm font-normal h-11 px-4 py-3",
+    required: true,
+    "aria-required": "true",
+    placeholder: "Enter your email"
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("button", {
+    className: "ttnc-ButtonCircle flex items-center justify-center rounded-full !leading-none disabled:bg-opacity-70 bg-primary-6000 hover:bg-primary-700 text-neutral-50 absolute transform top-1/2 -translate-y-1/2 right-1  w-9 h-9  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000 dark:focus:ring-offset-0",
+    type: "submit"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("i", {
+    className: "las la-arrow-right text-xl"
+  })))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "flex-grow"
-  }, mediaUrl && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+  }, mediaUrl ? !!mediaSrcSet ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
     srcSet: mediaSrcSet,
     src: mediaUrl,
     className: "w-full",
     sizes: "(max-width: 1297px) 100vw, 1297px",
-    alt: ""
-  })))));
+    alt: "newsletter right image"
+  }) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+    src: mediaUrl,
+    className: "w-full",
+    alt: "newsletter right image"
+  }) : null))));
 }
 
 /***/ }),
@@ -54586,12 +54603,16 @@ const SectionBecomeAnAuthor = ({
     className: "mt-8"
   }, buttonText)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "flex-grow"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+  }, !!rightImgMediaSrcSet ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
     className: "max-w-full",
     src: rightImg,
-    alt: "",
+    alt: "become an author image",
     srcSet: rightImgMediaSrcSet,
     sizes: "(max-width: 1297px) 100vw, 1297px"
+  }) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+    className: "max-w-full",
+    src: rightImg,
+    alt: "become an author image"
   })));
 };
 

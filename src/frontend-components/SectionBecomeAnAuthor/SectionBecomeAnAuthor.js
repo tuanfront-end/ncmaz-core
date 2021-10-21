@@ -30,13 +30,21 @@ const SectionBecomeAnAuthor = ({
 				</ButtonPrimary>
 			</div>
 			<div className="flex-grow">
-				<img
-					className="max-w-full"
-					src={rightImg}
-					alt=""
-					srcSet={rightImgMediaSrcSet}
-					sizes="(max-width: 1297px) 100vw, 1297px"
-				/>
+				{!!rightImgMediaSrcSet ? (
+					<img
+						className="max-w-full"
+						src={rightImg}
+						alt="become an author image"
+						srcSet={rightImgMediaSrcSet}
+						sizes="(max-width: 1297px) 100vw, 1297px"
+					/>
+				) : (
+					<img
+						className="max-w-full"
+						src={rightImg}
+						alt="become an author image"
+					/>
+				)}
 			</div>
 		</div>
 	);

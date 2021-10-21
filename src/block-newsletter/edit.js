@@ -177,7 +177,7 @@ export default function Edit(props) {
 						</ul>
 						<div className="mt-10 relative max-w-sm">
 							<InnerBlocks
-								template={[["mailpoet/subscription-form-block", {}]]}
+								template={[["core/shortcode", {}]]}
 								templateLock="all"
 							/>
 						</div>

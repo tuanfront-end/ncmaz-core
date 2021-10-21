@@ -1,4 +1,8 @@
 .wp-admin {
+	img {
+		border-style: none;
+	}
+
 	// POST AND PAGE ADMIN EDITOR
 	.wp-block.editor-post-title.editor-post-title__block {
 		@apply max-w-screen-md w-screen #{!important};
