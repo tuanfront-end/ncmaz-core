@@ -1,6 +1,11 @@
 .wp-admin.ncmaz-not-custom-page
 	#wpwrap
 	.block-editor-block-list__layout.is-root-container {
+	// ------------------------------------------  [data-block]  ------------------------------------------
+	*[data-block] {
+		@apply my-[1.1428571em] sm:my-[1.3333333em];
+	}
+
 	// ------------------------------------------ align full ------------------------------------------
 	> .wp-block.alignfull,
 	.wp-block[data-align="full"] {
