@@ -1283,32 +1283,32 @@ div .wp-block {
 .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container ul li a {
   word-break: break-all;
 }
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container ul:not(.blocks-gallery-grid) > :not([hidden]) ~ :not([hidden]){
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem ul:not(.blocks-gallery-grid) > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item ul:not(.blocks-gallery-grid) > :not([hidden]) ~ :not([hidden]){
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .menu-item > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .cat-item > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .page_item > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container li > :not([hidden]) ~ :not([hidden]){
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .menu-item > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .cat-item > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .page_item > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem li > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .menu-item > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .cat-item > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .page_item > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item li > :not([hidden]) ~ :not([hidden]){
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .menu-item ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .cat-item ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .page_item ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container li ul > :not([hidden]) ~ :not([hidden]){
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .menu-item ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .cat-item ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .page_item ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem li ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .menu-item ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .cat-item ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .page_item ul > :not([hidden]) ~ :not([hidden]), .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item li ul > :not([hidden]) ~ :not([hidden]){
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .menu-item ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .cat-item ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .page_item ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container li ul{
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .menu-item ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .cat-item ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .page_item ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem li ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .menu-item ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .cat-item ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .page_item ul, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item li ul{
   padding-left: 1rem;
 }
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .menu-item a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .cat-item a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .page_item a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container li a{
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .menu-item a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .cat-item a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .page_item a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem li a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .menu-item a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .cat-item a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .page_item a, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item li a{
   text-transform: capitalize;
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   transition-duration: 200ms;
 }
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .menu-item a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .cat-item a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .page_item a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container li a:hover{
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .menu-item a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .cat-item a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem .page_item a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-WidgetItem li a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .menu-item a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .cat-item a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item .page_item a:hover, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .nc-Footer-item li a:hover{
   --tw-text-opacity: 1;
   color: rgba(var(--c-neutral-800), var(--tw-text-opacity));
 }
@@ -1350,6 +1350,10 @@ ul.wp-block-social-links li.wp-social-link{
 ul.wp-block-social-links li.wp-social-link::before {
   content: none !important;
   display: none;
+}
+
+html .mce-content-body {
+  line-height: 1.7777778;
 }
 
 .wp-admin img {
@@ -1436,8 +1440,11 @@ ul.wp-block-social-links li.wp-social-link::before {
 .wp-admin .wp-block.editor-post-title.editor-post-title__block .editor-post-title__input{
   margin-top: 1.25rem !important;
   margin-bottom: 1.25rem !important;
+  max-width: 56rem !important;
+  font-family: var(--font-display), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
   font-size: 1.875rem !important;
   line-height: 2.25rem !important;
+  font-weight: 600 !important;
   --tw-text-opacity: 1 !important;
   color: rgba(var(--c-neutral-900), var(--tw-text-opacity)) !important;
 }
@@ -1452,6 +1459,9 @@ ul.wp-block-social-links li.wp-social-link::before {
     font-size: 3rem !important;
     line-height: 1 !important;
   }
+}
+.wp-admin .wp-block.editor-post-title.editor-post-title__block .editor-post-title__input {
+  line-height: 1.2 !important;
 }
 .wp-admin .wp-block .container {
   padding: 0 !important;
@@ -2698,14 +2708,8 @@ ul.wp-block-social-links li.wp-social-link::before {
   margin-right: auto;
   text-align: center;
 }
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container > *.alignleft{
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container > *.alignleft, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container img.alignleft{
   margin-top: 0px;
-}
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .alignleft{
-  float: left;
-  margin-top: 0px;
-  margin-bottom: 2rem;
-  margin-right: 2rem;
 }
 .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container > .wp-block.alignleft {
   float: none;
@@ -2718,8 +2722,14 @@ ul.wp-block-social-links li.wp-social-link::before {
   margin-right: 2rem;
   max-width: 420px;
 }
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .wp-block[data-align=left] {
+  float: unset;
+}
 .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .wp-block[data-align=left] > *{
+  float: left;
   margin-top: 0px;
+  margin-bottom: 2rem;
+  margin-right: 2rem;
 }
 .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .wp-block[data-align=left] > .wp-block-image {
   margin-right: 2rem;
@@ -2728,14 +2738,8 @@ ul.wp-block-social-links li.wp-social-link::before {
 .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .wp-block[data-align=left] img{
   margin-top: 0px;
 }
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container > *.alignright{
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container > *.alignright, .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container img.alignright{
   margin-top: 0px;
-}
-.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .alignright{
-  float: right;
-  margin-top: 0px;
-  margin-bottom: 2rem;
-  margin-left: 2rem;
 }
 .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container > .wp-block.alignright {
   float: none;
@@ -2747,8 +2751,14 @@ ul.wp-block-social-links li.wp-social-link::before {
   margin-left: 2rem;
   max-width: 420px;
 }
+.wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .wp-block[data-align=right] {
+  float: unset;
+}
 .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .wp-block[data-align=right] > *{
+  float: right;
   margin-top: 0px;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
 }
 .wp-admin.ncmaz-not-custom-page #wpwrap .block-editor-block-list__layout.is-root-container .wp-block[data-align=right] > .wp-block-image {
   margin-left: 2rem;

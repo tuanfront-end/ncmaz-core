@@ -106,19 +106,22 @@
 	}
 
 	// UL LIST
-	ul:not(.blocks-gallery-grid) {
-		@apply space-y-4;
-	}
-	.menu-item,
-	.cat-item,
-	.page_item,
-	li {
-		@apply space-y-4;
-		ul {
-			@apply space-y-4 pl-4;
+	.nc-WidgetItem,
+	.nc-Footer-item {
+		ul:not(.blocks-gallery-grid) {
+			@apply space-y-4;
 		}
-		a {
-			@apply hover:text-neutral-800  transition-colors duration-200 capitalize;
+		.menu-item,
+		.cat-item,
+		.page_item,
+		li {
+			@apply space-y-4;
+			ul {
+				@apply space-y-4 pl-4;
+			}
+			a {
+				@apply hover:text-neutral-800  transition-colors duration-200 capitalize;
+			}
 		}
 	}
 
