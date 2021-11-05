@@ -17,7 +17,7 @@ const Card3 = ({ className = "h-full", size = "large", post, isSkeleton }) => {
 		ncPostMetaData,
 	} = post;
 
-	const postType = postFormats.edges[0]?.node.name;
+	const postType = postFormats.edges[0]?.node.slug;
 
 	return (
 		<div

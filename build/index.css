@@ -1359,6 +1359,22 @@ html .mce-content-body {
 .wp-admin img {
   border-style: none;
 }
+.wp-admin [data-type^=ncmaz-core] img{
+  border-width: 0px;
+  border-style: none;
+}
+.wp-admin [data-type^=ncmaz-core] ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.wp-admin [data-type^=ncmaz-core] ul li {
+  list-style: none;
+}
+.wp-admin [data-type^=ncmaz-core] h1:not([class*=my-]), .wp-admin [data-type^=ncmaz-core] h2:not([class*=my-]), .wp-admin [data-type^=ncmaz-core] h3:not([class*=my-]), .wp-admin [data-type^=ncmaz-core] h4:not([class*=my-]), .wp-admin [data-type^=ncmaz-core] h5:not([class*=my-]), .wp-admin [data-type^=ncmaz-core] p:not([class*=my-]){
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 .wp-admin .wp-block.editor-post-title.editor-post-title__block{
   width: 100vw !important;
   max-width: 768px !important;

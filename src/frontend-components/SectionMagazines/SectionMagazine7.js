@@ -5,8 +5,8 @@ import Card10 from "../Card10/Card10";
 
 const SectionMagazine7 = ({ activePosts, isLoading }) => {
 	return (
-		<div className={`grid gap-6 md:gap-8`}>
-			<div className={`grid gap-6 md:gap-8 lg:grid-cols-2`}>
+		<div className={`grid grid-cols-1 gap-6 md:gap-8`}>
+			<div className={`grid gap-6 md:gap-8 grid-cols-1 lg:grid-cols-2`}>
 				{activePosts[0] && (
 					<Card10V3 isSkeleton={isLoading} post={activePosts[0].node} />
 				)}
@@ -18,7 +18,7 @@ const SectionMagazine7 = ({ activePosts, isLoading }) => {
 					/>
 				)}
 			</div>
-			<div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-3">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-3">
 				{activePosts
 					.filter((_, i) => i > 1)
 					.map((post) => (

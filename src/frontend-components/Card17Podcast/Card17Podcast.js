@@ -13,7 +13,7 @@ import Avatar from "../Avatar/Avatar";
 
 const Card17Podcast = ({ className = "", post, isSkeleton }) => {
 	const { title, link, featuredImage, postFormats, excerpt } = post;
-	const postFormatName = postFormats.edges[0]?.node.name;
+	const postFormatName = postFormats.edges[0]?.node.slug;
 
 	const renderIcon = (state) => {
 		switch (state) {
@@ -108,7 +108,7 @@ const Card17Podcast = ({ className = "", post, isSkeleton }) => {
 				</div>
 			</a>
 
-			{(postFormatName === "Video" || postFormatName === "Audio") &&
+			{(postFormatName === "post-format-video" || postFormatName === "post-format-audio") &&
 				renderDefaultBtnListen()}
 		</div>
 	);

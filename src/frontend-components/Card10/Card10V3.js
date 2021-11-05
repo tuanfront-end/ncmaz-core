@@ -34,7 +34,7 @@ const Card10V3 = ({
 	const renderGallery2 = () => {
 		if (!galleryImgs) return null;
 		return (
-			<div className="w-full h-full grid grid-rows-2 gap-2">
+			<div className="w-full h-full grid grid-cols-1 grid-rows-2 gap-2">
 				<div className="grid grid-cols-3 gap-2 ">
 					<NcImage
 						containerClassName="relative col-span-2"
@@ -67,14 +67,14 @@ const Card10V3 = ({
 		if (!galleryImgs) return null;
 		return (
 			<div className="w-full h-full grid grid-cols-3 gap-2">
-				<div className="grid ">
+				<div className="grid grid-cols-1 ">
 					<NcImage
 						containerClassName="relative"
 						className="absolute inset-0 object-cover w-full h-full"
 						src={isSkeleton ? "." : galleryImgs[0]}
 					/>
 				</div>
-				<div className="grid grid-rows-2 gap-2">
+				<div className="grid grid-cols-1 grid-rows-2 gap-2">
 					<NcImage
 						containerClassName="relative"
 						className="absolute inset-0 object-cover w-full h-full"

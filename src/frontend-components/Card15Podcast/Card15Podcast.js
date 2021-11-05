@@ -13,7 +13,7 @@ import Avatar from "../Avatar/Avatar";
 
 const Card15Podcast = ({ className = "h-full", post, isSkeleton }) => {
 	const { title, link, featuredImage, postFormats, excerpt } = post;
-	const postFormatName = postFormats.edges[0]?.node.name;
+	const postFormatName = postFormats.edges[0]?.node.slug;
 
 	const renderIcon = (state) => {
 		switch (state) {

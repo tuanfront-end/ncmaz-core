@@ -18,7 +18,7 @@ const Card16Podcast = ({
 	isSkeleton,
 }) => {
 	const { title, link, categories, excerpt, featuredImage, postFormats } = post;
-	const postFormatName = postFormats.edges[0]?.node.name;
+	const postFormatName = postFormats.edges[0]?.node.slug ;
 
 	const renderIcon = (state) => {
 		if (!state) {
@@ -90,7 +90,7 @@ const Card16Podcast = ({
 					<div className="flex-grow ">
 						<img src={ncmazcoreJsData.img_musicWave_png} alt="musicWave" />
 					</div>
-					{(postFormatName === "Video" || postFormatName === "Audio") &&
+					{(postFormatName === "post-format-video" || postFormatName === "post-format-audio") &&
 						renderListenButtonDefault()}
 				</div>
 				<div className="p-5 mt-5 bg-white dark:bg-neutral-900 shadow-xl dark:shadow-2xl rounded-3xl rounded-tl-none flex flex-col flex-grow ">

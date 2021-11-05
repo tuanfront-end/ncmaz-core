@@ -8,7 +8,7 @@ const PostTypeFeaturedIcon = ({
 	iconSize = "w-6 h-6",
 }) => {
 	const renderMediaIcon = () => {
-		if (postType === "Video") {
+		if (postType.includes('video')) {
 			return (
 				<svg
 					className={iconSize}
@@ -28,7 +28,7 @@ const PostTypeFeaturedIcon = ({
 			);
 		}
 
-		if (postType === "Audio") {
+		if (postType.includes('audio')) {
 			return (
 				<svg
 					className={iconSize}
@@ -75,7 +75,7 @@ const PostTypeFeaturedIcon = ({
 			);
 		}
 
-		if (postType === "Gallery") {
+		if (postType.includes('gallery')) {
 			return (
 				<svg
 					className={iconSize}

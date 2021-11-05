@@ -50624,6 +50624,7 @@ const EDGES_POST_COMMONT_FIELDS = ` edges {
         node {
           id
           name
+          slug
         }
       }
     }
@@ -51330,7 +51331,7 @@ const Card10V3 = ({
   const renderGallery2 = () => {
     if (!galleryImgs) return null;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "w-full h-full grid grid-rows-2 gap-2"
+      className: "w-full h-full grid grid-cols-1 grid-rows-2 gap-2"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "grid grid-cols-3 gap-2 "
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -51359,13 +51360,13 @@ const Card10V3 = ({
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "w-full h-full grid grid-cols-3 gap-2"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "grid "
+      className: "grid grid-cols-1 "
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
       containerClassName: "relative",
       className: "absolute inset-0 object-cover w-full h-full",
       src: isSkeleton ? "." : galleryImgs[0]
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "grid grid-rows-2 gap-2"
+      className: "grid grid-cols-1 grid-rows-2 gap-2"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_NcImage_NcImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
       containerClassName: "relative",
       className: "absolute inset-0 object-cover w-full h-full",
@@ -51566,7 +51567,7 @@ const Card12 = ({
     src: isSkeleton ? "." : featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.node.sourceUrl
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_PostTypeFeaturedIcon_PostTypeFeaturedIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
     className: "absolute bottom-2 left-2",
-    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name,
+    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug,
     wrapSize: "w-8 h-8",
     iconSize: "w-4 h-4"
   }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
@@ -51679,7 +51680,7 @@ const Card13 = ({
     src: isSkeleton ? "." : featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.node.sourceUrl
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_PostTypeFeaturedIcon_PostTypeFeaturedIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
     className: "absolute bottom-2 left-2",
-    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name,
+    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug,
     wrapSize: "w-8 h-8",
     iconSize: "w-4 h-4"
   })));
@@ -51745,7 +51746,7 @@ const Card14 = ({
     date,
     postFormats
   } = post;
-  const postType = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name;
+  const postType = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: `nc-Card14 relative flex flex-col group rounded-3xl overflow-hidden ${hoverClass} ${className}`,
     "data-nc-id": "Card14"
@@ -51852,7 +51853,7 @@ const Card15Podcast = ({
     postFormats,
     excerpt
   } = post;
-  const postFormatName = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name;
+  const postFormatName = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug;
 
   const renderIcon = state => {
     switch (state) {
@@ -52004,7 +52005,7 @@ const Card16Podcast = ({
     featuredImage,
     postFormats
   } = post;
-  const postFormatName = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name;
+  const postFormatName = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug;
 
   const renderIcon = state => {
     if (!state) {
@@ -52072,7 +52073,7 @@ const Card16Podcast = ({
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
     src: ncmazcoreJsData.img_musicWave_png,
     alt: "musicWave"
-  })), (postFormatName === "Video" || postFormatName === "Audio") && renderListenButtonDefault()), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+  })), (postFormatName === "post-format-video" || postFormatName === "post-format-audio") && renderListenButtonDefault()), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "p-5 mt-5 bg-white dark:bg-neutral-900 shadow-xl dark:shadow-2xl rounded-3xl rounded-tl-none flex flex-col flex-grow "
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", {
     className: "nc-card-title block text-xl font-semibold text-neutral-900 dark:text-neutral-100 "
@@ -52151,7 +52152,7 @@ const Card17Podcast = ({
     postFormats,
     excerpt
   } = post;
-  const postFormatName = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name;
+  const postFormatName = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug;
 
   const renderIcon = state => {
     switch (state) {
@@ -52237,7 +52238,7 @@ const Card17Podcast = ({
     dangerouslySetInnerHTML: {
       __html: excerpt
     }
-  })) : null)), (postFormatName === "Video" || postFormatName === "Audio") && renderDefaultBtnListen());
+  })) : null)), (postFormatName === "post-format-video" || postFormatName === "post-format-audio") && renderDefaultBtnListen());
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Card17Podcast);
@@ -52301,7 +52302,7 @@ const Card2 = ({
     src: featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.node.sourceUrl
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_PostTypeFeaturedIcon_PostTypeFeaturedIcon__WEBPACK_IMPORTED_MODULE_3__["default"], {
     className: "absolute bottom-2 left-2",
-    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name,
+    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug,
     wrapSize: "w-8 h-8",
     iconSize: "w-4 h-4"
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
@@ -52387,7 +52388,7 @@ const Card3 = ({
     postFormats,
     ncPostMetaData
   } = post;
-  const postType = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name;
+  const postType = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: `nc-Card3 relative flex flex-col-reverse sm:flex-row sm:items-center rounded-[40px] group ${className}`,
     "data-nc-id": "Card3"
@@ -52686,7 +52687,7 @@ const Card6 = ({
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_PostTypeFeaturedIcon_PostTypeFeaturedIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
     wrapSize: "h-7 w-7",
     iconSize: "h-4 w-4",
-    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name
+    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug
   }))));
 };
 
@@ -52745,7 +52746,7 @@ const Card7 = ({
     postFormats,
     ncPostMetaData
   } = post;
-  const postType = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name;
+  const postType = (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: `nc-Card7 relative flex flex-col group rounded-3xl overflow-hidden ${hoverClass} ${className}`,
     "data-nc-id": "Card7"
@@ -52851,7 +52852,7 @@ const Card8 = ({
     src: featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.node.sourceUrl
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_PostTypeFeaturedIcon_PostTypeFeaturedIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
     className: "absolute top-4 left-4",
-    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name,
+    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug,
     wrapSize: "w-8 h-8",
     iconSize: "w-4 h-4"
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
@@ -52939,10 +52940,10 @@ const Card9 = ({
 
   const renderMeta = () => {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "inline-flex items-center text-xs text-neutral-300"
+      className: "inline-flex items-center text-xs text-neutral-300 "
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
       href: link,
-      className: "block relative"
+      className: "block relative overflow-hidden"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", {
       className: "block text-lg font-semibold text-white "
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
@@ -52951,11 +52952,11 @@ const Card9 = ({
     }, title)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "flex mt-2.5"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
-      className: "block text-neutral-200 hover:text-white font-medium truncate"
+      className: "block text-neutral-200 hover:text-white font-medium truncate py-1"
     }, author === null || author === void 0 ? void 0 : author.node.name), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
       className: "mx-[6px] font-medium"
     }, "\xB7"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
-      className: "font-normal truncate"
+      className: "font-normal flex-shrink-0"
     }, Object(_utils_formatDate__WEBPACK_IMPORTED_MODULE_10__["default"])(date)))));
   };
 
@@ -52977,7 +52978,7 @@ const Card9 = ({
     src: featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.node.sourceUrl
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_PostTypeFeaturedIcon_PostTypeFeaturedIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
     className: "absolute top-3 left-3 group-hover:hidden",
-    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.name,
+    postType: (_postFormats$edges$ = postFormats.edges[0]) === null || _postFormats$edges$ === void 0 ? void 0 : _postFormats$edges$.node.slug,
     wrapSize: "w-7 h-7",
     iconSize: "w-4 h-4"
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
@@ -54349,22 +54350,22 @@ const PostCardMeta = ({
   } = meta;
   author = (_author = author) === null || _author === void 0 ? void 0 : _author.node;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: `nc-PostCardMeta inline-flex items-center flex-wrap text-neutral-800 dark:text-neutral-200 ${size === "normal" ? "text-xs" : "text-base"} ${className}`,
+    className: `nc-PostCardMeta inline-flex items-center  text-neutral-800 dark:text-neutral-200 truncate ${size === "normal" ? "text-xs" : "text-base"} ${className}`,
     "data-nc-id": "PostCardMeta"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
     href: ((_author2 = author) === null || _author2 === void 0 ? void 0 : _author2.url) + ((_author3 = author) === null || _author3 === void 0 ? void 0 : _author3.uri),
-    className: "relative flex items-center space-x-2"
+    className: "relative flex items-center space-x-2 truncate"
   }, !hiddenAvatar && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Avatar_Avatar__WEBPACK_IMPORTED_MODULE_2__["default"], {
     radius: "rounded-full",
     sizeClass: size === "normal" ? "h-7 w-7 text-sm" : "h-10 w-10 text-xl",
     imgUrl: (_author4 = author) === null || _author4 === void 0 ? void 0 : (_author4$avatar = _author4.avatar) === null || _author4$avatar === void 0 ? void 0 : _author4$avatar.url,
     userName: (_author5 = author) === null || _author5 === void 0 ? void 0 : _author5.username
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
-    className: "block text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium"
+    className: "block text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium truncate py-1"
   }, (_author6 = author) === null || _author6 === void 0 ? void 0 : _author6.name)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
     className: "text-neutral-500 dark:text-neutral-400 mx-[6px] font-medium"
   }, "\xB7"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
-    className: "text-neutral-500 dark:text-neutral-400 font-normal"
+    className: "text-neutral-500 dark:text-neutral-400 font-normal flex-shrink-0"
   }, Object(_utils_formatDate__WEBPACK_IMPORTED_MODULE_3__["default"])(date))));
 };
 
@@ -54460,7 +54461,7 @@ const PostTypeFeaturedIcon = ({
   iconSize = "w-6 h-6"
 }) => {
   const renderMediaIcon = () => {
-    if (postType === "Video") {
+    if (postType.includes('video')) {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("svg", {
         className: iconSize,
         viewBox: "0 0 24 24",
@@ -54476,7 +54477,7 @@ const PostTypeFeaturedIcon = ({
       }));
     }
 
-    if (postType === "Audio") {
+    if (postType.includes('audio')) {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("svg", {
         className: iconSize,
         viewBox: "0 0 24 24",
@@ -54515,7 +54516,7 @@ const PostTypeFeaturedIcon = ({
       }));
     }
 
-    if (postType === "Gallery") {
+    if (postType.includes('gallery')) {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("svg", {
         className: iconSize,
         viewBox: "0 0 24 24",
@@ -54855,13 +54856,13 @@ const SectionMagazine1 = ({
   isLoading
 }) => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid lg:grid-cols-2 gap-6 md:gap-8"
+    className: "grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8"
   }, activePosts[0] && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card2_Card2__WEBPACK_IMPORTED_MODULE_3__["default"], {
     isSkeleton: isLoading,
     size: "large",
     post: activePosts[0].node
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid gap-6 md:gap-8"
+    className: "grid grid-cols-1 gap-6 md:gap-8"
   }, activePosts.filter((_, i) => i < 4 && i > 0).map((item, index) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card6_Card6__WEBPACK_IMPORTED_MODULE_4__["default"], {
     isSkeleton: isLoading,
     key: index,
@@ -54902,9 +54903,9 @@ const SectionMagazine2 = ({
   isLoading
 }) => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+    className: "grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid gap-6"
+    className: "grid grid-cols-1 gap-6"
   }, activePosts.filter((_, i) => i < 3 && i > 0).map((item, index) => {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card11_Card11__WEBPACK_IMPORTED_MODULE_3__["default"], {
       isSkeleton: isLoading,
@@ -54919,7 +54920,7 @@ const SectionMagazine2 = ({
     size: "large",
     post: activePosts[0].node
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid gap-6 md:grid-cols-2 xl:grid-cols-1 md:col-span-3 xl:col-span-1"
+    className: "grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-1 md:col-span-3 xl:col-span-1"
   }, activePosts.filter((_, i) => i < 5 && i >= 3).map((item, index) => {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card11_Card11__WEBPACK_IMPORTED_MODULE_3__["default"], {
       isSkeleton: isLoading,
@@ -54965,13 +54966,13 @@ const SectionMagazine3 = ({
   isLoading
 }) => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid lg:grid-cols-2 gap-6 md:gap-8"
+    className: "grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8"
   }, activePosts[0] && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card2_Card2__WEBPACK_IMPORTED_MODULE_4__["default"], {
     isSkeleton: isLoading,
     size: "large",
     post: activePosts[0].node
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid sm:grid-cols-2 gap-6 md:gap-8"
+    className: "grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8"
   }, activePosts.filter((_, i) => i < 5 && i >= 1).map((item, index) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card9_Card9__WEBPACK_IMPORTED_MODULE_6__["default"], {
     isSkeleton: isLoading,
     ratio: "aspect-w-3 aspect-h-3",
@@ -55017,7 +55018,7 @@ const SectionMagazine4 = ({
   isLoading
 }) => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
+    className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
   }, activePosts[0] && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card8_Card8__WEBPACK_IMPORTED_MODULE_7__["default"], {
     isSkeleton: isLoading,
     className: "sm:col-span-2",
@@ -55078,12 +55079,12 @@ const SectionMagazine5 = ({
   isLoading
 }) => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid lg:grid-cols-2 gap-5 md:gap-7"
+    className: "grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-7"
   }, activePosts[0] && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card12_Card12__WEBPACK_IMPORTED_MODULE_8__["default"], {
     isSkeleton: isLoading,
     post: activePosts[0].node
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid gap-5 md:gap-7"
+    className: "grid grid-cols-1 gap-5 md:gap-7"
   }, activePosts.filter((_, i) => i < 4 && i > 0).map((item, index) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card13_Card13__WEBPACK_IMPORTED_MODULE_9__["default"], {
     isSkeleton: isLoading,
     key: index,
@@ -55235,9 +55236,9 @@ const SectionMagazine7 = ({
   isLoading
 }) => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: `grid gap-6 md:gap-8`
+    className: `grid grid-cols-1 gap-6 md:gap-8`
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: `grid gap-6 md:gap-8 lg:grid-cols-2`
+    className: `grid gap-6 md:gap-8 grid-cols-1 lg:grid-cols-2`
   }, activePosts[0] && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card10_Card10V3__WEBPACK_IMPORTED_MODULE_3__["default"], {
     isSkeleton: isLoading,
     post: activePosts[0].node
@@ -55246,7 +55247,7 @@ const SectionMagazine7 = ({
     galleryType: 2,
     post: activePosts[1].node
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-3"
+    className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-3"
   }, activePosts.filter((_, i) => i > 1).map(post => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card10_Card10__WEBPACK_IMPORTED_MODULE_4__["default"], {
     isSkeleton: isLoading,
     key: post.node.id,
@@ -55283,7 +55284,7 @@ const SectionMagazine8 = ({
   isLoading
 }) => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: `grid sm:grid-cols-6 gap-6 md:gap-8`
+    className: `grid grid-cols-1 sm:grid-cols-6 gap-6 md:gap-8`
   }, activePosts[0] && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card16Podcast_Card16Podcast__WEBPACK_IMPORTED_MODULE_2__["default"], {
     isSkeleton: isLoading,
     className: "sm:col-span-3 lg:col-span-2",
@@ -55330,7 +55331,7 @@ const SectionMagazine9 = ({
   isLoading
 }) => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: `grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8`
+    className: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8`
   }, activePosts[0] && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card9_Card9__WEBPACK_IMPORTED_MODULE_3__["default"], {
     isSkeleton: isLoading,
     ratio: "aspect-w-4 aspect-h-3 ",
@@ -55344,7 +55345,7 @@ const SectionMagazine9 = ({
     ratio: "aspect-w-4 aspect-h-3 ",
     post: activePosts[2].node
   })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: `grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-8`
+    className: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-8`
   }, activePosts.filter((_, i) => i > 2).map(p => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_Card15Podcast_Card15Podcast__WEBPACK_IMPORTED_MODULE_2__["default"], {
     isSkeleton: isLoading,
     key: p.node.id,

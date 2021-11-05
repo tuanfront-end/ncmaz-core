@@ -28,19 +28,19 @@ const Card9 = ({
 
 	const renderMeta = () => {
 		return (
-			<div className="inline-flex items-center text-xs text-neutral-300">
-				<a href={link} className="block relative">
+			<div className="inline-flex items-center text-xs text-neutral-300 ">
+				<a href={link} className="block relative overflow-hidden">
 					<h2 className="block text-lg font-semibold text-white ">
 						<span className="line-clamp-2" title={title}>
 							{title}
 						</span>
 					</h2>
 					<div className="flex mt-2.5">
-						<span className="block text-neutral-200 hover:text-white font-medium truncate">
+						<span className="block text-neutral-200 hover:text-white font-medium truncate py-1">
 							{author?.node.name}
 						</span>
 						<span className="mx-[6px] font-medium">·</span>
-						<span className="font-normal truncate">{ncFormatDate(date)}</span>
+						<span className="font-normal flex-shrink-0">{ncFormatDate(date)}</span>
 					</div>
 				</a>
 			</div>
@@ -65,7 +65,7 @@ const Card9 = ({
 				/>
 				<PostTypeFeaturedIcon
 					className="absolute top-3 left-3 group-hover:hidden"
-					postType={postFormats.edges[0]?.node.name}
+					postType={postFormats.edges[0]?.node.slug}
 					wrapSize="w-7 h-7"
 					iconSize="w-4 h-4"
 				/>

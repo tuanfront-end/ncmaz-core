@@ -10,11 +10,11 @@ import Card13 from "../Card13/Card13";
 
 const SectionMagazine5 = ({ activePosts, isLoading }) => {
 	return (
-		<div className="grid lg:grid-cols-2 gap-5 md:gap-7">
+		<div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-7">
 			{activePosts[0] && (
 				<Card12 isSkeleton={isLoading} post={activePosts[0].node} />
 			)}
-			<div className="grid gap-5 md:gap-7">
+			<div className="grid grid-cols-1 gap-5 md:gap-7">
 				{activePosts
 					.filter((_, i) => i < 4 && i > 0)
 					.map((item, index) => (

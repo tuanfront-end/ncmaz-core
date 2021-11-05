@@ -4,7 +4,7 @@ import Card17Podcast from "../Card17Podcast/Card17Podcast";
 
 const SectionMagazine8 = ({ activePosts, isLoading }) => {
 	return (
-		<div className={`grid sm:grid-cols-6 gap-6 md:gap-8`}>
+		<div className={`grid grid-cols-1 sm:grid-cols-6 gap-6 md:gap-8`}>
 			{activePosts[0] && (
 				<Card16Podcast
 					isSkeleton={isLoading}

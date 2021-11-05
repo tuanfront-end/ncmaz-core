@@ -6,7 +6,7 @@ import Card6 from "../Card6/Card6";
 const SectionMagazine1 = ({ activePosts, isLoading }) => {
 	return (
 		<div>
-			<div className="grid lg:grid-cols-2 gap-6 md:gap-8">
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 				{activePosts[0] && (
 					<Card2
 						isSkeleton={isLoading}
@@ -14,7 +14,7 @@ const SectionMagazine1 = ({ activePosts, isLoading }) => {
 						post={activePosts[0].node}
 					/>
 				)}
-				<div className="grid gap-6 md:gap-8">
+				<div className="grid grid-cols-1 gap-6 md:gap-8">
 					{activePosts
 						.filter((_, i) => i < 4 && i > 0)
 						.map((item, index) => (

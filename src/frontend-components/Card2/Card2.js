@@ -32,7 +32,7 @@ const Card2 = ({ className = "h-full", size = "normal", post, isSkeleton }) => {
 
 				<PostTypeFeaturedIcon
 					className="absolute bottom-2 left-2"
-					postType={postFormats.edges[0]?.node.name}
+					postType={postFormats.edges[0]?.node.slug}
 					wrapSize="w-8 h-8"
 					iconSize="w-4 h-4"
 				/>
