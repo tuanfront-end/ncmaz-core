@@ -9,6 +9,8 @@ const Heading = ({
 	hasNextPrev = false,
 	...args
 }) => {
+	if (!children && !desc) return null;
+
 	return (
 		<div
 			className={`nc-Section-Heading relative flex flex-col sm:flex-row sm:items-end justify-between ${className}`}
