@@ -3,7 +3,6 @@ import NcImage from "../NcImage/NcImage";
 import PostCardMeta from "../PostCardMeta/PostCardMeta";
 
 const Card3Small = ({ className = "h-full", post }) => {
-	console.log(11, { post });
 	const { title, link, featuredImage } = post;
 
 	return (

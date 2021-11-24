@@ -5,7 +5,11 @@ import {
 	ApolloProvider,
 	useQuery,
 	gql,
+	HttpLink,
+	from,
 } from "@apollo/client";
+
+import { RetryLink } from "@apollo/client/link/retry";
 
 const { Fragment } = wp.element;
 const { withSelect } = wp.data;
@@ -64,9 +68,38 @@ import BlockWidgetTermsEdit from "./block-widget-terms/edit";
 import BlockWidgetTermsSave from "./block-widget-terms/save";
 //
 
+const cache = new InMemoryCache({
+	typePolicies: {
+		Post: {
+			keyFields: [
+				"ncmazVideoUrl",
+				"ncmazAudioUrl",
+				"ncPostMetaData",
+				"ncmazGalleryImgs",
+			],
+		},
+		User: {
+			keyFields: ["ncUserMeta"],
+		},
+		Category: {
+			keyFields: ["ncTaxonomyMeta"],
+		},
+		Tag: {
+			keyFields: ["ncTaxonomyMeta"],
+		},
+	},
+});
+
+const link = new RetryLink();
+
+const httpLink = new HttpLink({
+	uri: ncmazcoreJsData.graphQLBasePath,
+});
+
 const client = new ApolloClient({
 	uri: ncmazcoreJsData.graphQLBasePath,
-	cache: new InMemoryCache(),
+	cache,
+	link: from([link, httpLink]),
 });
 
 //
