@@ -4,6 +4,7 @@ import { useBlockProps } from "@wordpress/block-editor";
 export default function save(props) {
 	const { attributes } = props;
 	const {
+		filterDataBy,
 		roleIn,
 		userIds,
 		orderBy,
@@ -19,21 +20,37 @@ export default function save(props) {
 		hasBackground,
 		//
 		graphQLvariables,
+		graphQLData,
 	} = attributes;
 
-	const ncGutenbergSectionsData = {
-		blockName: "nc-block-user-grid",
-		graphQLvariables,
-		settings: {
-			userCardName,
-			gridClass,
-			gridClassCustom,
-			heading,
-			subHeading,
-			hasBackground,
-			blockLayoutStyle,
-		},
-	};
+	const ncGutenbergSectionsData =
+		filterDataBy === "by_specific"
+			? {
+					blockName: "nc-block-user-grid",
+					graphQLData,
+					settings: {
+						userCardName,
+						gridClass,
+						gridClassCustom,
+						heading,
+						subHeading,
+						hasBackground,
+						blockLayoutStyle,
+					},
+			  }
+			: {
+					blockName: "nc-block-user-grid",
+					graphQLvariables,
+					settings: {
+						userCardName,
+						gridClass,
+						gridClassCustom,
+						heading,
+						subHeading,
+						hasBackground,
+						blockLayoutStyle,
+					},
+			  };
 
 	return (
 		<div

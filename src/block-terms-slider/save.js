@@ -20,20 +20,35 @@ export default function save(props) {
 		itemPerView,
 		//
 		graphQLvariables,
+		graphQLData,
 	} = attributes;
 
-	const ncGutenbergSectionsData = {
-		blockName: "nc-block-terms-grid",
-		graphQLvariables,
-		settings: {
-			blockLayoutStyle,
-			termCardName,
-			heading,
-			subHeading,
-			hasBackground,
-			itemPerView,
-		},
-	};
+	const ncGutenbergSectionsData =
+		filterDataBy === "by_specific"
+			? {
+					blockName: "nc-block-terms-grid",
+					graphQLData,
+					settings: {
+						blockLayoutStyle,
+						termCardName,
+						heading,
+						subHeading,
+						hasBackground,
+						itemPerView,
+					},
+			  }
+			: {
+					blockName: "nc-block-terms-grid",
+					graphQLvariables,
+					settings: {
+						blockLayoutStyle,
+						termCardName,
+						heading,
+						subHeading,
+						hasBackground,
+						itemPerView,
+					},
+			  };
 
 	return (
 		<div

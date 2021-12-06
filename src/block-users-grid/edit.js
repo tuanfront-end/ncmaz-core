@@ -59,6 +59,7 @@ export default function Edit(props) {
 		gridClassCustom,
 		//
 		graphQLvariables,
+		graphQLData,
 	} = attributes;
 
 	//
@@ -94,10 +95,14 @@ export default function Edit(props) {
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables: {
-				variables,
-				queryString: GQL_QUERY__string_xxx,
-			},
+			graphQLvariables:
+				filterDataBy !== "by_specific"
+					? {
+							variables,
+							queryString: GQL_QUERY__string_xxx,
+					  }
+					: {},
+			graphQLData: filterDataBy === "by_specific" ? data : {},
 		});
 	}, [data]);
 

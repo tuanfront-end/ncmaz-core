@@ -21,22 +21,39 @@ export default function save(props) {
 		hasBackground,
 		//
 		graphQLvariables,
+		//
+		graphQLData,
 	} = attributes;
 	//
 
-	const ncGutenbergSectionsData = {
-		blockName: "nc-block-magazine",
-		graphQLvariables,
-		settings: {
-			sectionName,
-			showFilterTab,
-			viewMoreHref,
-			heading,
-			subHeading,
-			hasBackground,
-			categories,
-		},
-	};
+	const ncGutenbergSectionsData =
+		filterDataBy === "by_specific"
+			? {
+					blockName: "nc-block-magazine",
+					graphQLData,
+					settings: {
+						sectionName,
+						showFilterTab,
+						viewMoreHref,
+						heading,
+						subHeading,
+						hasBackground,
+						categories,
+					},
+			  }
+			: {
+					blockName: "nc-block-magazine",
+					graphQLvariables,
+					settings: {
+						sectionName,
+						showFilterTab,
+						viewMoreHref,
+						heading,
+						subHeading,
+						hasBackground,
+						categories,
+					},
+			  };
 
 	return (
 		<div

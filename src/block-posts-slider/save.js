@@ -23,24 +23,42 @@ export default function save(props) {
 		hasBackground,
 		//
 		graphQLvariables,
+		graphQLData,
 	} = attributes;
 	//
 
-	const ncGutenbergSectionsData = {
-		blockName: "nc-block-posts-slider",
-		graphQLvariables,
-		settings: {
-			blockLayoutStyle,
-			postCardName,
-			itemPerView,
-			showFilterTab,
-			viewMoreHref,
-			heading,
-			subHeading,
-			hasBackground,
-			categories,
-		},
-	};
+	const ncGutenbergSectionsData =
+		filterDataBy === "by_specific"
+			? {
+					blockName: "nc-block-posts-slider",
+					graphQLData,
+					settings: {
+						blockLayoutStyle,
+						postCardName,
+						itemPerView,
+						showFilterTab,
+						viewMoreHref,
+						heading,
+						subHeading,
+						hasBackground,
+						categories,
+					},
+			  }
+			: {
+					blockName: "nc-block-posts-slider",
+					graphQLvariables,
+					settings: {
+						blockLayoutStyle,
+						postCardName,
+						itemPerView,
+						showFilterTab,
+						viewMoreHref,
+						heading,
+						subHeading,
+						hasBackground,
+						categories,
+					},
+			  };
 
 	return (
 		<div

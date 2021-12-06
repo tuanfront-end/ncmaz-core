@@ -17,17 +17,28 @@ export default function save(props) {
 		heading,
 		//
 		graphQLvariables,
+		graphQLData,
 	} = attributes;
 	//
 
-	const ncGutenbergSectionsData = {
-		blockName: "nc-block-widget-posts",
-		graphQLvariables,
-		settings: {
-			postCardName,
-			heading,
-		},
-	};
+	const ncGutenbergSectionsData =
+		filterDataBy === "by_specific"
+			? {
+					blockName: "nc-block-widget-posts",
+					graphQLData,
+					settings: {
+						postCardName,
+						heading,
+					},
+			  }
+			: {
+					blockName: "nc-block-widget-posts",
+					graphQLvariables,
+					settings: {
+						postCardName,
+						heading,
+					},
+			  };
 
 	return (
 		<div

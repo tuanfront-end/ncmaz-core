@@ -69,6 +69,7 @@ import BlockWidgetTermsSave from "./block-widget-terms/save";
 //
 
 const cache = new InMemoryCache({
+	addTypename: false,
 	typePolicies: {
 		Post: {
 			keyFields: [
@@ -78,15 +79,15 @@ const cache = new InMemoryCache({
 				"ncmazGalleryImgs",
 			],
 		},
-		User: {
-			keyFields: ["ncUserMeta"],
-		},
-		Category: {
-			keyFields: ["ncTaxonomyMeta"],
-		},
-		Tag: {
-			keyFields: ["ncTaxonomyMeta"],
-		},
+		// User: {
+		// 	keyFields: ["ncUserMeta"],
+		// },
+		// Category: {
+		// 	keyFields: ["ncTaxonomyMeta"],
+		// },
+		// Tag: {
+		// 	keyFields: ["ncTaxonomyMeta"],
+		// },
 	},
 });
 
@@ -118,7 +119,7 @@ registerBlockType("ncmaz-core/block-magazine", {
 	save: BlockMagazineSave,
 	attributes: {
 		sectionName: { type: "string", default: "magazine-1" },
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		posts: { type: "array", default: [] },
 		categories: { type: "array", default: [] },
 		authors: { type: "array", default: [] },
@@ -136,6 +137,8 @@ registerBlockType("ncmaz-core/block-magazine", {
 		hasBackground: { type: "boolean", default: false },
 		//
 		graphQLvariables: { type: "object", default: {} },
+		//
+		graphQLData: { type: "object", default: {} },
 	},
 });
 
@@ -149,7 +152,7 @@ registerBlockType("ncmaz-core/block-posts-slider", {
 	),
 	save: BlockPostsSliderSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		blockLayoutStyle: { type: "string", default: "layout-1" },
 		postCardName: { type: "string", default: "card4" },
 		itemPerView: { type: "number", default: 4 },
@@ -171,6 +174,7 @@ registerBlockType("ncmaz-core/block-posts-slider", {
 		hasBackground: { type: "boolean", default: false },
 		//
 		graphQLvariables: { type: "object", default: {} },
+		graphQLData: { type: "object", default: {} },
 	},
 });
 
@@ -184,7 +188,7 @@ registerBlockType("ncmaz-core/block-posts-grid", {
 	),
 	save: BlockPostsGridSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		posts: { type: "array", default: [] },
 		categories: { type: "array", default: [] },
 		authors: { type: "array", default: [] },
@@ -210,6 +214,7 @@ registerBlockType("ncmaz-core/block-posts-grid", {
 		hasBackground: { type: "boolean", default: false },
 		//
 		graphQLvariables: { type: "object", default: {} },
+		graphQLData: { type: "object", default: {} },
 		// new
 		enableLoadMoreButton: { type: "boolean", default: true },
 		loadMoreButtonHref: {
@@ -231,7 +236,7 @@ registerBlockType("ncmaz-core/block-terms-slider", {
 	save: BlockTermSliderSave,
 	attributes: {
 		typeOfTerm: { type: "string", default: "category" },
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		termCardName: { type: "string", default: "card2" },
 		sectionId: { type: "string", default: "gutenberg_section_term_slider" },
 		itemPerView: { type: "number", default: 4 },
@@ -248,6 +253,7 @@ registerBlockType("ncmaz-core/block-terms-slider", {
 		hasBackground: { type: "boolean", default: false },
 		//
 		graphQLvariables: { type: "object", default: {} },
+		graphQLData: { type: "object", default: {} },
 	},
 });
 
@@ -270,7 +276,7 @@ registerBlockType("ncmaz-core/block-terms-grid", {
 		},
 		gridClassCustom: { type: "string", default: "" },
 		typeOfTerm: { type: "string", default: "category" },
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		termCardName: { type: "string", default: "card2" },
 		sectionId: { type: "string", default: "gutenberg_section_term_grid" },
 		categories: { type: "array", default: [] },
@@ -285,6 +291,7 @@ registerBlockType("ncmaz-core/block-terms-grid", {
 		numberPerPage: { type: "number", default: 10 },
 		hasBackground: { type: "boolean", default: false },
 		graphQLvariables: { type: "object", default: {} },
+		graphQLData: { type: "object", default: {} },
 	},
 });
 
@@ -299,7 +306,7 @@ registerBlockType("ncmaz-core/block-users-slider", {
 	),
 	save: BlockUsersSliderSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		numberPerPage: { type: "number", default: 10 },
 		orderBy: { type: "string", default: "REGISTERED" },
 		order: { type: "string", default: "DESC" },
@@ -317,6 +324,7 @@ registerBlockType("ncmaz-core/block-users-slider", {
 		hasBackground: { type: "boolean", default: false },
 		//
 		graphQLvariables: { type: "object", default: {} },
+		graphQLData: { type: "object", default: {} },
 	},
 });
 //
@@ -330,7 +338,7 @@ registerBlockType("ncmaz-core/block-users-grid", {
 	),
 	save: BlockUsersGridrSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		numberPerPage: { type: "number", default: 10 },
 		orderBy: { type: "string", default: "REGISTERED" },
 		order: { type: "string", default: "DESC" },
@@ -353,6 +361,7 @@ registerBlockType("ncmaz-core/block-users-grid", {
 		hasBackground: { type: "boolean", default: false },
 		//
 		graphQLvariables: { type: "object", default: {} },
+		graphQLData: { type: "object", default: {} },
 	},
 });
 
@@ -452,7 +461,7 @@ registerBlockType("ncmaz-core/block-widget-posts", {
 	),
 	save: BlockWidgetPostsSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		posts: { type: "array", default: [] },
 		categories: { type: "array", default: [] },
 		authors: { type: "array", default: [] },
@@ -465,6 +474,7 @@ registerBlockType("ncmaz-core/block-widget-posts", {
 		numberPerPage: { type: "number", default: 5 },
 		//
 		graphQLvariables: { type: "object", default: {} },
+		graphQLData: { type: "object", default: {} },
 	},
 });
 //
@@ -477,7 +487,7 @@ registerBlockType("ncmaz-core/block-widget-users", {
 	),
 	save: BlockWidgetUsersSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		numberPerPage: { type: "number", default: 10 },
 		orderBy: { type: "string", default: "REGISTERED" },
 		order: { type: "string", default: "DESC" },
@@ -487,6 +497,7 @@ registerBlockType("ncmaz-core/block-widget-users", {
 		heading: { type: "string", default: "🎭 Discover Authors" },
 		//
 		graphQLvariables: { type: "object", default: {} },
+		graphQLData: { type: "object", default: {} },
 	},
 });
 //
@@ -502,7 +513,7 @@ registerBlockType("ncmaz-core/block-widget-terms", {
 	attributes: {
 		termCardName: { type: "string", default: "card1" },
 		typeOfTerm: { type: "string", default: "category" },
-		filterDataBy: { type: "string", default: "by_filter" },
+		filterDataBy: { type: "string", default: "by_specific" },
 		categories: { type: "array", default: [] },
 		tags: { type: "array", default: [] },
 		orderBy: { type: "string", default: "NAME" },
@@ -512,5 +523,6 @@ registerBlockType("ncmaz-core/block-widget-terms", {
 		//
 		numberPerPage: { type: "number", default: 10 },
 		graphQLvariables: { type: "object", default: {} },
+		graphQLData: { type: "object", default: {} },
 	},
 });

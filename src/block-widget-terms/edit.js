@@ -59,6 +59,7 @@ export default function Edit(props) {
 		heading,
 		//
 		graphQLvariables,
+		graphQLData,
 	} = attributes;
 
 	//
@@ -115,10 +116,14 @@ export default function Edit(props) {
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables: {
-				variables,
-				queryString: GQL_QUERY__string_xxx,
-			},
+			graphQLvariables:
+				filterDataBy !== "by_specific"
+					? {
+							variables,
+							queryString: GQL_QUERY__string_xxx,
+					  }
+					: {},
+			graphQLData: filterDataBy === "by_specific" ? data : {},
 		});
 	}, [data]);
 
@@ -230,11 +235,11 @@ export default function Edit(props) {
 									/>
 									<div className="border-b border-gray-600 my-2"></div>
 									<RadioControl
-										label="Users query by"
+										label="Terms query by"
 										selected={filterDataBy}
 										options={[
-											{ label: "Select users specific", value: "by_specific" },
-											{ label: "Select users by filter", value: "by_filter" },
+											{ label: "Select Terms specific", value: "by_specific" },
+											{ label: "Select Terms by filter", value: "by_filter" },
 										]}
 										onChange={(filterDataBy) => setAttributes({ filterDataBy })}
 									/>

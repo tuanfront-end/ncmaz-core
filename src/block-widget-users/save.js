@@ -14,15 +14,25 @@ export default function save(props) {
 		heading,
 		//
 		graphQLvariables,
+		graphQLData,
 	} = attributes;
 
-	const ncGutenbergSectionsData = {
-		blockName: "nc-block-widget-users",
-		graphQLvariables,
-		settings: {
-			heading,
-		},
-	};
+	const ncGutenbergSectionsData =
+		filterDataBy === "by_specific"
+			? {
+					blockName: "nc-block-widget-users",
+					graphQLData,
+					settings: {
+						heading,
+					},
+			  }
+			: {
+					blockName: "nc-block-widget-users",
+					graphQLvariables,
+					settings: {
+						heading,
+					},
+			  };
 
 	return (
 		<div

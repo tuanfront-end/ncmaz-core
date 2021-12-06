@@ -24,31 +24,53 @@ export default function save(props) {
 		hasBackground,
 		//
 		graphQLvariables,
+		graphQLData,
 		//new
 		enableLoadMoreButton,
 		loadMoreButtonHref,
 	} = attributes;
 	//
 
-	const ncGutenbergSectionsData = {
-		blockName: "nc-block-posts-grid",
-		graphQLvariables,
-		settings: {
-			blockLayoutStyle,
-			postCardName,
-			gridClass,
-			gridClassCustom,
-			showFilterTab,
-			viewMoreHref,
-			heading,
-			subHeading,
-			hasBackground,
-			categories,
-			enableLoadMoreButton,
-			loadMoreButtonHref,
-			filterDataBy,
-		},
-	};
+	const ncGutenbergSectionsData =
+		filterDataBy === "by_specific"
+			? {
+					blockName: "nc-block-posts-grid",
+					graphQLData,
+					settings: {
+						blockLayoutStyle,
+						postCardName,
+						gridClass,
+						gridClassCustom,
+						showFilterTab,
+						viewMoreHref,
+						heading,
+						subHeading,
+						hasBackground,
+						categories,
+						enableLoadMoreButton,
+						loadMoreButtonHref,
+						filterDataBy,
+					},
+			  }
+			: {
+					blockName: "nc-block-posts-grid",
+					graphQLvariables,
+					settings: {
+						blockLayoutStyle,
+						postCardName,
+						gridClass,
+						gridClassCustom,
+						showFilterTab,
+						viewMoreHref,
+						heading,
+						subHeading,
+						hasBackground,
+						categories,
+						enableLoadMoreButton,
+						loadMoreButtonHref,
+						filterDataBy,
+					},
+			  };
 
 	return (
 		<div
