@@ -178,7 +178,7 @@ const GQL_QUERY_GET_POSTS_BY_FILTER = `
 
 const GQL_QUERY_GET_POSTS_BY_SPECIFIC = `
   query GQL_QUERY_GET_POSTS_BY_SPECIFIC($nameIn: [String] = "") {
-    posts(where: { nameIn: $nameIn }) { ${EDGES_POST_COMMONT_FIELDS} }
+    posts(where: { nameIn: $nameIn,  orderby: {order: ASC, field: NAME_IN} }) { ${EDGES_POST_COMMONT_FIELDS} }
   }
 `;
 
@@ -191,7 +191,7 @@ const EDGES_USER_COMMONT_FIELDS = `edges {
 		userId
 		url
 		uri
-		ncUserMeta {
+    ncUserMeta {
 			color
 			ncBio
 			featuredImage {
@@ -202,6 +202,11 @@ const EDGES_USER_COMMONT_FIELDS = `edges {
 				sourceUrl
 			}
 		}
+    posts {
+      pageInfo {
+        total
+      }
+    }
 	}
 }`;
 

@@ -47786,13 +47786,13 @@ function Edit(props) {
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "border-b border-gray-600 my-2"
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
-      label: "Users query by",
+      label: "Terms query by",
       selected: filterDataBy,
       options: [{
-        label: "Select users specific",
+        label: "Select Terms specific",
         value: "by_specific"
       }, {
-        label: "Select users by filter",
+        label: "Select Terms by filter",
         value: "by_filter"
       }],
       onChange: filterDataBy => setAttributes({
@@ -48225,13 +48225,13 @@ function Edit(props) {
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "border-b border-gray-600 my-2"
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["RadioControl"], {
-      label: "Users query by",
+      label: "Terms query by",
       selected: filterDataBy,
       options: [{
-        label: "Select users specific",
+        label: "Select Terms specific",
         value: "by_specific"
       }, {
-        label: "Select users by filter",
+        label: "Select Terms by filter",
         value: "by_filter"
       }],
       onChange: filterDataBy => setAttributes({
@@ -50424,12 +50424,15 @@ const InputSearchAuthors = ({
 
   const hanleChangeSelect = selected => setSelected(selected);
 
-  const getAuthorsAxios = async () => {
+  const getAuthorsAxios = async search => {
     setIsState("loading");
 
     try {
       const response = await axios__WEBPACK_IMPORTED_MODULE_5___default()({
-        url: "/wp-json/wp/v2/users"
+        url: "/wp-json/wp/v2/users",
+        params: {
+          search
+        }
       });
       setIsState("done");
       const converted = response.data.map(item => ({
@@ -50443,6 +50446,10 @@ const InputSearchAuthors = ({
     }
   };
 
+  const handleInputChange = lodash__WEBPACK_IMPORTED_MODULE_2___default.a.debounce(function (e) {
+    !!e && getAuthorsAxios(e);
+  }, 200);
+
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "w-full space-y-1"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("legend", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("Type and select authors", "ncmaz-core")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(react_select__WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -50450,7 +50457,7 @@ const InputSearchAuthors = ({
     isMulti: true,
     isLoading: isState === "loading",
     value: selected,
-    onFocus: getAuthorsAxios,
+    onInputChange: handleInputChange,
     onChange: hanleChangeSelect,
     options: authors
   }));
@@ -50620,7 +50627,7 @@ const InputSearchPosts = ({
 
     try {
       const response = await axios__WEBPACK_IMPORTED_MODULE_5___default()({
-        url: "/wp-json/wp/v2/posts",
+        url: "/wp-json/wp/v2/search",
         params: {
           search
         }
@@ -51089,7 +51096,7 @@ const GQL_QUERY_GET_POSTS_BY_FILTER = `
 `;
 const GQL_QUERY_GET_POSTS_BY_SPECIFIC = `
   query GQL_QUERY_GET_POSTS_BY_SPECIFIC($nameIn: [String] = "") {
-    posts(where: { nameIn: $nameIn }) { ${EDGES_POST_COMMONT_FIELDS} }
+    posts(where: { nameIn: $nameIn,  orderby: {order: ASC, field: NAME_IN} }) { ${EDGES_POST_COMMONT_FIELDS} }
   }
 `; // ===================== USERS =================================================
 
@@ -51101,7 +51108,7 @@ const EDGES_USER_COMMONT_FIELDS = `edges {
 		userId
 		url
 		uri
-		ncUserMeta {
+    ncUserMeta {
 			color
 			ncBio
 			featuredImage {
@@ -51112,6 +51119,11 @@ const EDGES_USER_COMMONT_FIELDS = `edges {
 				sourceUrl
 			}
 		}
+    posts {
+      pageInfo {
+        total
+      }
+    }
 	}
 }`;
 const GQL_QUERY_GET_USERS_BY_FILTER = `query GQL_QUERY_GET_USERS_BY_FILTER(
@@ -56392,10 +56404,15 @@ const {
 
 const cache = new _apollo_client__WEBPACK_IMPORTED_MODULE_2__["InMemoryCache"]({
   addTypename: false,
-  typePolicies: {
-    Post: {
-      keyFields: ["ncmazVideoUrl", "ncmazAudioUrl", "ncPostMetaData", "ncmazGalleryImgs"]
-    } // User: {
+  typePolicies: {// Post: {
+    // 	keyFields: [
+    // 		"ncmazVideoUrl",
+    // 		"ncmazAudioUrl",
+    // 		"ncPostMetaData",
+    // 		"ncmazGalleryImgs",
+    // 	],
+    // },
+    // User: {
     // 	keyFields: ["ncUserMeta"],
     // },
     // Category: {
@@ -56404,7 +56421,6 @@ const cache = new _apollo_client__WEBPACK_IMPORTED_MODULE_2__["InMemoryCache"]({
     // Tag: {
     // 	keyFields: ["ncTaxonomyMeta"],
     // },
-
   }
 });
 const link = new _apollo_client_link_retry__WEBPACK_IMPORTED_MODULE_3__["RetryLink"]();
@@ -56434,7 +56450,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     },
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     posts: {
       type: "array",
@@ -56506,7 +56522,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   attributes: {
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     blockLayoutStyle: {
       type: "string",
@@ -56593,7 +56609,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   attributes: {
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     posts: {
       type: "array",
@@ -56695,7 +56711,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     },
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     termCardName: {
       type: "string",
@@ -56779,7 +56795,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     },
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     termCardName: {
       type: "string",
@@ -56842,7 +56858,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   attributes: {
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     numberPerPage: {
       type: "number",
@@ -56911,7 +56927,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   attributes: {
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     numberPerPage: {
       type: "number",
@@ -57097,7 +57113,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   attributes: {
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     posts: {
       type: "array",
@@ -57157,7 +57173,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
   attributes: {
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     numberPerPage: {
       type: "number",
@@ -57214,7 +57230,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("ncm
     },
     filterDataBy: {
       type: "string",
-      default: "by_specific"
+      default: "by_filter"
     },
     categories: {
       type: "array",

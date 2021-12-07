@@ -17,11 +17,12 @@ const InputSearchAuthors = ({ onChange, defaultValue = [] }) => {
 
 	const hanleChangeSelect = (selected) => setSelected(selected);
 
-	const getAuthorsAxios = async () => {
+	const getAuthorsAxios = async (search) => {
 		setIsState("loading");
 		try {
 			const response = await axios({
 				url: "/wp-json/wp/v2/users",
+				params: { search },
 			});
 			setIsState("done");
 			const converted = response.data.map((item) => ({
@@ -35,6 +36,10 @@ const InputSearchAuthors = ({ onChange, defaultValue = [] }) => {
 		}
 	};
 
+	const handleInputChange = _.debounce(function (e) {
+		!!e && getAuthorsAxios(e);
+	}, 200);
+
 	return (
 		<div className="w-full space-y-1">
 			<legend>{__("Type and select authors", "ncmaz-core")}</legend>
@@ -43,7 +48,7 @@ const InputSearchAuthors = ({ onChange, defaultValue = [] }) => {
 				isMulti
 				isLoading={isState === "loading"}
 				value={selected}
-				onFocus={getAuthorsAxios}
+				onInputChange={handleInputChange}
 				onChange={hanleChangeSelect}
 				options={authors}
 			/>

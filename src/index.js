@@ -71,14 +71,14 @@ import BlockWidgetTermsSave from "./block-widget-terms/save";
 const cache = new InMemoryCache({
 	addTypename: false,
 	typePolicies: {
-		Post: {
-			keyFields: [
-				"ncmazVideoUrl",
-				"ncmazAudioUrl",
-				"ncPostMetaData",
-				"ncmazGalleryImgs",
-			],
-		},
+		// Post: {
+		// 	keyFields: [
+		// 		"ncmazVideoUrl",
+		// 		"ncmazAudioUrl",
+		// 		"ncPostMetaData",
+		// 		"ncmazGalleryImgs",
+		// 	],
+		// },
 		// User: {
 		// 	keyFields: ["ncUserMeta"],
 		// },
@@ -119,7 +119,7 @@ registerBlockType("ncmaz-core/block-magazine", {
 	save: BlockMagazineSave,
 	attributes: {
 		sectionName: { type: "string", default: "magazine-1" },
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		posts: { type: "array", default: [] },
 		categories: { type: "array", default: [] },
 		authors: { type: "array", default: [] },
@@ -152,7 +152,7 @@ registerBlockType("ncmaz-core/block-posts-slider", {
 	),
 	save: BlockPostsSliderSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		blockLayoutStyle: { type: "string", default: "layout-1" },
 		postCardName: { type: "string", default: "card4" },
 		itemPerView: { type: "number", default: 4 },
@@ -188,7 +188,7 @@ registerBlockType("ncmaz-core/block-posts-grid", {
 	),
 	save: BlockPostsGridSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		posts: { type: "array", default: [] },
 		categories: { type: "array", default: [] },
 		authors: { type: "array", default: [] },
@@ -236,7 +236,7 @@ registerBlockType("ncmaz-core/block-terms-slider", {
 	save: BlockTermSliderSave,
 	attributes: {
 		typeOfTerm: { type: "string", default: "category" },
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		termCardName: { type: "string", default: "card2" },
 		sectionId: { type: "string", default: "gutenberg_section_term_slider" },
 		itemPerView: { type: "number", default: 4 },
@@ -276,7 +276,7 @@ registerBlockType("ncmaz-core/block-terms-grid", {
 		},
 		gridClassCustom: { type: "string", default: "" },
 		typeOfTerm: { type: "string", default: "category" },
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		termCardName: { type: "string", default: "card2" },
 		sectionId: { type: "string", default: "gutenberg_section_term_grid" },
 		categories: { type: "array", default: [] },
@@ -306,7 +306,7 @@ registerBlockType("ncmaz-core/block-users-slider", {
 	),
 	save: BlockUsersSliderSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		numberPerPage: { type: "number", default: 10 },
 		orderBy: { type: "string", default: "REGISTERED" },
 		order: { type: "string", default: "DESC" },
@@ -338,7 +338,7 @@ registerBlockType("ncmaz-core/block-users-grid", {
 	),
 	save: BlockUsersGridrSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		numberPerPage: { type: "number", default: 10 },
 		orderBy: { type: "string", default: "REGISTERED" },
 		order: { type: "string", default: "DESC" },
@@ -461,7 +461,7 @@ registerBlockType("ncmaz-core/block-widget-posts", {
 	),
 	save: BlockWidgetPostsSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		posts: { type: "array", default: [] },
 		categories: { type: "array", default: [] },
 		authors: { type: "array", default: [] },
@@ -487,7 +487,7 @@ registerBlockType("ncmaz-core/block-widget-users", {
 	),
 	save: BlockWidgetUsersSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		numberPerPage: { type: "number", default: 10 },
 		orderBy: { type: "string", default: "REGISTERED" },
 		order: { type: "string", default: "DESC" },
@@ -513,7 +513,7 @@ registerBlockType("ncmaz-core/block-widget-terms", {
 	attributes: {
 		termCardName: { type: "string", default: "card1" },
 		typeOfTerm: { type: "string", default: "category" },
-		filterDataBy: { type: "string", default: "by_specific" },
+		filterDataBy: { type: "string", default: "by_filter" },
 		categories: { type: "array", default: [] },
 		tags: { type: "array", default: [] },
 		orderBy: { type: "string", default: "NAME" },

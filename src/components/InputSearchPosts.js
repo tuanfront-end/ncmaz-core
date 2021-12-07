@@ -38,7 +38,7 @@ const InputSearchPosts = ({ onChange, defaultValue = [] }) => {
 		setIsState("loading");
 		try {
 			const response = await axios({
-				url: "/wp-json/wp/v2/posts",
+				url: "/wp-json/wp/v2/search",
 				params: { search },
 			});
 			setIsState("done");
