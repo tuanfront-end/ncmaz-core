@@ -38,12 +38,12 @@ const InputSearchPosts = ({ onChange, defaultValue = [] }) => {
 		setIsState("loading");
 		try {
 			const response = await axios({
-				url: "/wp-json/wp/v2/search",
-				params: { search },
+				url: "/wp-json/wp/v2/posts",
+				params: { search, per_page: 20 },
 			});
 			setIsState("done");
 			const converted = converteArrToObj(response.data);
-			setObjData({ ...objData, ...converted });
+			setObjData((objData) => ({ ...objData, ...converted }));
 		} catch (error) {
 			setIsState("err");
 			console.error(error);

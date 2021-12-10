@@ -46889,6 +46889,8 @@ const SectionSliderPosts = ({
   const enableNexPrevOnFoot = blockLayoutStyle === "layout-2" || showFilterTab;
   const perView = itemPerView;
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
+    var _document$querySelect;
+
     if (!listData) return;
 
     if (!listData.length) {
@@ -46900,6 +46902,7 @@ const SectionSliderPosts = ({
     }
 
     new _glidejs_glide__WEBPACK_IMPORTED_MODULE_14__["default"](`.${UNIQUE_CLASS}`, {
+      direction: ((_document$querySelect = document.querySelector("html")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute("dir")) === "rtl" ? "rtl" : "ltr",
       perView: perView,
       gap: 32,
       bound: true,
@@ -50627,16 +50630,17 @@ const InputSearchPosts = ({
 
     try {
       const response = await axios__WEBPACK_IMPORTED_MODULE_5___default()({
-        url: "/wp-json/wp/v2/search",
+        url: "/wp-json/wp/v2/posts",
         params: {
-          search
+          search,
+          per_page: 20
         }
       });
       setIsState("done");
       const converted = converteArrToObj(response.data);
-      setObjData({ ...objData,
+      setObjData(objData => ({ ...objData,
         ...converted
-      });
+      }));
     } catch (error) {
       setIsState("err");
       console.error(error);
@@ -55776,7 +55780,10 @@ const SectionSliderNewAuthors = ({
 }) => {
   const UNIQUE_CLASS = "glide_" + uniqueClass;
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
+    var _document$querySelect;
+
     new _glidejs_glide__WEBPACK_IMPORTED_MODULE_2__["default"](`.${UNIQUE_CLASS}`, {
+      direction: ((_document$querySelect = document.querySelector("html")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute("dir")) === "rtl" ? "rtl" : "ltr",
       perView: perView,
       gap: 32,
       bound: true,
@@ -55895,7 +55902,10 @@ const SectionSliderNewCategories = ({
 }) => {
   const UNIQUE_CLASS = "glide_" + uniqueClass;
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
+    var _document$querySelect;
+
     new _glidejs_glide__WEBPACK_IMPORTED_MODULE_2__["default"](`.${UNIQUE_CLASS}`, {
+      direction: ((_document$querySelect = document.querySelector("html")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute("dir")) === "rtl" ? "rtl" : "ltr",
       perView: itemPerRow,
       gap: 32,
       bound: true,

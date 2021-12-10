@@ -5,7 +5,7 @@
  * Description:       Example block written with ESNext standard and JSX support – build step required.
  * Requires at least: 5.8
  * Requires PHP:      7.0
- * Version:           0.1.2
+ * Version:           0.1.4
  * Author:            The WordPress Contributors
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -26,6 +26,16 @@ function create_block_ncmaz_core_block_init()
 }
 add_action('init', 'create_block_ncmaz_core_block_init');
 
+
+// ENQUEUE FOR BACKEND EDITOR
+function ncmaz_core_enqueue_admin_style($hook)
+{
+	if ($hook !== 'post.php') {
+		return;
+	}
+	wp_enqueue_style('glide-core', plugins_url('public/css/glide.core.min.css', __FILE__), [], '3.5.0', 'all');
+}
+add_action('admin_enqueue_scripts', 'ncmaz_core_enqueue_admin_style');
 
 // 
 //  ======================= wp_enqueue_script ===========================

@@ -19,6 +19,10 @@ const SectionSliderNewAuthors = ({
 
 	useEffect(() => {
 		new Glide(`.${UNIQUE_CLASS}`, {
+			direction:
+				document.querySelector("html")?.getAttribute("dir") === "rtl"
+					? "rtl"
+					: "ltr",
 			perView: perView,
 			gap: 32,
 			bound: true,

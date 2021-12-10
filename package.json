@@ -1,6 +1,6 @@
 {
 	"name": "ncmaz-core",
-	"version": "0.1.0",
+	"version": "0.1.4",
 	"description": "Example block written with ESNext standard and JSX support – build step required.",
 	"author": "The WordPress Contributors",
 	"license": "GPL-2.0-or-later",
@@ -31,7 +31,9 @@
 	"devDependencies": {
 		"@wordpress/scripts": "^17.1.0",
 		"autoprefixer": "^10.3.2",
+		"cssjanus": "^2.1.0",
 		"postcss": "^8.3.6",
+		"postcss-cssjanus": "^1.0.5",
 		"tailwindcss": "^2.2.7"
 	}
 }

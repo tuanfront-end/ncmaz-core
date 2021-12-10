@@ -21,6 +21,10 @@ const SectionSliderNewCategories = ({
 
 	useEffect(() => {
 		new Glide(`.${UNIQUE_CLASS}`, {
+			direction:
+				document.querySelector("html")?.getAttribute("dir") === "rtl"
+					? "rtl"
+					: "ltr",
 			perView: itemPerRow,
 			gap: 32,
 			bound: true,
