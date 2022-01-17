@@ -2,6 +2,10 @@ import React, { FC } from "react";
 import Avatar from "../Avatar/Avatar";
 
 const CardAuthor = ({ className = "", author }) => {
+	if (!author) {
+		return null;
+	}
+
 	const { avatar, id, name, ncUserMeta, url, uri, userId, username } = author;
 	const { color, featuredImage, ncBio } = ncUserMeta;
 

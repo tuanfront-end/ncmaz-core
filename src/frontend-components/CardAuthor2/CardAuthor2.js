@@ -9,6 +9,10 @@ const CardAuthor2 = ({
 	date,
 	hoverReadingTime = true,
 }) => {
+	if (!author) {
+		return null;
+	}
+
 	const { node } = author;
 	return (
 		<a

@@ -53408,6 +53408,10 @@ const CardAuthor = ({
   className = "",
   author
 }) => {
+  if (!author) {
+    return null;
+  }
+
   const {
     avatar,
     id,
@@ -53473,6 +53477,10 @@ const CardAuthor2 = ({
 }) => {
   var _node$avatar;
 
+  if (!author) {
+    return null;
+  }
+
   const {
     node
   } = author;
@@ -53526,6 +53534,10 @@ const CardAuthorBox = ({
   className = "",
   author
 }) => {
+  if (!author) {
+    return null;
+  }
+
   const {
     avatar,
     id,
@@ -53591,6 +53603,10 @@ const CardAuthorBox2 = ({
   className = "",
   author
 }) => {
+  if (!author) {
+    return null;
+  }
+
   const {
     avatar,
     id,

@@ -2,6 +2,9 @@ import React, { FC } from "react";
 import Avatar from "../Avatar/Avatar";
 
 const CardAuthorBox2 = ({ className = "", author }) => {
+	if (!author) {
+		return null;
+	}
 	const { avatar, id, name, ncUserMeta, url, uri, userId, username } = author;
 	const { color, featuredImage, backgroundImage, ncBio } = ncUserMeta;
 
