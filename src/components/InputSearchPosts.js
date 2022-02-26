@@ -1,58 +1,46 @@
 import { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
 import _ from "lodash";
-import apiFetch from "@wordpress/api-fetch";
-import axios from "axios";
 import Select from "react-select";
+import { gql, useLazyQuery } from "@apollo/client";
+import { GQL_QUERY_SEARCH_POSTS } from "../contains/contants";
 
 const InputSearchPosts = ({ onChange, defaultValue = [] }) => {
-	//  * loading | err | done
-	const [isState, setIsState] = useState("");
 	const [selected, setSelected] = useState(defaultValue);
-
-	// Why need objData? chung ta se sd Object.value(objData) lam data cho select
-	// Sau moi lan axios thi du lieu tra ve co the trung voi du lieu cu nen ta phai sd obj de (spread ...) du lieu trung nhau
-	const [objData, setObjData] = useState({});
+	const [searchContent, setSearchContent] = useState("");
 
 	useEffect(() => {
 		onChange && onChange(selected);
 	}, [selected]);
 
-	const converteArrToObj = (data) => {
-		if (!data) return {};
-		return data.reduce(
-			(obj, item) => ({
-				...obj,
-				[item.slug]: {
-					value: item.slug,
-					label: item.title?.rendered,
-				},
-			}),
-			{}
-		);
-	};
-
+	//
+	useEffect(() => {
+		searchContent && loadGreeting();
+	}, [searchContent]);
 	const hanleChangeSelect = (selected) => setSelected(selected);
 
-	const getCategoriesAxios = async (search) => {
-		setIsState("loading");
-		try {
-			const response = await axios({
-				url: "/wp-json/wp/v2/posts",
-				params: { search, per_page: 20 },
-			});
-			setIsState("done");
-			const converted = converteArrToObj(response.data);
-			setObjData((objData) => ({ ...objData, ...converted }));
-		} catch (error) {
-			setIsState("err");
-			console.error(error);
-		}
-	};
+	//
+	let GQL_QUERY__string = GQL_QUERY_SEARCH_POSTS;
+	const gqlQuery = gql`
+		${GQL_QUERY__string}
+	`;
+	const [
+		loadGreeting,
+		{ loading, error, data, called },
+	] = useLazyQuery(gqlQuery, { variables: { search: searchContent } });
 
+	let postsList = data?.posts?.edges || [];
+	if (postsList && postsList.length) {
+		postsList = postsList.map((item) => ({
+			value: item.node.slug,
+			label: item.node.title,
+		}));
+	}
+	//
 	const handleInputChange = _.debounce(function (e) {
-		!!e && getCategoriesAxios(e);
+		setSearchContent(e);
 	}, 200);
+	//
 
 	return (
 		<div className="w-full space-y-1">
@@ -61,10 +49,10 @@ const InputSearchPosts = ({ onChange, defaultValue = [] }) => {
 				placeholder="Select posts..."
 				isMulti
 				onInputChange={handleInputChange}
-				isLoading={isState === "loading"}
+				isLoading={loading}
 				value={selected}
 				onChange={hanleChangeSelect}
-				options={Object.values(objData)}
+				options={postsList}
 				styles
 			/>
 		</div>

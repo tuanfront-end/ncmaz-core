@@ -1,147 +1,12 @@
-const avatarColors = [
-	"#ffdd00",
-	"#fbb034",
-	"#ff4c4c",
-	"#c1d82f",
-	"#f48924",
-	"#7ac143",
-	"#30c39e",
-	"#06BCAE",
-	"#0695BC",
-	"#037ef3",
-	"#146eb4",
-	"#8e43e7",
-	"#ea1d5d",
-	"#fc636b",
-	"#ff6319",
-	"#e01f3d",
-	"#a0ac48",
-	"#00d1b2",
-	"#472f92",
-	"#388ed1",
-	"#a6192e",
-	"#4a8594",
-	"#7B9FAB",
-	"#1393BD",
-	"#5E13BD",
-	"#E208A7",
-];
+import {
+	avatarColors,
+	EDGES_POST_COMMONT_FIELDS,
+	EDGES_TERMS_COMMONT_FIELDS,
+	EDGES_USER_COMMONT_FIELDS,
+} from "./contantsCommon";
+import { PLLs } from "./contantsPLL";
 
-// ===================== POSTS =================================================
-const EDGES_POST_COMMONT_FIELDS = ` edges {
-  node {
-    id
-    link
-    author {
-      node {
-        id
-        avatar {
-          url
-        }
-        url
-        uri
-        username
-        name
-        slug
-        ncUserMeta {
-          featuredImage {
-            sourceUrl
-          }
-        }
-      }
-    }
-    categories {
-      edges {
-        node {
-          id
-          link
-          name
-          uri
-          slug
-          count
-          categoryId
-          ncTaxonomyMeta {
-            color
-          }
-        }
-      }
-    }
-    commentCount
-    date
-    excerpt
-    featuredImage {
-      node {
-        id
-        altText
-        caption
-        sourceUrl
-      }
-    }
-    postFormats {
-      edges {
-        node {
-          id
-          name
-          slug
-        }
-      }
-    }
-    postId
-    slug
-    title
-    ncmazVideoUrl {
-      fieldGroupName
-      videoUrl
-    }
-    ncmazAudioUrl {
-      fieldGroupName
-      audioUrl
-    }
-    ncPostMetaData {
-      favoriteButtonShortcode
-      readingTimeShortcode
-      viewsCount
-      fieldGroupName
-    }
-    ncmazGalleryImgs {
-      fieldGroupName
-      image1 {
-        id
-        sourceUrl
-      }
-      image2 {
-        id
-        sourceUrl
-      }
-      image3 {
-        id
-        sourceUrl
-      }
-      image4 {
-        id
-        sourceUrl
-      }
-      image5 {
-        id
-        sourceUrl
-      }
-      image6 {
-        id
-        sourceUrl
-      }
-      image7 {
-        id
-        sourceUrl
-      }
-      image8 {
-        id
-        sourceUrl
-      }
-    }
-  }
-}`;
-
-const GQL_QUERY_GET_POSTS_BY_FILTER = `
+let GQL_QUERY_GET_POSTS_BY_FILTER = `
   query GQL_QUERY_GET_POSTS_BY_FILTER(
     $field: PostObjectsConnectionOrderbyEnum = AUTHOR
     $order: OrderEnum = ASC
@@ -176,41 +41,15 @@ const GQL_QUERY_GET_POSTS_BY_FILTER = `
   }
 `;
 
-const GQL_QUERY_GET_POSTS_BY_SPECIFIC = `
+let GQL_QUERY_GET_POSTS_BY_SPECIFIC = `
   query GQL_QUERY_GET_POSTS_BY_SPECIFIC($nameIn: [String] = "") {
     posts(where: { nameIn: $nameIn,  orderby: {order: ASC, field: NAME_IN} }) { ${EDGES_POST_COMMONT_FIELDS} }
   }
 `;
 
 // ===================== USERS =================================================
-const EDGES_USER_COMMONT_FIELDS = `edges {
-	node {
-		id
-		name
-		username
-		userId
-		url
-		uri
-    ncUserMeta {
-			color
-			ncBio
-			featuredImage {
-				sourceUrl
-				id
-			}
-			backgroundImage {
-				sourceUrl
-			}
-		}
-    posts {
-      pageInfo {
-        total
-      }
-    }
-	}
-}`;
 
-const GQL_QUERY_GET_USERS_BY_FILTER = `query GQL_QUERY_GET_USERS_BY_FILTER(
+let GQL_QUERY_GET_USERS_BY_FILTER = `query GQL_QUERY_GET_USERS_BY_FILTER(
 	$after: String = ""
 	$before: String = ""
 	$first: Int = 10
@@ -228,29 +67,13 @@ const GQL_QUERY_GET_USERS_BY_FILTER = `query GQL_QUERY_GET_USERS_BY_FILTER(
 	) { ${EDGES_USER_COMMONT_FIELDS} }
 }`;
 
-const GQL_QUERY_GET_USERS_BY_SPECIFIC = `query GQL_QUERY_GET_USERS_BY_SPECIFIC($include: [Int] = null) {
+let GQL_QUERY_GET_USERS_BY_SPECIFIC = `query GQL_QUERY_GET_USERS_BY_SPECIFIC($include: [Int] = null) {
 	users(where: { include: $include }) { ${EDGES_USER_COMMONT_FIELDS} }
 }`;
 
 // ===================== TERMS - TAGS | CATEGORIES =========================================
-const EDGES_TERMS_COMMONT_FIELDS = `edges {
-    node {
-        id
-        count
-        name
-        databaseId
-        description
-        link
-        ncTaxonomyMeta {
-            color                                     
-            featuredImage {
-                sourceUrl
-            }
-        }
-    }
-}`;
 
-const GQL_QUERY_GET_CATEGORIES_BY_FILTER = `
+let GQL_QUERY_GET_CATEGORIES_BY_FILTER = `
 	query GQL_QUERY_GET_CATEGORIES_BY_FILTER(
 		$order: OrderEnum = ASC
 		$orderby: TermObjectsConnectionOrderbyEnum = COUNT
@@ -269,14 +92,14 @@ const GQL_QUERY_GET_CATEGORIES_BY_FILTER = `
 	}
 `;
 
-const GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC = `
+let GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC = `
 	query GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC($termTaxonomId: [ID] = "") {
 		categories(where: { termTaxonomId: $termTaxonomId }) { ${EDGES_TERMS_COMMONT_FIELDS} }
 	}
 `;
 
 // TAGS
-const GQL_QUERY_GET_TAGS_BY_FILTER = `
+let GQL_QUERY_GET_TAGS_BY_FILTER = `
 	query GQL_QUERY_GET_TAGS_BY_FILTER(
 		$order: OrderEnum = ASC
 		$orderby: TermObjectsConnectionOrderbyEnum = COUNT
@@ -295,14 +118,67 @@ const GQL_QUERY_GET_TAGS_BY_FILTER = `
 	}
 `;
 
-const GQL_QUERY_GET_TAGS_BY_SPECIFIC = `
+let GQL_QUERY_GET_TAGS_BY_SPECIFIC = `
 	query GQL_QUERY_GET_TAGS_BY_SPECIFIC($termTaxonomId: [ID] = "") {
 		tags(where: { termTaxonomId: $termTaxonomId }) { ${EDGES_TERMS_COMMONT_FIELDS} }
 	}
 `;
 
+// SEARCH
+let GQL_QUERY_SEARCH_POSTS = `
+  query GQL_QUERY_SEARCH_POSTS($search: String = "") {
+    posts(where: {search: $search})
+	{ ${EDGES_POST_COMMONT_FIELDS} }
+  }
+`;
+
+let GQL_QUERY_SEARCH_USER = `
+  query GQL_QUERY_SEARCH_USER($search: String = "") {
+	users(where: {search: $search})
+	{ ${EDGES_USER_COMMONT_FIELDS} }
+  }
+`;
+
+let GQL_QUERY_SEARCH_CATEGORIES = `
+  query GQL_QUERY_SEARCH_CATEGORIES($search: String = "") {
+	categories(where: {search: $search})
+	{ ${EDGES_TERMS_COMMONT_FIELDS} }
+  }
+`;
+
+let GQL_QUERY_SEARCH_TAGS = `
+  query GQL_QUERY_SEARCH_TAGS($search: String = "") {
+	tags(where: {search: $search})
+	{ ${EDGES_TERMS_COMMONT_FIELDS} }
+  }
+`;
+
+// CHECK ENABLE POLYLANG
+let IS_ENABLE_PLL =
+	!!window.ncmazcoreJsData.pll_current_language &&
+	!!window.ncmazcoreJsData.pll_themeoption_actived;
+//
+if (IS_ENABLE_PLL) {
+	GQL_QUERY_GET_POSTS_BY_FILTER = PLLs.PLL_GET__GQL_QUERY_GET_POSTS_BY_FILTER;
+	GQL_QUERY_GET_POSTS_BY_SPECIFIC =
+		PLLs.PLL_GET__GQL_QUERY_GET_POSTS_BY_SPECIFIC;
+	GQL_QUERY_GET_CATEGORIES_BY_FILTER =
+		PLLs.PLL_GET__GQL_QUERY_GET_CATEGORIES_BY_FILTER;
+	GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC =
+		PLLs.PLL_GET__GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC;
+	GQL_QUERY_GET_TAGS_BY_FILTER = PLLs.PLL_GET__GQL_QUERY_GET_TAGS_BY_FILTER;
+	GQL_QUERY_GET_TAGS_BY_SPECIFIC = PLLs.PLL_GET__GQL_QUERY_GET_TAGS_BY_SPECIFIC;
+	//
+	GQL_QUERY_SEARCH_POSTS = PLLs.PLL_GET__GQL_QUERY_SEARCH_POSTS;
+	GQL_QUERY_SEARCH_CATEGORIES = PLLs.PLL_GET__GQL_QUERY_SEARCH_CATEGORIES;
+	GQL_QUERY_SEARCH_TAGS = PLLs.PLL_GET__GQL_QUERY_SEARCH_TAGS;
+}
+
 export {
 	avatarColors,
+	//
+	GQL_QUERY_SEARCH_POSTS,
+	GQL_QUERY_SEARCH_USER,
 	//
 	EDGES_POST_COMMONT_FIELDS,
 	GQL_QUERY_GET_POSTS_BY_FILTER,
@@ -317,4 +193,7 @@ export {
 	GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC,
 	GQL_QUERY_GET_TAGS_BY_FILTER,
 	GQL_QUERY_GET_TAGS_BY_SPECIFIC,
+	//
+	GQL_QUERY_SEARCH_CATEGORIES,
+	GQL_QUERY_SEARCH_TAGS,
 };

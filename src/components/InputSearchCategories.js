@@ -1,54 +1,47 @@
 import { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
 import _ from "lodash";
-import apiFetch from "@wordpress/api-fetch";
-import axios from "axios";
+import { gql, useLazyQuery } from "@apollo/client";
 import Select from "react-select";
+import { GQL_QUERY_SEARCH_CATEGORIES } from "../contains/contants";
 
 const InputSearchCategories = ({ onChange, defaultValue = [] }) => {
-	//  * loading | err | done
-	const [isState, setIsState] = useState("");
 	const [selected, setSelected] = useState(defaultValue);
-
-	// Why need/ Readmore from InputSearchPost component
-	const [objData, setObjData] = useState({});
+	const [searchContent, setSearchContent] = useState("");
 
 	useEffect(() => {
 		onChange && onChange(selected);
 	}, [selected]);
 
+	//
+	useEffect(() => {
+		searchContent && loadGreeting();
+	}, [searchContent]);
 	const hanleChangeSelect = (selected) => setSelected(selected);
 
-	const getCategoriesAxios = async (search) => {
-		setIsState("loading");
-		try {
-			const response = await axios({
-				url: "/wp-json/wp/v2/categories",
-				params: { search },
-			});
-			setIsState("done");
-			const converted = response.data.reduce(
-				(obj, item) => ({
-					...obj,
-					[item.slug]: {
-						id: item.id,
-						slug: item.slug,
-						value: item.id,
-						label: item.name,
-						name: item.name,
-					},
-				}),
-				{}
-			);
-			setObjData({ ...objData, ...converted });
-		} catch (error) {
-			setIsState("err");
-			console.error(error);
-		}
-	};
+	//
+	let GQL_QUERY__string = GQL_QUERY_SEARCH_CATEGORIES;
+	const gqlQuery = gql`
+		${GQL_QUERY__string}
+	`;
+	const [
+		loadGreeting,
+		{ loading, error, data, called },
+	] = useLazyQuery(gqlQuery, { variables: { search: searchContent } });
 
+	let categoriesList = data?.categories?.edges || [];
+	if (categoriesList && categoriesList.length) {
+		categoriesList = categoriesList.map((item) => ({
+			id: item.node.databaseId,
+			slug: item.node.slug,
+			value: item.node.databaseId,
+			label: item.node.name,
+			name: item.node.name,
+		}));
+	}
+	//
 	const handleInputChange = _.debounce(function (e) {
-		!!e && getCategoriesAxios(e);
+		setSearchContent(e);
 	}, 200);
 
 	return (
@@ -58,10 +51,10 @@ const InputSearchCategories = ({ onChange, defaultValue = [] }) => {
 				placeholder="Select categories..."
 				isMulti
 				onInputChange={handleInputChange}
-				isLoading={isState === "loading"}
+				isLoading={loading}
 				value={selected}
 				onChange={hanleChangeSelect}
-				options={Object.values(objData)}
+				options={categoriesList}
 			/>
 		</div>
 	);

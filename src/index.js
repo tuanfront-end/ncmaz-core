@@ -104,9 +104,6 @@ const client = new ApolloClient({
 });
 
 //
-import axios from "axios";
-axios.defaults.baseURL = ncmazcoreJsData.homeURL;
-//
 
 // sectionName: magazine-1 .... magazine-9
 registerBlockType("ncmaz-core/block-magazine", {

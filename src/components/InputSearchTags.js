@@ -1,52 +1,44 @@
 import { useEffect, useState } from "react";
 import _ from "lodash";
 import { __ } from "@wordpress/i18n";
-import apiFetch from "@wordpress/api-fetch";
-import axios from "axios";
+import { gql, useLazyQuery } from "@apollo/client";
 import Select from "react-select";
+import { GQL_QUERY_SEARCH_TAGS } from "../contains/contants";
 
 const InputSearchTags = ({ onChange, defaultValue = [] }) => {
-	//  * loading | err | done
-	const [isState, setIsState] = useState("");
 	const [selected, setSelected] = useState(defaultValue);
-
-	// Why need? read more IInputSearchPost Component
-	const [objData, setObjData] = useState({});
+	const [searchContent, setSearchContent] = useState("");
 
 	useEffect(() => {
 		onChange && onChange(selected);
 	}, [selected]);
 
+	//
+	useEffect(() => {
+		searchContent && loadGreeting();
+	}, [searchContent]);
 	const hanleChangeSelect = (selected) => setSelected(selected);
 
-	const getTagsAxios = async (search) => {
-		setIsState("loading");
-		try {
-			const response = await axios({
-				url: "/wp-json/wp/v2/tags",
-				params: { search },
-			});
-			setIsState("done");
-			const converted = response.data.reduce(
-				(obj, item) => ({
-					...obj,
-					[item.slug]: {
-						value: item.id,
-						label: item.name,
-					},
-				}),
-				{}
-			);
-			setObjData({ ...objData, ...converted });
-			// console.log(response.data);
-		} catch (error) {
-			setIsState("err");
-			console.error(error);
-		}
-	};
+	//
+	let GQL_QUERY__string = GQL_QUERY_SEARCH_TAGS;
+	const gqlQuery = gql`
+		${GQL_QUERY__string}
+	`;
+	const [
+		loadGreeting,
+		{ loading, error, data, called },
+	] = useLazyQuery(gqlQuery, { variables: { search: searchContent } });
 
+	let tagsList = data?.tags?.edges || [];
+	if (tagsList && tagsList.length) {
+		tagsList = tagsList.map((item) => ({
+			value: item.node.databaseId,
+			label: item.node.name,
+		}));
+	}
+	//
 	const handleInputChange = _.debounce(function (e) {
-		!!e && getTagsAxios(e);
+		setSearchContent(e);
 	}, 200);
 
 	return (
@@ -56,10 +48,10 @@ const InputSearchTags = ({ onChange, defaultValue = [] }) => {
 				placeholder="Select tags..."
 				isMulti
 				onInputChange={handleInputChange}
-				isLoading={isState === "loading"}
+				isLoading={loading}
 				value={selected}
 				onChange={hanleChangeSelect}
-				options={Object.values(objData)}
+				options={tagsList}
 			/>
 		</div>
 	);

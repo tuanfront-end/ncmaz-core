@@ -1,43 +1,46 @@
 import { useEffect, useState } from "react";
 import _ from "lodash";
 import { __ } from "@wordpress/i18n";
-import apiFetch from "@wordpress/api-fetch";
-import axios from "axios";
 import Select from "react-select";
+import { GQL_QUERY_SEARCH_USER } from "../contains/contants";
+import { gql, useLazyQuery } from "@apollo/client";
 
 const InputSearchAuthors = ({ onChange, defaultValue = [] }) => {
-	//  * loading | err | done
-	const [isState, setIsState] = useState("");
 	const [selected, setSelected] = useState(defaultValue);
-	const [authors, setAuthors] = useState([]);
+	const [searchContent, setSearchContent] = useState("");
 
 	useEffect(() => {
 		onChange && onChange(selected);
 	}, [selected]);
 
+	//
+	useEffect(() => {
+		searchContent && loadGreeting();
+	}, [searchContent]);
+
 	const hanleChangeSelect = (selected) => setSelected(selected);
 
-	const getAuthorsAxios = async (search) => {
-		setIsState("loading");
-		try {
-			const response = await axios({
-				url: "/wp-json/wp/v2/users",
-				params: { search },
-			});
-			setIsState("done");
-			const converted = response.data.map((item) => ({
-				value: item.id,
-				label: item.name,
-			}));
-			setAuthors(converted);
-		} catch (error) {
-			setIsState("err");
-			console.error(error);
-		}
-	};
+	//
+	let GQL_QUERY__string = GQL_QUERY_SEARCH_USER;
+	const gqlQuery = gql`
+		${GQL_QUERY__string}
+	`;
+	const [
+		loadGreeting,
+		{ loading, error, data, called },
+	] = useLazyQuery(gqlQuery, { variables: { search: searchContent } });
+
+	let usersList = data?.users?.edges || [];
+	// CONVERT
+	if (usersList && usersList.length) {
+		usersList = usersList.map((item) => ({
+			value: item.node.userId,
+			label: item.node.name,
+		}));
+	}
 
 	const handleInputChange = _.debounce(function (e) {
-		!!e && getAuthorsAxios(e);
+		setSearchContent(e);
 	}, 200);
 
 	return (
@@ -46,11 +49,11 @@ const InputSearchAuthors = ({ onChange, defaultValue = [] }) => {
 			<Select
 				placeholder="Select authors..."
 				isMulti
-				isLoading={isState === "loading"}
+				isLoading={loading}
 				value={selected}
 				onInputChange={handleInputChange}
 				onChange={hanleChangeSelect}
-				options={authors}
+				options={usersList}
 			/>
 		</div>
 	);
