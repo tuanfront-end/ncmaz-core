@@ -1,6 +1,6 @@
 {
 	"name": "ncmaz-core",
-	"version": "0.1.4",
+	"version": "0.2.1",
 	"description": "Example block written with ESNext standard and JSX support – build step required.",
 	"author": "The WordPress Contributors",
 	"license": "GPL-2.0-or-later",
@@ -16,24 +16,23 @@
 	"dependencies": {
 		"@apollo/client": "^3.4.9",
 		"@glidejs/glide": "^3.4.1",
-		"@tailwindcss/aspect-ratio": "^0.2.1",
-		"@tailwindcss/forms": "^0.3.3",
-		"@tailwindcss/line-clamp": "^0.2.1",
-		"@tailwindcss/typography": "^0.4.1",
+		"@tailwindcss/aspect-ratio": "^0.4.0",
+		"@tailwindcss/forms": "^0.5.0",
+		"@tailwindcss/line-clamp": "^0.3.1",
+		"@tailwindcss/typography": "^0.5.2",
 		"@wordpress/block-editor": "^7.0.0",
 		"@wordpress/blocks": "^11.2.2",
 		"@wordpress/i18n": "^4.2.1",
-		"caniuse-lite": "^1.0.30001312",
-		"graphql": "^15.5.1",
+		"graphql": "^16.3.0",
 		"lodash": "^4.17.21",
-		"react-select": "^4.3.1"
+		"react-select": "^5.2.2"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^17.1.0",
-		"autoprefixer": "^10.3.2",
+		"@wordpress/scripts": "^22.3.0",
+		"autoprefixer": "^10.4.4",
 		"cssjanus": "^2.1.0",
-		"postcss": "^8.3.6",
+		"postcss": "^8.4.12",
 		"postcss-cssjanus": "^1.0.5",
-		"tailwindcss": "^2.2.7"
+		"tailwindcss": "^3.0.23"
 	}
 }

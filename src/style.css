@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
+
+/* FOR CSS CAN NOT COMPILE */
+.wp-admin .wp-block .container {
+	padding: 0 !important;
+}

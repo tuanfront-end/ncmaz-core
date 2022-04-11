@@ -22,7 +22,6 @@ import {
 	RichText,
 	useBlockProps,
 } from "@wordpress/block-editor";
-import SelectOrderBy from "../components/SelectOrderBy";
 import SelectOrder from "../components/SelectOrder";
 import InputNumberPerPage from "../components/InputNumberPerPage";
 import InputSearchAuthors from "../components/InputSearchAuthors";
