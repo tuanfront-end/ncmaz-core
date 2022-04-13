@@ -1,7 +1,7 @@
 {
 	"apiVersion": 2,
 	"name": "create-block/ncmaz-core",
-	"version": "0.1.0",
+	"version": "1.1.0",
 	"title": "Ncmaz Core",
 	"category": "widgets",
 	"icon": "smiley",

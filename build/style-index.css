@@ -720,6 +720,9 @@ select {
 .aspect-h-4 {
   --tw-aspect-h: 4;
 }
+.visible {
+  visibility: visible !important;
+}
 .static {
   position: static !important;
 }
@@ -996,6 +999,9 @@ select {
 }
 .inline-block {
   display: inline-block !important;
+}
+.inline {
+  display: inline !important;
 }
 .flex {
   display: flex !important;
