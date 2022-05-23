@@ -5,7 +5,7 @@
  * Description:       Example block written with ESNext standard and JSX support – build step required.
  * Requires at least: 5.8
  * Requires PHP:      7.0
- * Version:           2.0.0
+ * Version:           2.0.1
  * Author:            The WordPress Contributors
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,6 +13,10 @@
  *
  * @package           create-block
  */
+
+if (!defined('_NCMAZ_CORE_VERSION')) {
+	define('_NCMAZ_CORE_VERSION', '2.0.1');
+}
 
 
 function create_block_ncmaz_core_block_init()
@@ -31,7 +35,15 @@ function ncmaz_core_enqueue_admin_style($hook)
 	if ($hook !== 'post.php') {
 		return;
 	}
-	wp_enqueue_style('glide-core', plugins_url('public/css/glide.core.min.css', __FILE__), [], '3.5.0', 'all');
+	// 
+	wp_register_style('glide-core', plugins_url('public/css/glide.core.min.css', __FILE__), [], '3.5.0', 'all');
+	wp_enqueue_style('glide-core');
+	// 
+	wp_register_style('ncmaz-core-style', plugins_url('public/css/styles.css', __FILE__), [], _NCMAZ_CORE_VERSION, 'all');
+	wp_enqueue_style('ncmaz-core-style');
+	// 
+	wp_register_style('Line_Awesome', 'https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css');
+	wp_enqueue_style('Line_Awesome');
 }
 add_action('admin_enqueue_scripts', 'ncmaz_core_enqueue_admin_style');
 
@@ -40,7 +52,6 @@ add_action('admin_enqueue_scripts', 'ncmaz_core_enqueue_admin_style');
 function ncmazcorePluginEnqueueScript()
 {
 	global $ncmaz_redux_demo;
-
 
 	wp_enqueue_script(
 		'ncmazcore-customizer-script',

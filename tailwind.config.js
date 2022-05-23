@@ -14,44 +14,38 @@ function customColors(cssVar) {
 }
 
 const safelist = [
-	"grid-cols-4",
-	"grid-cols-5",
-	"grid-cols-6",
-	"grid-cols-7",
-	"grid-cols-8",
+	{
+		pattern: /grid-cols-(1|2|3|4|5|6|7|8|12)/,
+		variants: ["sm", "md", "lg", "xl", "2xl"],
+	},
+	{
+		pattern: /m-(1|2|3|4|5|6|7|8|10|11|12|13|14)/,
+		variants: ["sm", "md", "lg", "xl", "2xl"],
+	},
+	{
+		pattern: /mt-(0|16|24)/,
+		variants: ["sm", "md", "lg", "xl", "2xl"],
+	},
+	{
+		pattern: /space-y-(7|16|28)/,
+		variants: ["sm", "md", "lg", "xl", "2xl"],
+	},
+	{
+		pattern: /w-(2\/5|3\/5|1\/3|2\/3)/,
+		variants: ["sm", "md", "lg", "xl", "2xl"],
+	},
+	{
+		pattern: /container/,
+		variants: ["sm", "md", "lg", "xl", "2xl"],
+	},
 	//
-	"sm:grid-cols-4",
-	"sm:grid-cols-5",
-	"sm:grid-cols-6",
-	"sm:grid-cols-7",
-	"sm:grid-cols-8",
+	"sm:container",
+	"md:container",
 	//
-	"md:grid-cols-4",
-	"md:grid-cols-5",
-	"md:grid-cols-6",
-	"md:grid-cols-7",
-	"md:grid-cols-8",
-	//
-	"lg:grid-cols-4",
-	"lg:grid-cols-5",
-	"lg:grid-cols-6",
-	"lg:grid-cols-7",
-	"lg:grid-cols-8",
-	//
-	"xl:grid-cols-4",
-	"xl:grid-cols-5",
-	"xl:grid-cols-6",
-	"xl:grid-cols-7",
-	"xl:grid-cols-8",
-	//
-	"2xl:grid-cols-4",
-	"2xl:grid-cols-5",
-	"2xl:grid-cols-6",
-	"2xl:grid-cols-7",
-	"2xl:grid-cols-8",
-	//
-	//
-	"space-y-28",
+	"lg:pl-10",
+	"xl:pl-0",
+	"xl:pr-14",
+	"flex-1",
 ];
 
 module.exports = {
@@ -62,7 +56,9 @@ module.exports = {
 		"./*.php",
 		"./**/*.php",
 	],
+
 	safelist,
+	darkMode: "class", // or 'media' or 'class',
 	theme: {
 		container: {
 			center: true,
