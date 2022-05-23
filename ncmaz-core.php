@@ -36,9 +36,6 @@ function ncmaz_core_enqueue_admin_style($hook)
 		return;
 	}
 	// 
-	wp_register_style('glide-core', plugins_url('public/css/glide.core.min.css', __FILE__), [], '3.5.0', 'all');
-	wp_enqueue_style('glide-core');
-	// 
 	wp_register_style('ncmaz-core-style', plugins_url('public/css/styles.css', __FILE__), [], _NCMAZ_CORE_VERSION, 'all');
 	wp_enqueue_style('ncmaz-core-style');
 	// 

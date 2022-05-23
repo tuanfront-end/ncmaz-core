@@ -13,6 +13,8 @@ import { RetryLink } from "@apollo/client/link/retry";
 //
 import "./style.css";
 import "./styles/index.scss";
+import "@glidejs/glide/dist/css/glide.core.min.css";
+
 //
 const { Fragment } = wp.element;
 const { withSelect } = wp.data;
