@@ -19,21 +19,30 @@ import SelectOrderBy from "../components/SelectOrderBy";
 import SelectOrder from "../components/SelectOrder";
 import InputNumberPerPage from "../components/InputNumberPerPage";
 import InputSearchAuthors from "../components/InputSearchAuthors";
-import { gql, useQuery } from "@apollo/client";
-import {
-	GQL_QUERY_GET_POSTS_BY_FILTER,
-	GQL_QUERY_GET_POSTS_BY_SPECIFIC,
-} from "../contains/contants";
 import SectionGridPosts from "./SectionGridPosts";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
+import { BlockPostAttributesCommon, EditProps } from "../block-magazine/Edit";
+import {
+	OPTIONS_FILTER_DATA_BY,
+	ValueOfOptionFilterDataBy,
+} from "../contains/common";
+import usePostGqlQuery from "../hooks/usePostGqlQuery";
 
-export default function Edit(props) {
+interface BlockPostsGridEditAttributes extends BlockPostAttributesCommon {
+	blockLayoutStyle: string;
+	postCardName: string;
+	gridClass: string;
+	gridClassCustom: string;
+	// new
+	enableLoadMoreButton: boolean;
+	loadMoreButtonHref: string;
+}
+
+export default function Edit(props: EditProps<BlockPostsGridEditAttributes>) {
 	const { attributes, setAttributes, clientId } = props;
 	//
-	const [tabActiveId, setTabActiveId] = useState(-1);
 
-	//
 	const {
 		filterDataBy,
 		posts,
@@ -53,85 +62,52 @@ export default function Edit(props) {
 		heading,
 		subHeading,
 		hasBackground,
-		//
-		graphQLvariables,
-		graphQLData,
 		//NEWS
 		enableLoadMoreButton,
 		loadMoreButtonHref,
 	} = attributes;
 
 	//
-	let GQL_QUERY__string = "";
-	let GQL_QUERY__string_xxx = "";
-	let variables = {};
-	let variablesUseNow;
-	//
-
-	if (filterDataBy === "by_specific") {
-		variablesUseNow = null;
-		variables = {
-			// arr posts Slugs
-			nameIn: posts?.map((item) => item.value) || [],
-		};
-		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_SPECIFIC;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_SPECIFIC";
-	} else {
-		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_FILTER;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_FILTER";
-		variables = {
-			// term IDs
-			categoryIn: categories?.map((item) => item.value) || [],
-			tagIn: tags?.map((item) => item.value) || [],
-			authorIn: authors?.map((item) => item.value) || [],
-			order,
-			field: orderBy,
-			first: Number(numberPerPage),
-		};
-		//
-		variablesUseNow = {
-			...variables,
-			categoryIn:
-				tabActiveId && tabActiveId !== -1
-					? [tabActiveId]
-					: categories?.map((item) => item.value) || [],
-		};
-	}
-
-	// =================== QUERY GRAPHQL ===================
-	const gqlQuery = gql`
-		${GQL_QUERY__string}
-	`;
-	const { loading, error, data } = useQuery(gqlQuery, {
-		variables: variablesUseNow || variables,
-	});
-
-	const dataLists = data?.posts?.edges || [];
+	const {
+		GQL_QUERY__string,
+		GQL_QUERY__string_text,
+		variables,
+		dataLists,
+		error,
+		loading,
+		data,
+		handleClickTab,
+		tabActiveId,
+	} = usePostGqlQuery(attributes);
 
 	// ---- SAVE graphQLvariables ----
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables:
-				filterDataBy !== "by_specific"
-					? {
-							variables,
-							queryString: GQL_QUERY__string_xxx,
-					  }
-					: {},
-			graphQLData: filterDataBy === "by_specific" ? data : {},
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string_text,
+			},
+			expectedNumberResults: dataLists.length || numberPerPage,
 		});
 	}, [data]);
-
-	const handleClickTab = (item) => {
-		if (item === -1) {
-			setTabActiveId(item);
-			return;
+	//
+	const handleChangeFilterDataBy = (value: ValueOfOptionFilterDataBy) => {
+		if (value === "by_specific") {
+			setAttributes({
+				filterDataBy: value,
+				showFilterTab: false,
+				categories: [],
+				tags: [],
+				authors: [],
+			});
+		} else {
+			setAttributes({
+				filterDataBy: value,
+				showFilterTab: true,
+				posts: [],
+			});
 		}
-		if (item.id === tabActiveId) {
-			return;
-		}
-		setTabActiveId(item.id);
 	};
 
 	//
@@ -219,21 +195,25 @@ export default function Edit(props) {
 				<SelectControl
 					label={__("Choose items per row", "ncmaz-core")}
 					value={gridClass}
+					help={__(
+						`xs: mobile, sm: tablet, lg: laptop, xl: desktop (https://tailwindcss.com/docs/responsive-design)`,
+						"ncmaz-core"
+					)}
 					options={[
 						{
-							label: "1",
+							label: "Only 1",
 							value: "grid-cols-1",
 						},
 						{
-							label: "1 - sm:2",
+							label: "Phone(1)/OTHER(2)",
 							value: "grid-cols-1 sm:grid-cols-2",
 						},
 						{
-							label: "1 - sm:2 - lg:3",
+							label: "Phone(1)/Tab(2)/OTHER(3)",
 							value: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
 						},
 						{
-							label: "1 - sm:2 - lg:3 - xl:4",
+							label: "Phone(1)/Tab(2)/Lap(3)/OTHER(4)",
 							value:
 								"grid-cols-1 sm:grid-cols-2 lg:md:grid-cols-3 xl:grid-cols-4",
 						},
@@ -248,7 +228,7 @@ export default function Edit(props) {
 						type="text"
 						onChange={(gridClassCustom) => setAttributes({ gridClassCustom })}
 						help={__(
-							`If you enter this field will overwrite the field 'Choose items per row' above`,
+							`If you enter this field will overwrite the field "Choose items per row" above (https://tailwindcss.com/docs/responsive-design)`,
 							"ncmaz-core"
 						)}
 					/>
@@ -294,7 +274,7 @@ export default function Edit(props) {
 							id="FormToggle-1-Enable-Loadmore-mode"
 							label={__("Enable Loadmore button", "ncmaz-core")}
 							help={__(
-								"Show Load-more button (Loadmore infinite mode only work at Select posts by filter)",
+								"Show Load-more button (Load more infinite mode only work at select posts by-filter)",
 								"ncmaz-core"
 							)}
 						>
@@ -309,11 +289,11 @@ export default function Edit(props) {
 					</div>
 					<TextControl
 						label={__(
-							"Load-more button href (leave empty and Select posts by filter if want use load more infinite post)",
+							"Load-more button href (Leave empty and select posts by-filter if want use load more infinite post)",
 							"ncmaz-core"
 						)}
 						help={__(
-							"If you want use loadmore mode please do not enter this field.)",
+							"If you want use load-more mode please do not enter this field.",
 							"ncmaz-core"
 						)}
 						value={loadMoreButtonHref}
@@ -347,13 +327,10 @@ export default function Edit(props) {
 						<PanelBody initialOpen={false} title="Filter data settings">
 							<PanelRow>
 								<RadioControl
-									label="Posts of the section"
+									label=""
 									selected={filterDataBy}
-									options={[
-										{ label: "Select posts by specific", value: "by_specific" },
-										{ label: "Select posts by filter", value: "by_filter" },
-									]}
-									onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+									options={OPTIONS_FILTER_DATA_BY}
+									onChange={handleChangeFilterDataBy}
 								/>
 							</PanelRow>
 							<div className="border-b border-gray-600 mt-2 mb-4"></div>

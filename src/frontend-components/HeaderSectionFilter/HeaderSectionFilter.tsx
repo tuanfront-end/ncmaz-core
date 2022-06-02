@@ -5,7 +5,25 @@ import Nav from "../Nav/Nav";
 import NavItem from "../NavItem/NavItem";
 import ButtonSecondary from "../Button/ButtonSecondary";
 
-const HeaderSectionFilter = ({
+interface HeaderSectionFilterProps {
+	tabActiveId: number;
+	tabs: HeaderSectionFilterTabs[];
+	subHeading: string;
+	heading: string;
+	viewMoreHref?: string;
+	onClickTab: TypeOnClickTabHeaderSectionFilterTabs;
+}
+
+export type TypeOnClickTabHeaderSectionFilterTabs = (
+	tab: HeaderSectionFilterTabs | -1
+) => void;
+
+export interface HeaderSectionFilterTabs {
+	id: number;
+	name: string;
+}
+
+const HeaderSectionFilter: FC<HeaderSectionFilterProps> = ({
 	tabActiveId = -1,
 	tabs,
 	subHeading = "",

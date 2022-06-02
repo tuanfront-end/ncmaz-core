@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { __ } from "@wordpress/i18n";
 import InputSearchPosts from "../components/InputSearchPosts";
 import InputSearchCategories from "../components/InputSearchCategories";
@@ -19,30 +19,78 @@ import SelectOrderBy from "../components/SelectOrderBy";
 import SelectOrder from "../components/SelectOrder";
 import InputNumberPerPage from "../components/InputNumberPerPage";
 import InputSearchAuthors from "../components/InputSearchAuthors";
-import { gql, useQuery } from "@apollo/client";
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
 import HeaderSectionFilter from "../frontend-components/HeaderSectionFilter/HeaderSectionFilter";
 import Heading from "../frontend-components/Heading/Heading";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
-import SectionMagazine1 from "../frontend-components/SectionMagazines/SectionMagazine1";
-import SectionMagazine2 from "../frontend-components/SectionMagazines/SectionMagazine2";
-import SectionMagazine3 from "../frontend-components/SectionMagazines/SectionMagazine3";
-import SectionMagazine4 from "../frontend-components/SectionMagazines/SectionMagazine4";
-import SectionMagazine5 from "../frontend-components/SectionMagazines/SectionMagazine5";
-import SectionMagazine6 from "../frontend-components/SectionMagazines/SectionMagazine6";
-import SectionMagazine7 from "../frontend-components/SectionMagazines/SectionMagazine7";
-import SectionMagazine8 from "../frontend-components/SectionMagazines/SectionMagazine8";
-import SectionMagazine9 from "../frontend-components/SectionMagazines/SectionMagazine9";
-import SectionLargeSlider from "../frontend-components/SectionMagazines/SectionLargeSlider";
+import usePostGqlQuery from "../hooks/usePostGqlQuery";
 import {
-	GQL_QUERY_GET_POSTS_BY_FILTER,
-	GQL_QUERY_GET_POSTS_BY_SPECIFIC,
-} from "../contains/contants";
+	OPTIONS_FILTER_DATA_BY,
+	ValueOfOptionFilterDataBy,
+} from "../contains/common";
 
-export default function BlockMagazineEdit(props) {
-	const { attributes, setAttributes, clientId } = props;
+const SectionMagazine1Lazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionMagazine1")
+);
+const SectionMagazine2Lazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionMagazine2")
+);
+const SectionMagazine3Lazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionMagazine3")
+);
+const SectionMagazine4Lazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionMagazine4")
+);
+const SectionMagazine5Lazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionMagazine5")
+);
+const SectionMagazine6Lazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionMagazine6")
+);
+const SectionMagazine7Lazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionMagazine7")
+);
+const SectionMagazine8Lazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionMagazine8")
+);
+const SectionMagazine9Lazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionMagazine9")
+);
+const SectionLargeSliderLazy = lazy(
+	() => import("../frontend-components/SectionMagazines/SectionLargeSlider")
+);
 
-	const [tabActiveId, setTabActiveId] = useState(-1);
+export interface BlockPostAttributesCommon {
+	sectionName: string;
+	heading: string;
+	subHeading: string;
+	filterDataBy: ValueOfOptionFilterDataBy;
+	posts: any[];
+	categories: any[];
+	tags: any[];
+	authors: any[];
+	orderBy: string;
+	order: string;
+	viewMoreHref: string;
+	numberPerPage: number;
+	showFilterTab: boolean;
+	hasBackground: boolean;
+	graphQLvariables: Record<string, any>;
+	graphQLData: Record<string, any>;
+	expectedNumberResults: number;
+}
+
+export type EditProps<T> = {
+	attributes: T;
+	setAttributes: (newAttributes: Partial<T>) => void;
+	clientId: string;
+};
+
+export default function BlockMagazineEdit(
+	props: EditProps<BlockPostAttributesCommon>
+) {
+	const { attributes, setAttributes } = props;
+
 	//
 	const {
 		filterDataBy,
@@ -60,82 +108,49 @@ export default function BlockMagazineEdit(props) {
 		heading,
 		subHeading,
 		hasBackground,
-		//
-		graphQLvariables,
-		//
-		graphQLData,
 	} = attributes;
 
-	//
-	let GQL_QUERY__string = "";
-	let GQL_QUERY__string_xxx = "";
-	let variables = {};
-	let variablesUseNow;
-	//
-
-	if (filterDataBy === "by_specific") {
-		variablesUseNow = null;
-		variables = {
-			// arr posts Slugs
-			nameIn: posts?.map((item) => item.value) || [],
-		};
-		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_SPECIFIC;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_SPECIFIC";
-	} else {
-		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_FILTER;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_FILTER";
-		variables = {
-			// term IDs
-			categoryIn: categories?.map((item) => item.value) || [],
-			tagIn: tags?.map((item) => item.value) || [],
-			authorIn: authors?.map((item) => item.value) || [],
-			order,
-			field: orderBy,
-			first: Number(numberPerPage),
-		};
-		variablesUseNow = {
-			...variables,
-			categoryIn:
-				tabActiveId && tabActiveId !== -1
-					? [tabActiveId]
-					: categories?.map((item) => item.value) || [],
-		};
-	}
-
-	// =================== QUERY GRAPHQL ===================
-	const gqlQuery = gql`
-		${GQL_QUERY__string}
-	`;
-	const { loading, error, data } = useQuery(gqlQuery, {
-		variables: variablesUseNow || variables,
-	});
-
-	const dataLists = data?.posts?.edges || [];
+	const {
+		GQL_QUERY__string,
+		GQL_QUERY__string_text,
+		variables,
+		dataLists,
+		error,
+		loading,
+		data,
+		tabActiveId,
+		handleClickTab,
+	} = usePostGqlQuery(attributes);
 
 	// ---- SAVE graphQLvariables ----
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables:
-				filterDataBy !== "by_specific"
-					? {
-							variables,
-							queryString: GQL_QUERY__string_xxx,
-					  }
-					: {},
-			graphQLData: filterDataBy === "by_specific" ? data : {},
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string_text,
+			},
+			expectedNumberResults: dataLists.length || numberPerPage,
 		});
 	}, [data]);
 
-	const handleClickTab = (item) => {
-		if (item === -1) {
-			setTabActiveId(item);
-			return;
+	//
+	const handleChangeFilterDataBy = (value: ValueOfOptionFilterDataBy) => {
+		if (value === "by_specific") {
+			setAttributes({
+				filterDataBy: value,
+				showFilterTab: false,
+				categories: [],
+				tags: [],
+				authors: [],
+			});
+		} else {
+			setAttributes({
+				filterDataBy: value,
+				showFilterTab: true,
+				posts: [],
+			});
 		}
-		if (item.id === tabActiveId) {
-			return;
-		}
-		setTabActiveId(item.id);
 	};
 
 	//
@@ -266,13 +281,10 @@ export default function BlockMagazineEdit(props) {
 						<PanelBody initialOpen={false} title="Filter data settings">
 							<PanelRow>
 								<RadioControl
-									label="Posts of the section"
+									label=""
 									selected={filterDataBy}
-									options={[
-										{ label: "Select posts by specific", value: "by_specific" },
-										{ label: "Select posts by filter", value: "by_filter" },
-									]}
-									onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+									options={OPTIONS_FILTER_DATA_BY}
+									onChange={handleChangeFilterDataBy}
 								/>
 							</PanelRow>
 							<div className="border-b border-gray-600 mt-2 mb-4"></div>
@@ -287,30 +299,75 @@ export default function BlockMagazineEdit(props) {
 	const renderLayoutType = () => {
 		switch (sectionName) {
 			case "magazine-1":
-				return <SectionMagazine1 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine1Lazy isLoading={loading} activePosts={dataLists} />
+					</Suspense>
+				);
 			case "magazine-2":
-				return <SectionMagazine2 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine2Lazy isLoading={loading} activePosts={dataLists} />{" "}
+					</Suspense>
+				);
 			case "magazine-3":
-				return <SectionMagazine3 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine3Lazy isLoading={loading} activePosts={dataLists} />
+					</Suspense>
+				);
 			case "magazine-4":
-				return <SectionMagazine4 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine4Lazy isLoading={loading} activePosts={dataLists} />
+					</Suspense>
+				);
 			case "magazine-5":
-				return <SectionMagazine5 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine5Lazy isLoading={loading} activePosts={dataLists} />
+					</Suspense>
+				);
 			case "magazine-6":
-				return <SectionMagazine6 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine6Lazy isLoading={loading} activePosts={dataLists} />
+					</Suspense>
+				);
 			case "magazine-7":
-				return <SectionMagazine7 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine7Lazy isLoading={loading} activePosts={dataLists} />
+					</Suspense>
+				);
 			case "magazine-8":
-				return <SectionMagazine8 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine8Lazy isLoading={loading} activePosts={dataLists} />
+					</Suspense>
+				);
 			case "magazine-9":
-				return <SectionMagazine9 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine9Lazy isLoading={loading} activePosts={dataLists} />
+					</Suspense>
+				);
 			case "large-slider":
 				return (
-					<SectionLargeSlider isLoading={loading} activePosts={dataLists} />
+					<Suspense fallback={<Spinner />}>
+						<SectionLargeSliderLazy
+							isLoading={loading}
+							activePosts={dataLists}
+						/>
+					</Suspense>
 				);
 
 			default:
-				return <SectionMagazine1 isLoading={loading} activePosts={dataLists} />;
+				return (
+					<Suspense fallback={<Spinner />}>
+						<SectionMagazine1Lazy isLoading={loading} activePosts={dataLists} />
+					</Suspense>
+				);
 		}
 	};
 

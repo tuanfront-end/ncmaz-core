@@ -1,51 +1,36 @@
 import { __ } from "@wordpress/i18n";
 import { useBlockProps } from "@wordpress/block-editor";
+import _ from "lodash";
 
 export default function Save(props) {
 	const { attributes } = props;
 	const {
-		filterDataBy,
-		posts,
-		categories,
-		tags,
-		orderBy,
-		order,
-		numberPerPage,
-		authors,
-		//
 		postCardName,
 		heading,
-		//
 		graphQLvariables,
-		graphQLData,
+		// new
+		expectedNumberResults,
 	} = attributes;
 	//
 
-	const ncGutenbergSectionsData =
-		filterDataBy === "by_specific"
-			? {
-					blockName: "nc-block-widget-posts",
-					graphQLData,
-					settings: {
-						postCardName,
-						heading,
-					},
-			  }
-			: {
-					blockName: "nc-block-widget-posts",
-					graphQLvariables,
-					settings: {
-						postCardName,
-						heading,
-					},
-			  };
+	const ncGutenbergSectionsData = {
+		blockName: "nc-block-widget-posts",
+		graphQLvariables,
+		settings: {
+			postCardName,
+			heading,
+			expectedNumberResults,
+		},
+	};
 
 	return (
 		<div
 			{...useBlockProps.save()}
 			data-nc-gutenberg-section
 			data-nc-gutenberg-section-type="block-widget-posts"
-			data-nc-gutenberg-section-api={JSON.stringify(ncGutenbergSectionsData)}
+			data-nc-gutenberg-section-api={_.escape(
+				JSON.stringify(ncGutenbergSectionsData)
+			)}
 		></div>
 	);
 }

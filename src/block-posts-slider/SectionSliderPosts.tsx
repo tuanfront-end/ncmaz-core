@@ -1,5 +1,7 @@
-import React, { useRef } from "react";
-import HeaderSectionFilter from "../frontend-components/HeaderSectionFilter/HeaderSectionFilter";
+import React, { useRef, FC } from "react";
+import HeaderSectionFilter, {
+	HeaderSectionFilterTabs,
+} from "../frontend-components/HeaderSectionFilter/HeaderSectionFilter";
 import Heading from "../frontend-components/Heading/Heading";
 import Card4 from "../frontend-components/Card4/Card4";
 import Card7 from "../frontend-components/Card7/Card7";
@@ -10,14 +12,26 @@ import Card11 from "../frontend-components/Card11/Card11";
 import Card14 from "../frontend-components/Card14/Card14";
 import NextPrev from "../frontend-components/NextPrev/NextPrev";
 import useSliderGlidejs from "../hooks/useSliderGlidejs";
+import { ListPosts } from "../hooks/usePostGqlQuery";
+import { BlockPostsSliderEditAttributes } from "./Edit";
 
-const SectionSliderPosts = ({
+interface SectionSliderPostsProps extends BlockPostsSliderEditAttributes {
+	className?: string;
+	listData?: ListPosts["edges"];
+	handleClickTab?: (tab: -1 | HeaderSectionFilterTabs) => void;
+	loading: boolean;
+	tabActiveId: number;
+}
+
+const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
 	className = "",
 	listData = [],
-	postCardName,
 	loading,
-	blockLayoutStyle,
 	tabActiveId,
+	handleClickTab,
+	//
+	postCardName,
+	blockLayoutStyle,
 	heading,
 	subHeading,
 	categories,
@@ -30,8 +44,6 @@ const SectionSliderPosts = ({
 	sliderHoverpause,
 	sliderAnimationDuration,
 	sliderRewind,
-	//
-	handleClickTab = () => {},
 }) => {
 	const sliderRef = useRef(null);
 

@@ -14,16 +14,18 @@ import {
 } from "@wordpress/components";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import SelectOrder from "../components/SelectOrder";
-import { useQuery, gql } from "@apollo/client";
 import WidgetCategories from "../frontend-components/WidgetCategories/WidgetCategories";
+import { BlockTermAttributesCommon } from "../block-terms-slider/Edit";
+import { EditProps } from "../block-magazine/Edit";
 import {
-	GQL_QUERY_GET_CATEGORIES_BY_FILTER,
-	GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC,
-	GQL_QUERY_GET_TAGS_BY_FILTER,
-	GQL_QUERY_GET_TAGS_BY_SPECIFIC,
-} from "../contains/contants";
+	OPTIONS_FILTER_DATA_BY,
+	ValueOfOptionFilterDataBy,
+} from "../contains/common";
+import useTermGqlQuery from "../hooks/useTermGqlQuery";
 
-export default function Edit(props) {
+interface Props extends BlockTermAttributesCommon {}
+
+export default function Edit(props: EditProps<Props>) {
 	const { attributes, setAttributes, clientId } = props;
 	//
 	const {
@@ -37,75 +39,49 @@ export default function Edit(props) {
 		//
 		termCardName,
 		heading,
-		//
-		graphQLvariables,
-		graphQLData,
 	} = attributes;
 
 	//
-	let GQL_QUERY__string = "";
-	let GQL_QUERY__string_xxx = "";
-	let variables = {};
-	//
 
-	// CATEGORIES
-	if (typeOfTerm === "category") {
-		if (filterDataBy === "by_filter") {
-			variables = {
-				order,
-				orderby: orderBy,
-				first: Number(numberPerPage),
-			};
-			GQL_QUERY__string = GQL_QUERY_GET_CATEGORIES_BY_FILTER;
-			GQL_QUERY__string_xxx = "GQL_QUERY_GET_CATEGORIES_BY_FILTER";
-		} else {
-			variables = {
-				termTaxonomId: (categories || []).map((item) => item.value),
-			};
-			GQL_QUERY__string = GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC;
-			GQL_QUERY__string_xxx = "GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC";
-		}
-	}
-
-	// TAGS;
-	if (typeOfTerm === "tag") {
-		if (filterDataBy === "by_filter") {
-			variables = {
-				order,
-				orderby: orderBy,
-				first: Number(numberPerPage),
-			};
-			GQL_QUERY__string = GQL_QUERY_GET_TAGS_BY_FILTER;
-			GQL_QUERY__string_xxx = "GQL_QUERY_GET_TAGS_BY_FILTER";
-		} else {
-			variables = { termTaxonomId: (tags || []).map((item) => item.value) };
-			GQL_QUERY__string = GQL_QUERY_GET_TAGS_BY_SPECIFIC;
-			GQL_QUERY__string_xxx = "GQL_QUERY_GET_TAGS_BY_SPECIFIC";
-		}
-	}
-
-	// =================== QUERY GRAPHQL ===================
-	const gqlQuery = gql`
-		${GQL_QUERY__string}
-	`;
-	const { loading, error, data } = useQuery(gqlQuery, { variables });
-
-	const dataLists = data?.tags?.edges || data?.categories?.edges || [];
+	const {
+		GQL_QUERY__string_text,
+		data,
+		dataLists,
+		error,
+		loading,
+		variables,
+	} = useTermGqlQuery(attributes);
 
 	// ---- SAVE graphQLvariables ----
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables:
-				filterDataBy !== "by_specific"
-					? {
-							variables,
-							queryString: GQL_QUERY__string_xxx,
-					  }
-					: {},
-			graphQLData: filterDataBy === "by_specific" ? data : {},
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string_text,
+			},
+			expectedNumberResults: dataLists.length || numberPerPage,
 		});
 	}, [data]);
+
+	//
+	const handleChangeFilterDataBy = (value: ValueOfOptionFilterDataBy) => {
+		setAttributes({ filterDataBy: value });
+
+		if (value === "by_filter") {
+			setAttributes({ categories: [], tags: [] });
+		}
+	};
+	const handleChangeRadioTypeOfTerm = (typeOfTerm: "category" | "tag") => {
+		setAttributes({ typeOfTerm });
+		if (typeOfTerm === "category") {
+			setAttributes({ tags: [] });
+		}
+		if (typeOfTerm === "tag") {
+			setAttributes({ categories: [] });
+		}
+	};
+	//
 
 	const renderFilterPostsContent = () => {
 		if (filterDataBy === "by_specific") {
@@ -203,23 +179,20 @@ export default function Edit(props) {
 							<PanelRow>
 								<div>
 									<RadioControl
-										label="Type of term"
+										label="Type of Term"
 										selected={typeOfTerm}
 										options={[
 											{ label: "Category", value: "category" },
 											{ label: "Tag", value: "tag" },
 										]}
-										onChange={(typeOfTerm) => setAttributes({ typeOfTerm })}
+										onChange={handleChangeRadioTypeOfTerm}
 									/>
 									<div className="border-b border-gray-600 my-2"></div>
 									<RadioControl
 										label="Terms query by"
 										selected={filterDataBy}
-										options={[
-											{ label: "Select Terms specific", value: "by_specific" },
-											{ label: "Select Terms by filter", value: "by_filter" },
-										]}
-										onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+										options={OPTIONS_FILTER_DATA_BY}
+										onChange={handleChangeFilterDataBy}
 									/>
 								</div>
 							</PanelRow>

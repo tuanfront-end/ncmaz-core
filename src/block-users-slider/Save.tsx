@@ -1,16 +1,10 @@
 import { __ } from "@wordpress/i18n";
 import { useBlockProps } from "@wordpress/block-editor";
+import _ from "lodash";
 
 export default function Save(props) {
 	const { attributes } = props;
 	const {
-		filterDataBy,
-		roleIn,
-		userIds,
-		orderBy,
-		order,
-		numberPerPage,
-		//
 		blockLayoutStyle,
 		userCardName,
 		heading,
@@ -18,7 +12,6 @@ export default function Save(props) {
 		hasBackground,
 		//
 		graphQLvariables,
-		graphQLData,
 		// slider settings
 		itemPerView,
 		sliderStartAt,
@@ -27,55 +20,38 @@ export default function Save(props) {
 		sliderAnimationDuration,
 		sliderRewind,
 		//
+		expectedNumberResults,
 	} = attributes;
 
-	const ncGutenbergSectionsData =
-		filterDataBy === "by_specific"
-			? {
-					blockName: "nc-block-terms-slider",
-					graphQLData,
-					settings: {
-						userCardName,
-						heading,
-						subHeading,
-						hasBackground,
-						blockLayoutStyle,
-						// slider settings
-						itemPerView,
-						sliderStartAt,
-						sliderAutoplayTime,
-						sliderHoverpause,
-						sliderAnimationDuration,
-						sliderRewind,
-						//
-					},
-			  }
-			: {
-					blockName: "nc-block-terms-slider",
-					graphQLvariables,
-					settings: {
-						userCardName,
-						heading,
-						subHeading,
-						hasBackground,
-						blockLayoutStyle,
-						// slider settings
-						itemPerView,
-						sliderStartAt,
-						sliderAutoplayTime,
-						sliderHoverpause,
-						sliderAnimationDuration,
-						sliderRewind,
-						//
-					},
-			  };
+	const ncGutenbergSectionsData = {
+		blockName: "nc-block-terms-slider",
+		graphQLvariables,
+		settings: {
+			userCardName,
+			heading,
+			subHeading,
+			hasBackground,
+			blockLayoutStyle,
+			// slider settings
+			itemPerView,
+			sliderStartAt,
+			sliderAutoplayTime,
+			sliderHoverpause,
+			sliderAnimationDuration,
+			sliderRewind,
+			expectedNumberResults,
+			//
+		},
+	};
 
 	return (
 		<div
 			{...useBlockProps.save()}
-			data-nc-gutenberg-section
+			data-nc-gutenberg-section="true"
 			data-nc-gutenberg-section-type="block-users-slider"
-			data-nc-gutenberg-section-api={JSON.stringify(ncGutenbergSectionsData)}
+			data-nc-gutenberg-section-api={_.escape(
+				JSON.stringify(ncGutenbergSectionsData)
+			)}
 		></div>
 	);
 }

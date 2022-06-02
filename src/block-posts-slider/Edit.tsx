@@ -19,21 +19,39 @@ import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import SelectOrderBy from "../components/SelectOrderBy";
 import SelectOrder from "../components/SelectOrder";
 import InputSearchAuthors from "../components/InputSearchAuthors";
-import { gql, useQuery } from "@apollo/client";
-import {
-	GQL_QUERY_GET_POSTS_BY_FILTER,
-	GQL_QUERY_GET_POSTS_BY_SPECIFIC,
-} from "../contains/contants";
 import SectionSliderPosts from "./SectionSliderPosts";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
 import SliderSettings from "../components/SliderSettings";
+import { BlockPostAttributesCommon, EditProps } from "../block-magazine/Edit";
+import usePostGqlQuery from "../hooks/usePostGqlQuery";
+import {
+	OPTIONS_FILTER_DATA_BY,
+	ValueOfOptionFilterDataBy,
+} from "../contains/common";
 
-export default function BlockPostsSliderEdit(props) {
-	const { attributes, setAttributes, clientId } = props;
-	//
-	const [tabActiveId, setTabActiveId] = useState(-1);
-	//
+export interface TypeSliderSettings {
+	itemPerView: number;
+	sliderStartAt: number;
+	sliderAutoplayTime: number;
+	sliderHoverpause: boolean;
+	sliderAnimationDuration: number;
+	sliderRewind: boolean;
+}
+
+export interface BlockPostsSliderEditAttributes
+	extends BlockPostAttributesCommon,
+		TypeSliderSettings {
+	blockLayoutStyle: string;
+	postCardName: string;
+	sectionId: string;
+}
+
+export default function BlockPostsSliderEdit(
+	props: EditProps<BlockPostsSliderEditAttributes>
+) {
+	const { attributes, setAttributes } = props;
+
 	const {
 		filterDataBy,
 		posts,
@@ -58,84 +76,50 @@ export default function BlockPostsSliderEdit(props) {
 		heading,
 		subHeading,
 		hasBackground,
-		//
-		graphQLvariables,
-		graphQLData,
 	} = attributes;
 
 	//
-	let GQL_QUERY__string = "";
-	let GQL_QUERY__string_xxx = "";
-	let variablesUseNow;
-	let variables = {};
-	//
-
-	if (filterDataBy === "by_specific") {
-		variablesUseNow = null;
-		variables = {
-			// arr posts Slugs
-			nameIn: posts?.map((item) => item.value) || [],
-		};
-		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_SPECIFIC;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_SPECIFIC";
-	} else {
-		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_FILTER;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_FILTER";
-		variables = {
-			// term IDs
-			categoryIn: categories?.map((item) => item.value) || [],
-			tagIn: tags?.map((item) => item.value) || [],
-			authorIn: authors?.map((item) => item.value) || [],
-			order,
-			field: orderBy,
-			first: Number(numberPerPage),
-		};
-		//
-		variablesUseNow = {
-			...variables,
-			categoryIn:
-				tabActiveId && tabActiveId !== -1
-					? [tabActiveId]
-					: categories?.map((item) => item.value) || [],
-		};
-	}
-
-	// =================== QUERY GRAPHQL ===================
-	const gqlQuery = gql`
-		${GQL_QUERY__string}
-	`;
-	const { loading, error, data } = useQuery(gqlQuery, {
-		variables: variablesUseNow || variables,
-	});
-
-	const dataLists = data?.posts?.edges || [];
+	const {
+		GQL_QUERY__string,
+		GQL_QUERY__string_text,
+		variables,
+		dataLists,
+		error,
+		loading,
+		data,
+		handleClickTab,
+		tabActiveId,
+	} = usePostGqlQuery(attributes);
 
 	// ---- SAVE graphQLvariables ----
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables:
-				filterDataBy !== "by_specific"
-					? {
-							variables,
-							queryString: GQL_QUERY__string_xxx,
-					  }
-					: {},
-			graphQLData: filterDataBy === "by_specific" ? data : {},
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string_text,
+			},
+			expectedNumberResults: dataLists.length || numberPerPage,
 		});
 	}, [data]);
-
-	const handleClickTab = (item) => {
-		if (item === -1) {
-			setTabActiveId(item);
-			return;
+	//
+	const handleChangeFilterDataBy = (value: ValueOfOptionFilterDataBy) => {
+		if (value === "by_specific") {
+			setAttributes({
+				filterDataBy: value,
+				showFilterTab: false,
+				categories: [],
+				tags: [],
+				authors: [],
+			});
+		} else {
+			setAttributes({
+				filterDataBy: value,
+				showFilterTab: true,
+				posts: [],
+			});
 		}
-		if (item.id === tabActiveId) {
-			return;
-		}
-		setTabActiveId(item.id);
 	};
-
 	//
 	const renderFilterPostsContent = () => {
 		if (filterDataBy === "by_specific") {
@@ -303,13 +287,10 @@ export default function BlockPostsSliderEdit(props) {
 						<PanelBody initialOpen={false} title="Filter data settings">
 							<PanelRow>
 								<RadioControl
-									label="Posts of the section"
+									label=""
 									selected={filterDataBy}
-									options={[
-										{ label: "Select posts by specific", value: "by_specific" },
-										{ label: "Select posts by filter", value: "by_filter" },
-									]}
-									onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+									options={OPTIONS_FILTER_DATA_BY}
+									onChange={handleChangeFilterDataBy}
 								/>
 							</PanelRow>
 							<div className="border-b border-gray-600 mt-2 mb-4"></div>

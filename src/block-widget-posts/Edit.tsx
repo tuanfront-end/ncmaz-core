@@ -18,14 +18,19 @@ import SelectOrderBy from "../components/SelectOrderBy";
 import SelectOrder from "../components/SelectOrder";
 import InputNumberPerPage from "../components/InputNumberPerPage";
 import InputSearchAuthors from "../components/InputSearchAuthors";
-import { gql, useQuery } from "@apollo/client";
 import WidgetPosts from "../frontend-components/WidgetPosts/WidgetPosts";
+import { BlockPostAttributesCommon, EditProps } from "../block-magazine/Edit";
+import usePostGqlQuery from "../hooks/usePostGqlQuery";
 import {
-	GQL_QUERY_GET_POSTS_BY_FILTER,
-	GQL_QUERY_GET_POSTS_BY_SPECIFIC,
-} from "../contains/contants";
+	OPTIONS_FILTER_DATA_BY,
+	ValueOfOptionFilterDataBy,
+} from "../contains/common";
 
-export default function Edit(props) {
+interface Props extends BlockPostAttributesCommon {
+	postCardName: string;
+}
+
+export default function Edit(props: EditProps<Props>) {
 	const { attributes, setAttributes, clientId } = props;
 
 	//
@@ -41,60 +46,48 @@ export default function Edit(props) {
 		//
 		postCardName,
 		heading,
-		//
-		graphQLvariables,
-		graphQLData,
 	} = attributes;
 
 	//
-	let GQL_QUERY__string = "";
-	let GQL_QUERY__string_xxx = "";
-	let variables = {};
-	//
-
-	if (filterDataBy === "by_specific") {
-		variables = {
-			// arr posts Slugs
-			nameIn: posts?.map((item) => item.value) || [],
-		};
-		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_SPECIFIC;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_SPECIFIC";
-	} else {
-		GQL_QUERY__string = GQL_QUERY_GET_POSTS_BY_FILTER;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_POSTS_BY_FILTER";
-		variables = {
-			// term IDs
-			categoryIn: categories?.map((item) => item.value) || [],
-			tagIn: tags?.map((item) => item.value) || [],
-			authorIn: authors?.map((item) => item.value) || [],
-			order,
-			field: orderBy,
-			first: Number(numberPerPage),
-		};
-	}
-
-	// =================== QUERY GRAPHQL ===================
-	const gqlQuery = gql`
-		${GQL_QUERY__string}
-	`;
-	const { loading, error, data } = useQuery(gqlQuery, { variables });
-
-	const dataLists = data?.posts?.edges || [];
+	const {
+		GQL_QUERY__string,
+		GQL_QUERY__string_text,
+		variables,
+		dataLists,
+		error,
+		loading,
+		data,
+	} = usePostGqlQuery(attributes);
 
 	// ---- SAVE graphQLvariables ----
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables:
-				filterDataBy !== "by_specific"
-					? {
-							variables,
-							queryString: GQL_QUERY__string_xxx,
-					  }
-					: {},
-			graphQLData: filterDataBy === "by_specific" ? data : {},
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string_text,
+			},
+			expectedNumberResults: dataLists.length || numberPerPage,
 		});
 	}, [data]);
+
+	const handleChangeFilterDataBy = (value: ValueOfOptionFilterDataBy) => {
+		if (value === "by_specific") {
+			setAttributes({
+				filterDataBy: value,
+				showFilterTab: false,
+				categories: [],
+				tags: [],
+				authors: [],
+			});
+		} else {
+			setAttributes({
+				filterDataBy: value,
+				showFilterTab: true,
+				posts: [],
+			});
+		}
+	};
 
 	//
 	const renderFilterPostsContent = () => {
@@ -189,13 +182,10 @@ export default function Edit(props) {
 						<PanelBody initialOpen={false} title="Filter data settings">
 							<PanelRow>
 								<RadioControl
-									label="Posts of the section"
+									label=""
 									selected={filterDataBy}
-									options={[
-										{ label: "Select posts by specific", value: "by_specific" },
-										{ label: "Select posts by filter", value: "by_filter" },
-									]}
-									onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+									options={OPTIONS_FILTER_DATA_BY}
+									onChange={handleChangeFilterDataBy}
 								/>
 							</PanelRow>
 							<div className="border-b border-gray-600 mt-2 mb-4"></div>

@@ -8,6 +8,7 @@ import {
 	HttpLink,
 	from,
 } from "@apollo/client";
+import { Spinner } from "@wordpress/components";
 import React, { Suspense, lazy } from "react";
 import { RetryLink } from "@apollo/client/link/retry";
 //
@@ -119,13 +120,44 @@ const client = new ApolloClient({
 });
 
 //
+const ATTR_SETTINGS_SLIDER = {
+	itemPerView: { type: "number", default: 4 },
+	sliderStartAt: { type: "number", default: 0 },
+	sliderAutoplayTime: { type: "number", default: 0 },
+	sliderHoverpause: { type: "boolean", default: false },
+	sliderAnimationDuration: { type: "number", default: 400 },
+	sliderRewind: { type: "boolean", default: true },
+};
+//
+
+const BLOCK_POST_ATTRIBUTES_COMMON = {
+	filterDataBy: { type: "string", default: "by_filter" },
+	posts: { type: "array", default: [] },
+	categories: { type: "array", default: [] },
+	authors: { type: "array", default: [] },
+	tags: { type: "array", default: [] },
+	orderBy: { type: "string", default: "AUTHOR" },
+	order: { type: "string", default: "DESC" },
+	viewMoreHref: { type: "string", default: "#" },
+	heading: { type: "string", default: "Heading of section" },
+	subHeading: {
+		type: "string",
+		default: "This is sub-heading of section",
+	},
+	numberPerPage: { type: "number", default: 8 },
+	showFilterTab: { type: "boolean", default: true },
+	hasBackground: { type: "boolean", default: false },
+	graphQLvariables: { type: "object", default: {} },
+	graphQLData: { type: "object", default: {} },
+	expectedNumberResults: { type: "number", default: 8 },
+};
 
 //
 registerBlockType("ncmaz-core/block-magazine", {
 	title: "Ncmaz Block Magazine",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockMagazineEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
@@ -133,26 +165,9 @@ registerBlockType("ncmaz-core/block-magazine", {
 	save: BlockMagazineSave,
 	attributes: {
 		sectionName: { type: "string", default: "magazine-1" },
-		filterDataBy: { type: "string", default: "by_filter" },
-		posts: { type: "array", default: [] },
-		categories: { type: "array", default: [] },
-		authors: { type: "array", default: [] },
-		tags: { type: "array", default: [] },
-		orderBy: { type: "string", default: "AUTHOR" },
-		order: { type: "string", default: "DESC" },
-		viewMoreHref: { type: "string", default: "#" },
-		heading: { type: "string", default: "Heading of section magazine" },
-		subHeading: {
-			type: "string",
-			default: "This is sub heading of section...",
-		},
-		numberPerPage: { type: "number", default: 10 },
-		showFilterTab: { type: "boolean", default: true },
-		hasBackground: { type: "boolean", default: false },
 		//
-		graphQLvariables: { type: "object", default: {} },
+		...BLOCK_POST_ATTRIBUTES_COMMON,
 		//
-		graphQLData: { type: "object", default: {} },
 	},
 });
 
@@ -161,43 +176,19 @@ registerBlockType("ncmaz-core/block-posts-slider", {
 	title: "Ncmaz Block Posts Slider",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockPostsSliderEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
 	),
 	save: BlockPostsSliderSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
 		blockLayoutStyle: { type: "string", default: "layout-1" },
 		postCardName: { type: "string", default: "card4" },
-		//
-		itemPerView: { type: "number", default: 4 },
-		sliderStartAt: { type: "number", default: 0 },
-		sliderAutoplayTime: { type: "number", default: 0 },
-		sliderHoverpause: { type: "boolean", default: false },
-		sliderAnimationDuration: { type: "number", default: 400 },
-		sliderRewind: { type: "boolean", default: true },
-		//
 		sectionId: { type: "string", default: "gutenberg_section_id" },
-		posts: { type: "array", default: [] },
-		categories: { type: "array", default: [] },
-		authors: { type: "array", default: [] },
-		tags: { type: "array", default: [] },
-		orderBy: { type: "string", default: "AUTHOR" },
-		order: { type: "string", default: "DESC" },
-		viewMoreHref: { type: "string", default: "#" },
-		heading: { type: "string", default: "Heading of section slider" },
-		subHeading: {
-			type: "string",
-			default: "This is sub heading of section...",
-		},
-		numberPerPage: { type: "number", default: 10 },
-		showFilterTab: { type: "boolean", default: false },
-		hasBackground: { type: "boolean", default: false },
 		//
-		graphQLvariables: { type: "object", default: {} },
-		graphQLData: { type: "object", default: {} },
+		...ATTR_SETTINGS_SLIDER,
+		...BLOCK_POST_ATTRIBUTES_COMMON,
 	},
 });
 
@@ -206,21 +197,15 @@ registerBlockType("ncmaz-core/block-posts-grid", {
 	title: "Ncmaz Block Posts Grid",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockPostsGridEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
 	),
 	save: BlockPostsGridSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
-		posts: { type: "array", default: [] },
-		categories: { type: "array", default: [] },
-		authors: { type: "array", default: [] },
-		tags: { type: "array", default: [] },
-		orderBy: { type: "string", default: "AUTHOR" },
-		order: { type: "string", default: "DESC" },
 		//
+		...BLOCK_POST_ATTRIBUTES_COMMON,
 		blockLayoutStyle: { type: "string", default: "layout-1" },
 		postCardName: { type: "string", default: "card4" },
 		gridClass: {
@@ -228,188 +213,131 @@ registerBlockType("ncmaz-core/block-posts-grid", {
 			default: "grid-cols-1 sm:grid-cols-2 lg:md:grid-cols-3 xl:grid-cols-4",
 		},
 		gridClassCustom: { type: "string", default: "" },
-		viewMoreHref: { type: "string", default: "#" },
-		heading: { type: "string", default: "Heading of section grid" },
-		subHeading: {
-			type: "string",
-			default: "This is sub heading of section...",
-		},
-		numberPerPage: { type: "number", default: 10 },
-		showFilterTab: { type: "boolean", default: false },
-		hasBackground: { type: "boolean", default: false },
-		//
-		graphQLvariables: { type: "object", default: {} },
-		graphQLData: { type: "object", default: {} },
 		// new
 		enableLoadMoreButton: { type: "boolean", default: true },
-		loadMoreButtonHref: {
-			type: "string",
-			default: "",
-		},
+		loadMoreButtonHref: { type: "string", default: "" },
 	},
 });
 
 //
+const BLOCK_TERM_ATTRIBUTES_COMMON = {
+	blockLayoutStyle: { type: "string", default: "layout-1" },
+	termCardName: { type: "string", default: "card2" },
+	typeOfTerm: { type: "string", default: "category" },
+	filterDataBy: { type: "string", default: "by_filter" },
+	categories: { type: "array", default: [] },
+	tags: { type: "array", default: [] },
+	orderBy: { type: "string", default: "NAME" },
+	order: { type: "string", default: "DESC" },
+	heading: { type: "string", default: "Heading of section" },
+	subHeading: {
+		type: "string",
+		default: "This is sub-heading of section",
+	},
+	numberPerPage: { type: "number", default: 10 },
+	hasBackground: { type: "boolean", default: false },
+	graphQLvariables: { type: "object", default: {} },
+	graphQLData: { type: "object", default: {} },
+	expectedNumberResults: { type: "number", default: 8 },
+};
 //
 registerBlockType("ncmaz-core/block-terms-slider", {
 	title: "Ncmaz Block Terms Slider",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockTermSliderEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
 	),
 	save: BlockTermSliderSave,
 	attributes: {
-		typeOfTerm: { type: "string", default: "category" },
-		filterDataBy: { type: "string", default: "by_filter" },
-		termCardName: { type: "string", default: "card2" },
 		sectionId: { type: "string", default: "gutenberg_section_term_slider" },
-		//
-		itemPerView: { type: "number", default: 4 },
-		sliderStartAt: { type: "number", default: 0 },
-		sliderAutoplayTime: { type: "number", default: 0 },
-		sliderHoverpause: { type: "boolean", default: false },
-		sliderAnimationDuration: { type: "number", default: 400 },
-		sliderRewind: { type: "boolean", default: true },
-		//
-		categories: { type: "array", default: [] },
-		tags: { type: "array", default: [] },
-		orderBy: { type: "string", default: "NAME" },
-		order: { type: "string", default: "DESC" },
-		heading: { type: "string", default: "Heading of section slider" },
-		subHeading: {
-			type: "string",
-			default: "This is sub heading of section...",
-		},
-		numberPerPage: { type: "number", default: 10 },
-		hasBackground: { type: "boolean", default: false },
-		//
-		graphQLvariables: { type: "object", default: {} },
-		graphQLData: { type: "object", default: {} },
+		...ATTR_SETTINGS_SLIDER,
+		...BLOCK_TERM_ATTRIBUTES_COMMON,
 	},
 });
 
-//
 //
 registerBlockType("ncmaz-core/block-terms-grid", {
 	title: "Ncmaz Block Terms Grid",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockTermsGridEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
 	),
 	save: BlockTermsGridSave,
 	attributes: {
-		blockLayoutStyle: { type: "string", default: "layout-1" },
 		gridClass: {
 			type: "string",
 			default:
 				"grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
 		},
 		gridClassCustom: { type: "string", default: "" },
-		typeOfTerm: { type: "string", default: "category" },
-		filterDataBy: { type: "string", default: "by_filter" },
-		termCardName: { type: "string", default: "card2" },
 		sectionId: { type: "string", default: "gutenberg_section_term_grid" },
-		categories: { type: "array", default: [] },
-		tags: { type: "array", default: [] },
-		orderBy: { type: "string", default: "NAME" },
-		order: { type: "string", default: "DESC" },
-		heading: { type: "string", default: "Heading of section slider" },
-		subHeading: {
-			type: "string",
-			default: "This is sub heading of section...",
-		},
-		numberPerPage: { type: "number", default: 10 },
-		hasBackground: { type: "boolean", default: false },
-		graphQLvariables: { type: "object", default: {} },
-		graphQLData: { type: "object", default: {} },
+		...BLOCK_TERM_ATTRIBUTES_COMMON,
 	},
 });
 
 //
 //
+const BLOCK_USER_ATTRIBUTES_COMMON = {
+	filterDataBy: { type: "string", default: "by_filter" },
+	numberPerPage: { type: "number", default: 8 },
+	orderBy: { type: "string", default: "REGISTERED" },
+	order: { type: "string", default: "DESC" },
+	userIds: { type: "array", default: [] },
+	roleIn: { type: "array", default: [] },
+	blockLayoutStyle: { type: "string", default: "layout-1" },
+	userCardName: { type: "string", default: "card2" },
+	heading: { type: "string", default: "Heading of section" },
+	subHeading: {
+		type: "string",
+		default: "This is sub-heading of section",
+	},
+	hasBackground: { type: "boolean", default: false },
+	graphQLvariables: { type: "object", default: {} },
+	graphQLData: { type: "object", default: {} },
+	expectedNumberResults: { type: "number", default: 8 },
+};
+//
 registerBlockType("ncmaz-core/block-users-slider", {
 	title: "Ncmaz Block Users Slider",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockUsersSliderEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
 	),
 	save: BlockUsersSliderSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
-		numberPerPage: { type: "number", default: 10 },
-		orderBy: { type: "string", default: "REGISTERED" },
-		order: { type: "string", default: "DESC" },
-		userIds: { type: "array", default: [] },
-		roleIn: { type: "array", default: [] },
-		//
-		blockLayoutStyle: { type: "string", default: "layout-1" },
-		userCardName: { type: "string", default: "card2" },
-
-		//
-		itemPerView: { type: "number", default: 4 },
-		sliderStartAt: { type: "number", default: 0 },
-		sliderAutoplayTime: { type: "number", default: 0 },
-		sliderHoverpause: { type: "boolean", default: false },
-		sliderAnimationDuration: { type: "number", default: 400 },
-		sliderRewind: { type: "boolean", default: true },
-		//
-		heading: { type: "string", default: "Heading of section slider" },
-		subHeading: {
-			type: "string",
-			default: "This is sub heading of section...",
-		},
-		hasBackground: { type: "boolean", default: false },
-		//
-		graphQLvariables: { type: "object", default: {} },
-		graphQLData: { type: "object", default: {} },
+		...ATTR_SETTINGS_SLIDER,
+		...BLOCK_USER_ATTRIBUTES_COMMON,
 	},
 });
-//
 //
 registerBlockType("ncmaz-core/block-users-grid", {
 	title: "Ncmaz Block Users Grid",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockUsersGridrEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
 	),
 	save: BlockUsersGridrSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
-		numberPerPage: { type: "number", default: 10 },
-		orderBy: { type: "string", default: "REGISTERED" },
-		order: { type: "string", default: "DESC" },
-		userIds: { type: "array", default: [] },
-		roleIn: { type: "array", default: [] },
-		//
-		blockLayoutStyle: { type: "string", default: "layout-1" },
-		userCardName: { type: "string", default: "card2" },
 		gridClass: {
 			type: "string",
 			default:
 				"grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
 		},
 		gridClassCustom: { type: "string", default: "" },
-		heading: { type: "string", default: "Heading of section slider" },
-		subHeading: {
-			type: "string",
-			default: "This is sub heading of section...",
-		},
-		hasBackground: { type: "boolean", default: false },
 		//
-		graphQLvariables: { type: "object", default: {} },
-		graphQLData: { type: "object", default: {} },
+		...BLOCK_USER_ATTRIBUTES_COMMON,
 	},
 });
 
@@ -423,7 +351,7 @@ registerBlockType("ncmaz-core/block-become-author", {
 				: undefined,
 		};
 	})((props) => (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<Spinner />}>
 			<BlockBecomeAuthorEditLazy {...props} />
 		</Suspense>
 	)),
@@ -455,7 +383,7 @@ registerBlockType("ncmaz-core/block-become-author", {
 registerBlockType("ncmaz-core/block-videos", {
 	title: "Ncmaz Block Videos",
 	edit: (props) => (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<Spinner />}>
 			<BlockVideosEditLazy {...props} />
 		</Suspense>
 	),
@@ -487,7 +415,7 @@ registerBlockType("ncmaz-core/block-newsletter", {
 				: undefined,
 		};
 	})((props) => (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<Spinner />}>
 			<BlockNewsLetterEditLazy {...props} />
 		</Suspense>
 	)),
@@ -516,27 +444,16 @@ registerBlockType("ncmaz-core/block-widget-posts", {
 	title: "Ncmaz Block Widget Posts",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockWidgetPostsEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
 	),
 	save: BlockWidgetPostsSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
-		posts: { type: "array", default: [] },
-		categories: { type: "array", default: [] },
-		authors: { type: "array", default: [] },
-		tags: { type: "array", default: [] },
-		orderBy: { type: "string", default: "AUTHOR" },
-		order: { type: "string", default: "DESC" },
+		...BLOCK_POST_ATTRIBUTES_COMMON,
 		//
 		postCardName: { type: "string", default: "card4" },
-		heading: { type: "string", default: "🎯 Popular Posts" },
-		numberPerPage: { type: "number", default: 5 },
-		//
-		graphQLvariables: { type: "object", default: {} },
-		graphQLData: { type: "object", default: {} },
 	},
 });
 //
@@ -544,51 +461,28 @@ registerBlockType("ncmaz-core/block-widget-users", {
 	title: "Ncmaz Block Widget Users",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockWidgetUsersEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
 	),
 	save: BlockWidgetUsersSave,
 	attributes: {
-		filterDataBy: { type: "string", default: "by_filter" },
-		numberPerPage: { type: "number", default: 10 },
-		orderBy: { type: "string", default: "REGISTERED" },
-		order: { type: "string", default: "DESC" },
-		userIds: { type: "array", default: [] },
-		roleIn: { type: "array", default: [] },
-		//
-		heading: { type: "string", default: "🎭 Discover Authors" },
-		//
-		graphQLvariables: { type: "object", default: {} },
-		graphQLData: { type: "object", default: {} },
+		...BLOCK_USER_ATTRIBUTES_COMMON,
 	},
 });
-//
 //
 registerBlockType("ncmaz-core/block-widget-terms", {
 	title: "Ncmaz Block Widget Terms",
 	edit: (props) => (
 		<ApolloProvider client={client}>
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Spinner />}>
 				<BlockWidgetTermsEditLazy {...props} />
 			</Suspense>
 		</ApolloProvider>
 	),
 	save: BlockWidgetTermsSave,
 	attributes: {
-		termCardName: { type: "string", default: "card1" },
-		typeOfTerm: { type: "string", default: "category" },
-		filterDataBy: { type: "string", default: "by_filter" },
-		categories: { type: "array", default: [] },
-		tags: { type: "array", default: [] },
-		orderBy: { type: "string", default: "NAME" },
-		order: { type: "string", default: "DESC" },
-		//
-		heading: { type: "string", default: "✨ Trending topic" },
-		//
-		numberPerPage: { type: "number", default: 10 },
-		graphQLvariables: { type: "object", default: {} },
-		graphQLData: { type: "object", default: {} },
+		...BLOCK_TERM_ATTRIBUTES_COMMON,
 	},
 });

@@ -15,19 +15,44 @@ import {
 } from "@wordpress/components";
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import SelectOrder from "../components/SelectOrder";
-import { useQuery, gql } from "@apollo/client";
 import SectionSliderNewCategories from "../frontend-components/SectionSliderNewCategories/SectionSliderNewCategories";
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
-import {
-	GQL_QUERY_GET_CATEGORIES_BY_FILTER,
-	GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC,
-	GQL_QUERY_GET_TAGS_BY_FILTER,
-	GQL_QUERY_GET_TAGS_BY_SPECIFIC,
-} from "../contains/contants";
-import SliderSettings from "../components/SliderSettings";
 
-export default function Edit(props) {
+import SliderSettings from "../components/SliderSettings";
+import {
+	OPTIONS_FILTER_DATA_BY,
+	ValueOfOptionFilterDataBy,
+} from "../contains/common";
+import { EditProps } from "../block-magazine/Edit";
+import { TypeSliderSettings } from "../block-posts-slider/Edit";
+import useTermGqlQuery from "../hooks/useTermGqlQuery";
+
+export interface BlockTermAttributesCommon {
+	filterDataBy: ValueOfOptionFilterDataBy;
+	heading: string;
+	subHeading: string;
+	categories: any[];
+	tags: any[];
+	orderBy: string;
+	order: string;
+	numberPerPage: number;
+	hasBackground: boolean;
+	graphQLvariables: Record<string, any>;
+	graphQLData: Record<string, any>;
+	expectedNumberResults: number;
+	//
+	sectionId: string;
+	termCardName: string;
+	typeOfTerm: "category" | "tag";
+	blockLayoutStyle: "layout-1" | "layout-2";
+}
+
+interface BlockTermSliderProps
+	extends BlockTermAttributesCommon,
+		TypeSliderSettings {}
+
+export default function Edit(props: EditProps<BlockTermSliderProps>) {
 	const { attributes, setAttributes, clientId } = props;
 	//
 	const {
@@ -51,75 +76,48 @@ export default function Edit(props) {
 		sliderHoverpause,
 		sliderAnimationDuration,
 		sliderRewind,
-		//
-		graphQLvariables,
-		graphQLData,
 	} = attributes;
 
-	//
-	let GQL_QUERY__string = "";
-	let GQL_QUERY__string_xxx = "";
-	let variables = {};
-	//
-
-	// CATEGORIES
-	if (typeOfTerm === "category") {
-		if (filterDataBy === "by_filter") {
-			variables = {
-				order,
-				orderby: orderBy,
-				first: Number(numberPerPage),
-			};
-			GQL_QUERY__string = GQL_QUERY_GET_CATEGORIES_BY_FILTER;
-			GQL_QUERY__string_xxx = "GQL_QUERY_GET_CATEGORIES_BY_FILTER";
-		} else {
-			variables = {
-				termTaxonomId: (categories || []).map((item) => item.value),
-			};
-			GQL_QUERY__string = GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC;
-			GQL_QUERY__string_xxx = "GQL_QUERY_GET_CATEGORIES_BY_SPECIFIC";
-		}
-	}
-
-	// TAGS;
-	if (typeOfTerm === "tag") {
-		if (filterDataBy === "by_filter") {
-			variables = {
-				order,
-				orderby: orderBy,
-				first: Number(numberPerPage),
-			};
-			GQL_QUERY__string = GQL_QUERY_GET_TAGS_BY_FILTER;
-			GQL_QUERY__string_xxx = "GQL_QUERY_GET_TAGS_BY_FILTER";
-		} else {
-			variables = { termTaxonomId: (tags || []).map((item) => item.value) };
-			GQL_QUERY__string = GQL_QUERY_GET_TAGS_BY_SPECIFIC;
-			GQL_QUERY__string_xxx = "GQL_QUERY_GET_TAGS_BY_SPECIFIC";
-		}
-	}
-
-	// =================== QUERY GRAPHQL ===================
-	const gqlQuery = gql`
-		${GQL_QUERY__string}
-	`;
-	const { loading, error, data } = useQuery(gqlQuery, { variables });
-
-	const dataLists = data?.tags?.edges || data?.categories?.edges || [];
+	const {
+		GQL_QUERY__string,
+		GQL_QUERY__string_text,
+		data,
+		dataLists,
+		error,
+		loading,
+		variables,
+	} = useTermGqlQuery(attributes);
 
 	// ---- SAVE graphQLvariables ----
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables:
-				filterDataBy !== "by_specific"
-					? {
-							variables,
-							queryString: GQL_QUERY__string_xxx,
-					  }
-					: {},
-			graphQLData: filterDataBy === "by_specific" ? data : {},
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string_text,
+			},
+			expectedNumberResults: dataLists.length || numberPerPage,
 		});
 	}, [data]);
+
+	//
+	const handleChangeFilterDataBy = (value: ValueOfOptionFilterDataBy) => {
+		setAttributes({ filterDataBy: value });
+
+		if (value === "by_filter") {
+			setAttributes({ categories: [], tags: [] });
+		}
+	};
+	const handleChangeRadioTypeOfTerm = (typeOfTerm: "category" | "tag") => {
+		setAttributes({ typeOfTerm });
+		if (typeOfTerm === "category") {
+			setAttributes({ tags: [] });
+		}
+		if (typeOfTerm === "tag") {
+			setAttributes({ categories: [] });
+		}
+	};
+	//
 
 	const renderFilterPostsContent = () => {
 		if (filterDataBy === "by_specific") {
@@ -281,17 +279,14 @@ export default function Edit(props) {
 											{ label: "Category", value: "category" },
 											{ label: "Tag", value: "tag" },
 										]}
-										onChange={(typeOfTerm) => setAttributes({ typeOfTerm })}
+										onChange={handleChangeRadioTypeOfTerm}
 									/>
 									<div className="border-b border-gray-600 my-2"></div>
 									<RadioControl
 										label="Terms query by"
 										selected={filterDataBy}
-										options={[
-											{ label: "Select Terms specific", value: "by_specific" },
-											{ label: "Select Terms by filter", value: "by_filter" },
-										]}
-										onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+										options={OPTIONS_FILTER_DATA_BY}
+										onChange={handleChangeFilterDataBy}
 									/>
 								</div>
 							</PanelRow>

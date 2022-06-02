@@ -5,7 +5,7 @@
  * Description:       Example block written with ESNext standard and JSX support – build step required.
  * Requires at least: 5.8
  * Requires PHP:      7.0
- * Version:           2.0.1
+ * Version:           2.1.0
  * Author:            The WordPress Contributors
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +15,7 @@
  */
 
 if (!defined('_NCMAZ_CORE_VERSION')) {
-	define('_NCMAZ_CORE_VERSION', '2.0.1');
+	define('_NCMAZ_CORE_VERSION', '2.1.0');
 }
 
 

@@ -13,15 +13,19 @@ import {
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import SelectOrder from "../components/SelectOrder";
 import InputSearchAuthors from "../components/InputSearchAuthors";
-import { useQuery, gql } from "@apollo/client";
 import Select from "react-select";
 import WidgetAuthors from "../frontend-components/WidgetAuthors/WidgetAuthors";
+import { BlockUserAttributesCommon } from "../block-users-grid/Edit";
+import { EditProps } from "../block-magazine/Edit";
+import useUserGqlQuery from "../hooks/useUserGqlQuery";
 import {
-	GQL_QUERY_GET_USERS_BY_FILTER,
-	GQL_QUERY_GET_USERS_BY_SPECIFIC,
-} from "../contains/contants";
+	OPTIONS_FILTER_DATA_BY,
+	ValueOfOptionFilterDataBy,
+} from "../contains/common";
 
-export default function Edit(props) {
+interface Props extends BlockUserAttributesCommon {}
+
+export default function Edit(props: EditProps<Props>) {
 	const { attributes, setAttributes, clientId } = props;
 	//
 	const {
@@ -31,56 +35,40 @@ export default function Edit(props) {
 		orderBy,
 		userIds,
 		roleIn,
-		//
 		heading,
-		//
-		graphQLvariables,
-		graphQLData,
 	} = attributes;
 
 	//
-	let GQL_QUERY__string = "";
-	let GQL_QUERY__string_xxx = "";
-	let variables = {};
-	//
-
-	if (filterDataBy === "by_specific") {
-		variables = { include: userIds.map((item) => item.value) };
-		GQL_QUERY__string = GQL_QUERY_GET_USERS_BY_SPECIFIC;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_USERS_BY_SPECIFIC";
-	} else {
-		GQL_QUERY__string = GQL_QUERY_GET_USERS_BY_FILTER;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_USERS_BY_FILTER";
-		variables = {
-			first: numberPerPage,
-			field: orderBy,
-			order: order,
-			roleIn: roleIn.map((item) => item.value),
-		};
-	}
-
-	// =================== QUERY GRAPHQL ===================
-	const gqlQuery = gql`
-		${GQL_QUERY__string}
-	`;
-	const { loading, error, data } = useQuery(gqlQuery, { variables });
-
-	const usersList = data?.users?.edges || [];
-
+	const {
+		GQL_QUERY__string_text,
+		data,
+		dataLists,
+		error,
+		loading,
+		variables,
+	} = useUserGqlQuery(attributes);
+	const usersList = dataLists;
 	// ---- SAVE graphQLvariables ----
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables:
-				filterDataBy !== "by_specific"
-					? {
-							variables,
-							queryString: GQL_QUERY__string_xxx,
-					  }
-					: {},
-			graphQLData: filterDataBy === "by_specific" ? data : {},
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string_text,
+			},
+			expectedNumberResults: usersList.length || numberPerPage,
 		});
 	}, [data]);
+
+	//
+	const handleChangeFilterDataBy = (value: ValueOfOptionFilterDataBy) => {
+		setAttributes({ filterDataBy: value });
+
+		if (value === "by_filter") {
+			setAttributes({ userIds: [] });
+		}
+	};
+	//
 
 	const renderFilterPostsContent = () => {
 		if (filterDataBy === "by_specific") {
@@ -107,7 +95,7 @@ export default function Edit(props) {
 							{ label: "EDITOR", value: "EDITOR" },
 							{ label: "SUBSCRIBER", value: "SUBSCRIBER" },
 						]}
-						onChange={(roleIn) => setAttributes({ roleIn })}
+						onChange={(roleIn: any) => setAttributes({ roleIn })}
 					/>
 				</div>
 
@@ -171,11 +159,8 @@ export default function Edit(props) {
 								<RadioControl
 									label="Users query by"
 									selected={filterDataBy}
-									options={[
-										{ label: "Select users specific", value: "by_specific" },
-										{ label: "Select users by filter", value: "by_filter" },
-									]}
-									onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+									options={OPTIONS_FILTER_DATA_BY}
+									onChange={handleChangeFilterDataBy}
 								/>
 							</PanelRow>
 							<div className="border-b border-gray-600 mt-3 mb-4"></div>

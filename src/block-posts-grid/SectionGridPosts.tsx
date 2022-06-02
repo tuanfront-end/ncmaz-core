@@ -1,5 +1,7 @@
-import React from "react";
-import HeaderSectionFilter from "../frontend-components/HeaderSectionFilter/HeaderSectionFilter";
+import React, { FC } from "react";
+import HeaderSectionFilter, {
+	TypeOnClickTabHeaderSectionFilterTabs,
+} from "../frontend-components/HeaderSectionFilter/HeaderSectionFilter";
 import Heading from "../frontend-components/Heading/Heading";
 import Card3 from "../frontend-components/Card3/Card3";
 import Card4 from "../frontend-components/Card4/Card4";
@@ -11,7 +13,24 @@ import Card11 from "../frontend-components/Card11/Card11";
 import Card14 from "../frontend-components/Card14/Card14";
 import Card15Podcast from "../frontend-components/Card15Podcast/Card15Podcast";
 
-const SectionGridPosts = ({
+interface SectionGridPostsProps {
+	blockLayoutStyle: string;
+	heading: string;
+	subHeading: string;
+	listPosts: any[];
+	gridClassCustom: string;
+	gridClass: string;
+	showFilterTab: boolean;
+	viewMoreHref: string;
+	categories: any[];
+	postCardName: string;
+	hasBackground: boolean;
+	loading: boolean;
+	tabActiveId: number;
+	handleClickTab: TypeOnClickTabHeaderSectionFilterTabs;
+}
+
+const SectionGridPosts: FC<SectionGridPostsProps> = ({
 	blockLayoutStyle,
 	heading,
 	subHeading,
@@ -26,7 +45,7 @@ const SectionGridPosts = ({
 	//
 	loading,
 	tabActiveId,
-	handleClickTab = () => {},
+	handleClickTab,
 }) => {
 	const renderHeading = () => {
 		if (blockLayoutStyle === "layout-1") {

@@ -1,17 +1,10 @@
 import { __ } from "@wordpress/i18n";
 import { useBlockProps } from "@wordpress/block-editor";
+import _ from "lodash";
 
 export default function Save(props) {
 	const { attributes } = props;
 	const {
-		filterDataBy,
-		numberPerPage,
-		order,
-		orderBy,
-		typeOfTerm,
-		categories,
-		tags,
-		//
 		blockLayoutStyle,
 		termCardName,
 		heading,
@@ -19,46 +12,34 @@ export default function Save(props) {
 		hasBackground,
 		gridClass,
 		gridClassCustom,
-		//
 		graphQLvariables,
-		graphQLData,
+		//
+		expectedNumberResults,
 	} = attributes;
 
-	const ncGutenbergSectionsData =
-		filterDataBy === "by_specific"
-			? {
-					blockName: "nc-block-terms-grid",
-					graphQLData,
-					settings: {
-						blockLayoutStyle,
-						termCardName,
-						heading,
-						subHeading,
-						hasBackground,
-						gridClass,
-						gridClassCustom,
-					},
-			  }
-			: {
-					blockName: "nc-block-terms-grid",
-					graphQLvariables,
-					settings: {
-						blockLayoutStyle,
-						termCardName,
-						heading,
-						subHeading,
-						hasBackground,
-						gridClass,
-						gridClassCustom,
-					},
-			  };
+	const ncGutenbergSectionsData = {
+		blockName: "nc-block-terms-grid",
+		graphQLvariables,
+		settings: {
+			blockLayoutStyle,
+			termCardName,
+			heading,
+			subHeading,
+			hasBackground,
+			gridClass,
+			gridClassCustom,
+			expectedNumberResults,
+		},
+	};
 
 	return (
 		<div
 			{...useBlockProps.save()}
 			data-nc-gutenberg-section
 			data-nc-gutenberg-section-type="block-terms-grid"
-			data-nc-gutenberg-section-api={JSON.stringify(ncGutenbergSectionsData)}
+			data-nc-gutenberg-section-api={_.escape(
+				JSON.stringify(ncGutenbergSectionsData)
+			)}
 		></div>
 	);
 }

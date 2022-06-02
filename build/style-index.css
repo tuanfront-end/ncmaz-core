@@ -1,5 +1,8 @@
+/*!*******************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/style.css ***!
+  \*******************************************************************************************************************************************************************/
 /*
-! tailwindcss v3.0.23 | MIT License | https://tailwindcss.com
+! tailwindcss v3.0.24 | MIT License | https://tailwindcss.com
 *//*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
@@ -445,7 +448,8 @@ select {
   background-size: 1.5em 1.5em;
   padding-right: 2.5rem;
   -webkit-print-color-adjust: exact;
-          color-adjust: exact;
+     color-adjust: exact;
+          print-color-adjust: exact;
 }
 
 [multiple] {
@@ -455,7 +459,8 @@ select {
   background-size: initial;
   padding-right: 0.75rem;
   -webkit-print-color-adjust: unset;
-          color-adjust: unset;
+     color-adjust: unset;
+          print-color-adjust: unset;
 }
 
 [type='checkbox'],[type='radio'] {
@@ -464,7 +469,8 @@ select {
           appearance: none;
   padding: 0;
   -webkit-print-color-adjust: exact;
-          color-adjust: exact;
+     color-adjust: exact;
+          print-color-adjust: exact;
   display: inline-block;
   vertical-align: middle;
   background-origin: border-box;
@@ -548,6 +554,7 @@ select {
 }
 
 [type='file']:focus {
+  outline: 1px solid ButtonText;
   outline: 1px auto -webkit-focus-ring-color;
 }
 
@@ -2411,6 +2418,9 @@ select {
 .capitalize {
   text-transform: capitalize !important;
 }
+.italic {
+  font-style: italic !important;
+}
 .\!leading-none {
   line-height: 1 !important;
 }
@@ -2530,6 +2540,10 @@ select {
 .text-primary-700 {
   --tw-text-opacity: 1 !important;
   color: rgba(var(--c-primary-700), var(--tw-text-opacity)) !important;
+}
+.underline {
+  -webkit-text-decoration-line: underline !important;
+          text-decoration-line: underline !important;
 }
 .opacity-25 {
   opacity: 0.25 !important;
@@ -8514,3 +8528,5 @@ select {
 	padding: 0 !important;
 }
 
+
+/*# sourceMappingURL=style-index.css.map*/

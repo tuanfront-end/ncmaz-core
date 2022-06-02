@@ -12,6 +12,8 @@ export interface ButtonProps {
 	href?: string;
 	targetBlank?: boolean;
 	onClick?: (e: React.MouseEvent<any, MouseEvent>) => void;
+	//
+	children?: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { __ } from "@wordpress/i18n";
 import {
 	Panel,
@@ -7,7 +7,22 @@ import {
 	RangeControl,
 } from "@wordpress/components";
 
-const SliderSettings = ({
+interface SliderSettingsProps {
+	itemPerView: number;
+	sliderStartAt: number;
+	sliderAutoplayTime: number;
+	sliderHoverpause: boolean;
+	sliderAnimationDuration: number;
+	sliderRewind: boolean;
+	onChangeItemPerView: (value: number) => void;
+	onChangeSliderStartAt: (value: number) => void;
+	onChangeSliderAutoplayTime: (value: number) => void;
+	onChangeSliderHoverpause: (value: boolean) => void;
+	onChangeSliderAnimationDuration: (value: number) => void;
+	onChangeSliderRewind: (value: boolean) => void;
+}
+
+const SliderSettings: FC<SliderSettingsProps> = ({
 	itemPerView,
 	sliderStartAt,
 	sliderAutoplayTime,
@@ -31,8 +46,8 @@ const SliderSettings = ({
 					label={__("Item per view (A number of visible slide)", "ncmaz-core")}
 					value={itemPerView}
 					onChange={onChangeItemPerView}
-					min={3}
-					max={5}
+					min={1}
+					max={8}
 				/>
 				<RangeControl
 					label={__(

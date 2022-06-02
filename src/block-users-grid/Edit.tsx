@@ -14,17 +14,40 @@ import {
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
 import SelectOrder from "../components/SelectOrder";
 import InputSearchAuthors from "../components/InputSearchAuthors";
-import { useQuery, gql } from "@apollo/client";
 import BackgroundSection from "../frontend-components/BackgroundSection/BackgroundSection";
 import Select from "react-select";
 import SectionGridAuthorBox from "../frontend-components/SectionGridAuthorBox/SectionGridAuthorBox";
 import EmptyState from "../frontend-components/EmptyState/EmptyState";
 import {
-	GQL_QUERY_GET_USERS_BY_FILTER,
-	GQL_QUERY_GET_USERS_BY_SPECIFIC,
-} from "../contains/contants";
+	OPTIONS_FILTER_DATA_BY,
+	ValueOfOptionFilterDataBy,
+} from "../contains/common";
+import { EditProps } from "../block-magazine/Edit";
+import useUserGqlQuery from "../hooks/useUserGqlQuery";
 
-export default function Edit(props) {
+export interface BlockUserAttributesCommon {
+	filterDataBy: ValueOfOptionFilterDataBy;
+	numberPerPage: number;
+	orderBy: string;
+	order: string;
+	userIds: any[];
+	roleIn: any[];
+	blockLayoutStyle: "layout-1" | "layout-2";
+	userCardName: string;
+	heading: string;
+	subHeading: string;
+	hasBackground: boolean;
+	graphQLvariables: Record<string, any>;
+	graphQLData: Record<string, any>;
+	expectedNumberResults: number;
+}
+
+interface Props extends BlockUserAttributesCommon {
+	gridClass: string;
+	gridClassCustom: string;
+}
+
+export default function Edit(props: EditProps<Props>) {
 	const { attributes, setAttributes, clientId } = props;
 	//
 	const {
@@ -42,54 +65,39 @@ export default function Edit(props) {
 		hasBackground,
 		gridClass,
 		gridClassCustom,
-		//
-		graphQLvariables,
-		graphQLData,
 	} = attributes;
 
 	//
-	let GQL_QUERY__string = "";
-	let GQL_QUERY__string_xxx = "";
-	let variables = {};
-	//
-
-	if (filterDataBy === "by_specific") {
-		variables = { include: userIds.map((item) => item.value) };
-		GQL_QUERY__string = GQL_QUERY_GET_USERS_BY_SPECIFIC;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_USERS_BY_SPECIFIC";
-	} else {
-		GQL_QUERY__string = GQL_QUERY_GET_USERS_BY_FILTER;
-		GQL_QUERY__string_xxx = "GQL_QUERY_GET_USERS_BY_FILTER";
-		variables = {
-			first: numberPerPage,
-			field: orderBy,
-			order: order,
-			roleIn: roleIn.map((item) => item.value),
-		};
-	}
-
-	// =================== QUERY GRAPHQL ===================
-	const gqlQuery = gql`
-		${GQL_QUERY__string}
-	`;
-	const { loading, error, data } = useQuery(gqlQuery, { variables });
-
-	const usersList = data?.users?.edges || [];
-
+	const {
+		GQL_QUERY__string_text,
+		data,
+		dataLists,
+		error,
+		loading,
+		variables,
+	} = useUserGqlQuery(attributes);
+	const usersList = dataLists;
 	// ---- SAVE graphQLvariables ----
 	useEffect(() => {
 		if (!data) return;
 		setAttributes({
-			graphQLvariables:
-				filterDataBy !== "by_specific"
-					? {
-							variables,
-							queryString: GQL_QUERY__string_xxx,
-					  }
-					: {},
-			graphQLData: filterDataBy === "by_specific" ? data : {},
+			graphQLvariables: {
+				variables,
+				queryString: GQL_QUERY__string_text,
+			},
+			expectedNumberResults: usersList.length || numberPerPage,
 		});
 	}, [data]);
+
+	//
+	const handleChangeFilterDataBy = (value: ValueOfOptionFilterDataBy) => {
+		setAttributes({ filterDataBy: value });
+
+		if (value === "by_filter") {
+			setAttributes({ userIds: [] });
+		}
+	};
+	//
 
 	const renderFilterPostsContent = () => {
 		if (filterDataBy === "by_specific") {
@@ -116,7 +124,7 @@ export default function Edit(props) {
 							{ label: "EDITOR", value: "EDITOR" },
 							{ label: "SUBSCRIBER", value: "SUBSCRIBER" },
 						]}
-						onChange={(roleIn) => setAttributes({ roleIn })}
+						onChange={(roleIn: any) => setAttributes({ roleIn })}
 					/>
 				</div>
 
@@ -183,16 +191,20 @@ export default function Edit(props) {
 				<SelectControl
 					label={__("Choose items per row", "ncmaz-core")}
 					value={gridClass}
+					help={__(
+						`xs: mobile, sm: tablet, lg: laptop, xl: desktop (https://tailwindcss.com/docs/responsive-design)`,
+						"ncmaz-core"
+					)}
 					options={[
 						{
-							label: "1 - sm:2 - md:3 - lg:4 - xl:5",
-							value:
-								"grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
-						},
-						{
-							label: "1 - sm:2 - md:2 - lg:3 - xl:4",
+							label: "Phone(1)/Tab(2)/Lap(3)/OTHER(4)",
 							value:
 								"grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+						},
+						{
+							label: "Phone(1)/Tab(2,3)/Lap(4)/OTHER(5)",
+							value:
+								"grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
 						},
 					]}
 					onChange={(gridClass) => setAttributes({ gridClass })}
@@ -205,7 +217,7 @@ export default function Edit(props) {
 						type="text"
 						onChange={(gridClassCustom) => setAttributes({ gridClassCustom })}
 						help={__(
-							`If you enter this field will overwrite the field 'Choose items per row' above`,
+							`If you enter this field will overwrite the field "Choose items per row" above, (https://tailwindcss.com/docs/responsive-design)`,
 							"ncmaz-core"
 						)}
 					/>
@@ -250,11 +262,8 @@ export default function Edit(props) {
 								<RadioControl
 									label="Users query by"
 									selected={filterDataBy}
-									options={[
-										{ label: "Select users specific", value: "by_specific" },
-										{ label: "Select users by filter", value: "by_filter" },
-									]}
-									onChange={(filterDataBy) => setAttributes({ filterDataBy })}
+									options={OPTIONS_FILTER_DATA_BY}
+									onChange={handleChangeFilterDataBy}
 								/>
 							</PanelRow>
 							<div className="border-b border-gray-600 mt-3 mb-4 "></div>

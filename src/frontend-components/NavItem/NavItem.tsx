@@ -1,6 +1,15 @@
 import React, { FC, ReactNode } from "react";
 
-const NavItem = ({
+interface Props {
+	children: ReactNode;
+	className?: string;
+	radius?: string;
+	onClick?: () => void;
+	isActive?: boolean;
+	renderX?: ReactNode;
+}
+
+const NavItem: FC<Props> = ({
 	className = "px-5 py-2.5 text-sm sm:text-base sm:px-6 sm:py-3 capitalize",
 	radius = "rounded-full",
 	children,
